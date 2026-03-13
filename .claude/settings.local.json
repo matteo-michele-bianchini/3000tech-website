@@ -4,7 +4,7 @@
       "Bash(npm install)",
       "Bash(npm run dev:*)",
       "Bash(timeout:*)",
-      "Bash(ren \"c:\\\\Users\\\\matte\\\\Documents\\\\software\\\\3000tech\\\\tech-services\\\\tech-services\\\\images\\\\preview\\\\tech-services-link-share-preview.jpg\" \"3000tech-link-share-preview.jpg\")"
+      "Bash(gh*)"
     ]
   }
 }
