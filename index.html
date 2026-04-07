@@ -402,260 +402,205 @@
 
             <!-- Clienti -->
             <style>
-                @media (hover: hover) {
-                    .client-card:hover .client-overlay {
-                        opacity: 1;
-                    }
-                    .client-card:hover .overlay-card {
-                        transform: scale(1) translateY(0);
-                    }
-                    .client-card:hover .card-inner {
-                        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-                    }
+                @keyframes scroll-left {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
                 }
-                .client-card.active .client-overlay {
-                    opacity: 1;
-                    pointer-events: auto;
+                @keyframes scroll-right {
+                    0% { transform: translateX(-50%); }
+                    100% { transform: translateX(0); }
                 }
-                .client-card.active .overlay-card {
-                    transform: scale(1) translateY(0);
-                }
-                .client-card.active .card-inner {
-                    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-                }
-                .client-overlay {
-                    opacity: 0;
-                    transition: opacity 0.3s ease;
-                }
-                .overlay-card {
-                    transform: scale(0.92) translateY(8px);
-                    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-                }
+                .carousel-track { display: flex; width: max-content; }
+                .carousel-track-left { animation: scroll-left 30s linear infinite; }
+                .carousel-track-right { animation: scroll-right 30s linear infinite; }
+                .carousel-row { overflow: hidden; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
+                .carousel-row:hover .carousel-track { animation-play-state: paused; }
             </style>
             <div class="mb-16">
-                <h3 class="text-xl font-semibold text-gray-700 text-center mb-8">Alcune delle aziende con cui abbiamo
-                    collaborato</h3>
-                <!-- Gruppo 1 -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-4">
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Poste Italiane</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Progettazione e sviluppo impianto di inscatolamento on demand</p>
+                <h3 class="text-xl font-semibold text-gray-700 text-center mb-8">Alcune delle nostre collaborazioni</h3>
+                <!-- Riga 1: verso sinistra -->
+                <div class="carousel-row mb-3">
+                    <div class="carousel-track carousel-track-left">
+                        <div class="flex gap-3 sm:gap-4 px-2">
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Poste Italiane" data-desc="Progettazione e sviluppo impianto di inscatolamento on demand">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Lavazza" data-desc="Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Leroy Merlin" data-desc="Web app per composizione e stampa automatica di schede tecniche nei punti vendita">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Assicurazioni Generali" data-desc="Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Zucchetti" data-desc="Sviluppo servizi frontend per piattaforma welfare aziendale">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Goglio" data-desc="Piattaforma web ricambi con visualizzazione 2D/3D">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Lavazza</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+</p>
+                        <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Poste Italiane" data-desc="Progettazione e sviluppo impianto di inscatolamento on demand">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Leroy Merlin</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Web app per composizione e stampa automatica di schede tecniche nei punti vendita</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Lavazza" data-desc="Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Assicurazioni Generali</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Leroy Merlin" data-desc="Web app per composizione e stampa automatica di schede tecniche nei punti vendita">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Zucchetti</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Sviluppo servizi frontend per piattaforma welfare aziendale</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Assicurazioni Generali" data-desc="Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center justify-center my-6">
-                    <div class="h-px bg-gray-300 w-16"></div>
-                    <div class="h-px bg-gray-300 w-16"></div>
-                </div>
-                <!-- Gruppo 2 -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-4">
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Goglio</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Piattaforma web ricambi con visualizzazione 2D/3D</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Zucchetti" data-desc="Sviluppo servizi frontend per piattaforma welfare aziendale">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Arup</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Modellazione impiantistica edifici e analisi sostenibilità energetica</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Mia-Platform</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Software R&amp;D e sviluppo piattaforma API management</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Beta 80</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Sviluppo applicativi frontend e consulenza IT</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">RTM Breda</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Simulazione numerica FEM per formatura titanio in componenti aeronautici</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Goglio" data-desc="Piattaforma web ricambi con visualizzazione 2D/3D">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center justify-center my-6">
-                    <div class="h-px bg-gray-300 w-16"></div>
-                    <div class="h-px bg-gray-300 w-16"></div>
+                <!-- Riga 2: verso destra -->
+                <div class="carousel-row mb-3">
+                    <div class="carousel-track carousel-track-right">
+                        <div class="flex gap-3 sm:gap-4 px-2">
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Arup" data-desc="Modellazione impiantistica edifici e analisi sostenibilità energetica">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Mia-Platform" data-desc="Software R&amp;D e sviluppo piattaforma API management">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Beta 80" data-desc="Sviluppo applicativi frontend e consulenza IT">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="RTM Breda" data-desc="Simulazione numerica FEM per formatura titanio in componenti aeronautici">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Voidless" data-desc="R&amp;D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Arup" data-desc="Modellazione impiantistica edifici e analisi sostenibilità energetica">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Mia-Platform" data-desc="Software R&amp;D e sviluppo piattaforma API management">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Beta 80" data-desc="Sviluppo applicativi frontend e consulenza IT">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="RTM Breda" data-desc="Simulazione numerica FEM per formatura titanio in componenti aeronautici">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="Voidless" data-desc="R&amp;D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- Gruppo 3 -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto">
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">Voidless</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">R&amp;D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)</p>
+                <!-- Riga 3: verso sinistra -->
+                <div class="carousel-row">
+                    <div class="carousel-track carousel-track-left" style="animation-duration: 35s;">
+                        <div class="flex gap-3 sm:gap-4 px-2">
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="RareEarth" data-desc="Progettazione macchinari per riciclaggio magneti a terre rare">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="NewtonThrust" data-desc="Sviluppo full-stack marketplace automotive">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="YunoAI" data-desc="Pipeline di data engineering finanziario. Dati di 30M+ aziende europee">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="3D Business" data-desc="Ricerca e sviluppo hardware stampanti 3D">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
+                                </div>
+                            </div>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="8853 S.p.A." data-desc="Migrazione sistema operativo piattaforma aziendale">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">RareEarth</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Progettazione macchinari per riciclaggio magneti a terre rare</p>
+                        <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="RareEarth" data-desc="Progettazione macchinari per riciclaggio magneti a terre rare">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">NewtonThrust</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Sviluppo full-stack marketplace automotive</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="NewtonThrust" data-desc="Sviluppo full-stack marketplace automotive">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">YunoAI</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Pipeline di data engineering finanziario. Dati di 30M+ aziende europee</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="YunoAI" data-desc="Pipeline di data engineering finanziario. Dati di 30M+ aziende europee">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">3D Business</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Ricerca e sviluppo hardware stampanti 3D</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="3D Business" data-desc="Ricerca e sviluppo hardware stampanti 3D">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card cursor-pointer">
-                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
-                            <img src="images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
-                        </div>
-                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-                            <div class="absolute inset-0 bg-black/40"></div>
-                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
-                                <p class="text-lg font-bold text-gray-900">8853 S.p.A.</p>
-                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
-                                <p class="text-gray-600 text-sm">Migrazione sistema operativo piattaforma aziendale</p>
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="8853 S.p.A." data-desc="Migrazione sistema operativo piattaforma aziendale">
+                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -789,18 +734,74 @@
         </div>
     </footer>
 
+    <div id="client-overlay" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none" style="opacity:0;transition:opacity 0.3s ease;">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div id="overlay-card" class="relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center" style="transform:scale(0.92) translateY(8px);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);">
+            <p id="overlay-name" class="text-lg font-bold text-gray-900"></p>
+            <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+            <p id="overlay-desc" class="text-gray-600 text-sm"></p>
+        </div>
+    </div>
     <script>
-        document.querySelectorAll('.client-card').forEach(function(card) {
-            card.addEventListener('click', function(e) {
-                e.stopPropagation();
-                var wasActive = card.classList.contains('active');
-                document.querySelectorAll('.client-card.active').forEach(function(c) { c.classList.remove('active'); });
-                if (!wasActive) card.classList.add('active');
+        (function() {
+            var overlay = document.getElementById('client-overlay');
+            var overlayCard = document.getElementById('overlay-card');
+            var overlayName = document.getElementById('overlay-name');
+            var overlayDesc = document.getElementById('overlay-desc');
+            var activeCard = null;
+            var hoverTimeout = null;
+
+            function showOverlay(card) {
+                var name = card.getAttribute('data-name');
+                var desc = card.getAttribute('data-desc');
+                if (!name) return;
+                overlayName.textContent = name;
+                overlayDesc.textContent = desc;
+                overlay.style.opacity = '1';
+                overlayCard.style.transform = 'scale(1) translateY(0)';
+                card.querySelector('.card-inner').style.boxShadow = '0 0 0 2px rgba(59, 130, 246, 0.5)';
+                activeCard = card;
+            }
+
+            function hideOverlay() {
+                overlay.style.opacity = '0';
+                overlayCard.style.transform = 'scale(0.92) translateY(8px)';
+                if (activeCard) {
+                    activeCard.querySelector('.card-inner').style.boxShadow = '';
+                    activeCard = null;
+                }
+            }
+
+            // Desktop hover
+            if (window.matchMedia('(hover: hover)').matches) {
+                document.querySelectorAll('.client-card').forEach(function(card) {
+                    card.addEventListener('mouseenter', function() {
+                        clearTimeout(hoverTimeout);
+                        showOverlay(card);
+                    });
+                    card.addEventListener('mouseleave', function() {
+                        hoverTimeout = setTimeout(hideOverlay, 100);
+                    });
+                });
+            }
+
+            // Mobile tap
+            document.querySelectorAll('.client-card').forEach(function(card) {
+                card.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (activeCard === card) {
+                        hideOverlay();
+                    } else {
+                        hideOverlay();
+                        showOverlay(card);
+                    }
+                });
             });
-        });
-        document.addEventListener('click', function() {
-            document.querySelectorAll('.client-card.active').forEach(function(c) { c.classList.remove('active'); });
-        });
+
+            document.addEventListener('click', function() {
+                hideOverlay();
+            });
+        })();
     </script>
     </body>
 
