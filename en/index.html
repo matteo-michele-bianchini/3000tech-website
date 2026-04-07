@@ -399,54 +399,105 @@
             </div>
 
             <!-- Clients -->
+            <style>
+                @media (hover: hover) {
+                    .client-card:hover .client-overlay {
+                        opacity: 1;
+                    }
+                    .client-card:hover .overlay-card {
+                        transform: scale(1) translateY(0);
+                    }
+                    .client-card:hover .card-inner {
+                        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+                    }
+                }
+                .client-card.active .client-overlay {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+                .client-card.active .overlay-card {
+                    transform: scale(1) translateY(0);
+                }
+                .client-card.active .card-inner {
+                    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+                }
+                .client-overlay {
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+                .overlay-card {
+                    transform: scale(0.92) translateY(8px);
+                    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+            </style>
             <div class="mb-16">
                 <h3 class="text-xl font-semibold text-gray-700 text-center mb-8">Some of the companies we have worked
                     with</h3>
                 <!-- Group 1 -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-4">
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Poste Italiane</p>
-                            <p>On-demand boxing plant design and development</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Poste Italiane</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">On-demand boxing plant design and development</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Lavazza</p>
-                            <p>Automated coffee packaging plant (5M€+), operating at 160 kg/min</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Lavazza</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Automated coffee packaging plant (5M€+), operating at 160 kg/min</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Leroy Merlin</p>
-                            <p>Web app for automated design and printing of technical specification cards in stores</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Leroy Merlin</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Web app for automated design and printing of technical specification cards in stores</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Assicurazioni Generali</p>
-                            <p>IT consulting in the insurance sector. Software architecture and dev team leadership</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Assicurazioni Generali</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">IT consulting in the insurance sector. Software architecture and dev team leadership</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Zucchetti</p>
-                            <p>Frontend services development for corporate welfare platform</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Zucchetti</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Frontend services development for corporate welfare platform</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -456,49 +507,69 @@
                 </div>
                 <!-- Group 2 -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-4">
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Goglio</p>
-                            <p>Spare parts web platform with 2D/3D visualization</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Goglio</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Spare parts web platform with 2D/3D visualization</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Arup</p>
-                            <p>Building systems modeling and energy sustainability analysis</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Arup</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Building systems modeling and energy sustainability analysis</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Mia-Platform</p>
-                            <p>Software R&amp;D and API management platform development</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Mia-Platform</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Software R&amp;D and API management platform development</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Beta 80</p>
-                            <p>Frontend application development and IT consulting</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Beta 80</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Frontend application development and IT consulting</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">RTM Breda</p>
-                            <p>FEM simulation of hot titanium forming for aeronautical engine components</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">RTM Breda</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">FEM simulation of hot titanium forming for aeronautical engine components</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -508,58 +579,82 @@
                 </div>
                 <!-- Group 3 -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto">
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">Voidless</p>
-                            <p>Cardboard packaging machine R&amp;D, from prototype to industrialization (1M€+)</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">Voidless</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Cardboard packaging machine R&amp;D, from prototype to industrialization (1M€+)</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">RareEarth</p>
-                            <p>Magnet recycling machinery</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">RareEarth</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Magnet recycling machinery design</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">NewtonThrust</p>
-                            <p>Automotive marketplace development</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">NewtonThrust</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Full-stack automotive marketplace development</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">YunoAI</p>
-                            <p>Financial data engineering pipeline. Handling European companies data (30M+)</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">YunoAI</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Financial data engineering pipeline. Handling 30M+ European companies data</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">3D Business</p>
-                            <p>3D Printers Hardware R&amp;D</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">3D Business</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">3D Printers Hardware R&amp;D</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative group cursor-pointer">
-                        <div class="bg-white rounded-lg px-4 py-4 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-16 sm:h-20">
+                    <div class="client-card cursor-pointer">
+                        <div class="card-inner bg-white rounded-lg px-4 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20">
                             <img src="../images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                            <p class="font-semibold">8853 S.p.A.</p>
-                            <p>Corporate platform operating system migration</p>
+                        <div class="client-overlay fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+                            <div class="absolute inset-0 bg-black/40"></div>
+                            <div class="overlay-card relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center">
+                                <p class="text-lg font-bold text-gray-900">8853 S.p.A.</p>
+                                <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+                                <p class="text-gray-600 text-sm">Corporate platform operating system migration</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -691,6 +786,19 @@
         </div>
     </footer>
 
+    <script>
+        document.querySelectorAll('.client-card').forEach(function(card) {
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var wasActive = card.classList.contains('active');
+                document.querySelectorAll('.client-card.active').forEach(function(c) { c.classList.remove('active'); });
+                if (!wasActive) card.classList.add('active');
+            });
+        });
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.client-card.active').forEach(function(c) { c.classList.remove('active'); });
+        });
+    </script>
     </body>
 
 </html>
