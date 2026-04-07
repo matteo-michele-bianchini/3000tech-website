@@ -26,7 +26,7 @@
     <link rel="canonical" href="https://3000tech.it/en/">
     <title>3000Tech by Matteo Michele Bianchini | Engineering & Digital Innovation</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <script src="../js/main.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
@@ -42,11 +42,6 @@
             }
         }
     </script>
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
@@ -398,21 +393,6 @@
             </div>
 
             <!-- Clients -->
-            <style>
-                @keyframes scroll-left {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
-                @keyframes scroll-right {
-                    0% { transform: translateX(-50%); }
-                    100% { transform: translateX(0); }
-                }
-                .carousel-track { display: flex; width: max-content; }
-                .carousel-track-left { animation: scroll-left 30s linear infinite; }
-                .carousel-track-right { animation: scroll-right 30s linear infinite; }
-                .carousel-row { overflow: hidden; padding: 4px 0; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
-                .carousel-row:hover .carousel-track { animation-play-state: paused; }
-            </style>
             <div class="mb-16">
                 <h3 class="text-xl font-semibold text-gray-700 text-center mb-8">Some of our collaborations</h3>
                 <!-- Row 1: scroll left -->
@@ -739,66 +719,7 @@
             <p id="overlay-desc" class="text-gray-600 text-sm"></p>
         </div>
     </div>
-    <script>
-        (function() {
-            var overlay = document.getElementById('client-overlay');
-            var overlayCard = document.getElementById('overlay-card');
-            var overlayName = document.getElementById('overlay-name');
-            var overlayDesc = document.getElementById('overlay-desc');
-            var activeCard = null;
-            var hoverTimeout = null;
-
-            function showOverlay(card) {
-                var name = card.getAttribute('data-name');
-                var desc = card.getAttribute('data-desc');
-                if (!name) return;
-                document.querySelectorAll('.client-card .card-inner').forEach(function(el) { el.style.boxShadow = ''; });
-                overlayName.textContent = name;
-                overlayDesc.textContent = desc;
-                overlay.style.opacity = '1';
-                overlayCard.style.transform = 'scale(1) translateY(0)';
-                card.querySelector('.card-inner').style.boxShadow = '0 0 0 2px rgba(59, 130, 246, 0.5)';
-                activeCard = card;
-            }
-
-            function hideOverlay() {
-                overlay.style.opacity = '0';
-                overlayCard.style.transform = 'scale(0.92) translateY(8px)';
-                document.querySelectorAll('.client-card .card-inner').forEach(function(el) { el.style.boxShadow = ''; });
-                activeCard = null;
-            }
-
-            // Desktop hover
-            if (window.matchMedia('(hover: hover)').matches) {
-                document.querySelectorAll('.client-card').forEach(function(card) {
-                    card.addEventListener('mouseenter', function() {
-                        clearTimeout(hoverTimeout);
-                        showOverlay(card);
-                    });
-                    card.addEventListener('mouseleave', function() {
-                        hoverTimeout = setTimeout(hideOverlay, 100);
-                    });
-                });
-            }
-
-            // Mobile tap
-            document.querySelectorAll('.client-card').forEach(function(card) {
-                card.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    if (activeCard === card) {
-                        hideOverlay();
-                    } else {
-                        hideOverlay();
-                        showOverlay(card);
-                    }
-                });
-            });
-
-            document.addEventListener('click', function() {
-                hideOverlay();
-            });
-        })();
-    </script>
+    <script src="../js/main.js"></script>
     </body>
 
 </html>
