@@ -17,6 +17,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Animated stat counters
+    var counters = document.querySelectorAll('.stat-counter');
+    if (counters.length && 'IntersectionObserver' in window) {
+        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var animateCounter = function(el) {
+            var match = el.textContent.match(/^(\d+)(.*)$/);
+            if (!match) return;
+            var target = parseInt(match[1], 10);
+            var suffix = match[2];
+            if (prefersReduced) { el.textContent = target + suffix; return; }
+            var duration = 1600;
+            var startTime = performance.now();
+            el.textContent = '0' + suffix;
+            var step = function(now) {
+                var t = Math.min((now - startTime) / duration, 1);
+                var eased = 1 - Math.pow(1 - t, 4);
+                el.textContent = Math.round(target * eased) + suffix;
+                if (t < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        };
+        var counterObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(function(c) { counterObserver.observe(c); });
+    }
+
     // Client card overlay
     var overlay = document.getElementById('client-overlay');
     if (!overlay) return;
