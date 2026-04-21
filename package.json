@@ -7,6 +7,7 @@
     "start": "live-server --port=3000"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "playwright": "^1.59.1"
   }
 }
