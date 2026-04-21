@@ -180,13 +180,9 @@ html {
     from { transform: rotate(360deg); }
     to   { transform: rotate(0deg); }
 }
-@keyframes counter-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(-360deg); }
-}
-@keyframes counter-spin-rev {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+@keyframes chip-spin {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to   { transform: translateX(-50%) rotate(360deg); }
 }
 
 .orbit-track {
@@ -196,6 +192,8 @@ html {
 }
 .orbit-track.rev { animation: orbit-spin-rev 55s linear infinite; }
 .orbit-track.slow { animation: orbit-spin 70s linear infinite; }
+.orbit-track.mid { inset: 13%; }
+.orbit-track.inner { inset: 27%; }
 
 .orbit-chip {
     position: absolute;
@@ -214,12 +212,18 @@ html {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    animation: counter-spin 40s linear infinite;
+    animation: chip-spin 8s linear infinite;
 }
-.orbit-track.rev .orbit-chip { animation: counter-spin-rev 55s linear infinite; }
-.orbit-track.slow .orbit-chip { animation: counter-spin 70s linear infinite; }
 
-.orbit-chip i { color: #3b82f6; font-size: 0.9rem; }
+.orbit-chip i { font-size: 0.9rem; }
+.orbit-chip i.fa-react        { color: #61DAFB; }
+.orbit-chip i.fa-node-js      { color: #339933; }
+.orbit-chip i.fa-code         { color: #3178C6; }
+.orbit-chip i.fa-microsoft    { color: #512BD4; }
+.orbit-chip i.fa-docker       { color: #2496ED; }
+.orbit-chip i.fa-dharmachakra { color: #326CE5; }
+.orbit-chip i.fa-cube         { color: #FF0000; }
+.orbit-chip i.fa-database     { color: #336791; }
 
 .orbit-center {
     position: absolute;
