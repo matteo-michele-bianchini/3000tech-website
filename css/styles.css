@@ -74,6 +74,11 @@ html {
     border-radius: 50%;
     background: #93c5fd;
     box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25);
+    animation: eyebrow-pulse 2s ease-in-out infinite;
+}
+@keyframes eyebrow-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25); }
+    50%      { box-shadow: 0 0 0 8px rgba(147, 197, 253, 0);    }
 }
 
 /* =========================================================
