@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Animated stat counters — sequential finish (first ends first, last ends last)
+    // Animated stat counters — first three finish together, last one runs slower
     var counters = document.querySelectorAll('.stat-counter');
     if (counters.length && 'IntersectionObserver' in window) {
         var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var duration = 1200;
-        var stagger = 400;
-        var animateCounter = function(el, delay) {
+        var baseDuration = 1400;
+        var lastDuration = 3000;
+        var animateCounter = function(el, duration) {
             var match = el.textContent.match(/^(\d+)(.*)$/);
             if (!match) return;
             var target = parseInt(match[1], 10);
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
             el.textContent = start + suffix;
             var startTime = null;
             var step = function(now) {
-                if (startTime === null) startTime = now + delay;
-                var t = Math.min(Math.max((now - startTime) / duration, 0), 1);
+                if (startTime === null) startTime = now;
+                var t = Math.min((now - startTime) / duration, 1);
                 var eased = 1 - Math.pow(1 - t, 4);
                 el.textContent = Math.round(start + (target - start) * eased) + suffix;
                 if (t < 1) requestAnimationFrame(step);
@@ -47,8 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
             var anyVisible = entries.some(function(e) { return e.isIntersecting; });
             if (!anyVisible) return;
             startedGroup = true;
+            var lastIdx = counters.length - 1;
             counters.forEach(function(el, i) {
-                animateCounter(el, i * stagger);
+                animateCounter(el, i === lastIdx ? lastDuration : baseDuration);
                 counterObserver.unobserve(el);
             });
         }, { threshold: 0.5 });
