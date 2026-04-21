@@ -16,8 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:locale" content="it_IT">
     <meta property="og:url" content="https://3000tech.it/">
-    <meta property="og:image"
-        content="https://3000tech.it/images/preview/3000tech-link-share-preview.jpg">
+    <meta property="og:image" content="https://3000tech.it/images/preview/3000tech-link-share-preview.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <link rel="alternate" hreflang="it" href="https://3000tech.it/">
@@ -26,17 +25,32 @@
     <link rel="canonical" href="https://3000tech.it/">
     <title>3000Tech di Matteo Michele Bianchini | Ingegneria & Innovazione Digitale</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind + icons + styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e40af',
-                        secondary: '#3b82f6',
-                        accent: '#60a5fa'
+                        cream:   '#F5F3EE',
+                        'cream-deep': '#EDE9DF',
+                        ink:     '#0B0B0F',
+                        'ink-soft': '#1F1F25',
+                        indigo3: '#1E3A8A',
+                        amber3:  '#F59E0B',
+                        violet3: '#7C3AED',
+                    },
+                    fontFamily: {
+                        sans:    ['Space Grotesk', 'system-ui', 'sans-serif'],
+                        display: ['Instrument Serif', 'serif'],
                     }
                 }
             }
@@ -44,626 +58,752 @@
     </script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+<body class="font-sans antialiased">
+
+    <!-- ================== Navigation ================== -->
+    <nav class="fixed w-full bg-cream/85 backdrop-blur-md z-50 border-b border-black/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <a href="#" class="flex items-center gap-2 text-lg font-bold text-primary">
-                        <img src="favicon.svg" alt="Logo" class="w-8 h-8">
-                        3000Tech
+                <a href="#" class="flex items-center gap-2.5 text-ink">
+                    <img src="favicon.svg" alt="Logo" class="w-7 h-7">
+                    <span class="text-lg font-medium tracking-tight">3000<span class="font-display italic">Tech</span></span>
+                </a>
+                <div class="hidden md:flex items-center gap-8 text-sm text-ink-soft">
+                    <a href="#about" class="hover:text-ink transition-colors">Chi Siamo</a>
+                    <a href="#servizi" class="hover:text-ink transition-colors">Servizi</a>
+                    <a href="#tech" class="hover:text-ink transition-colors">Tecnologie</a>
+                    <a href="#portfolio" class="hover:text-ink transition-colors">Portfolio</a>
+                    <a href="#contatti" class="hover:text-ink transition-colors">Contatti</a>
+                    <div class="flex items-center gap-2 pl-4 border-l border-black/10">
+                        <img src="https://flagcdn.com/w40/it.png" alt="Italiano" class="w-5 h-3.5 object-cover rounded-sm ring-2 ring-indigo3/60">
+                        <span class="text-black/20">·</span>
+                        <a href="en/" class="opacity-40 hover:opacity-100 transition-opacity">
+                            <img src="https://flagcdn.com/w40/gb.png" alt="English" class="w-5 h-3.5 object-cover rounded-sm">
+                        </a>
+                    </div>
+                    <a href="#contatti" class="btn btn-primary !py-2 !px-4 text-sm">
+                        Parliamone <span class="arrow">↗</span>
                     </a>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#about" class="text-gray-600 hover:text-primary transition-colors">Chi Siamo</a>
-                        <a href="#team" class="text-gray-600 hover:text-primary transition-colors">Team</a>
-                        <a href="#servizi" class="text-gray-600 hover:text-primary transition-colors">Servizi</a>
-                        <a href="#tech" class="text-gray-600 hover:text-primary transition-colors">Tecnologie</a>
-                        <a href="#portfolio" class="text-gray-600 hover:text-primary transition-colors">Portfolio</a>
-                        <a href="#contatti" class="text-gray-600 hover:text-primary transition-colors">Contatti</a>
-                        <div class="flex items-center border-l pl-6 ml-2 gap-2">
-                            <img src="https://flagcdn.com/w40/it.png" alt="Italiano" class="w-6 h-4 object-cover rounded-sm ring-2 ring-primary">
-                            <span class="text-gray-300">|</span>
-                            <a href="en/" class="opacity-50 hover:opacity-100 transition-opacity">
-                                <img src="https://flagcdn.com/w40/gb.png" alt="English" class="w-6 h-4 object-cover rounded-sm">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <button id="mobile-menu-btn" class="md:hidden p-2">
-                    <i class="fas fa-bars text-gray-600"></i>
+                <button id="mobile-menu-btn" class="md:hidden p-2" aria-label="Menu">
+                    <i class="fas fa-bars text-ink"></i>
                 </button>
             </div>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
-            <div class="px-4 py-3 space-y-3">
-                <a href="#about" class="block text-gray-600 hover:text-primary">Chi Siamo</a>
-                <a href="#team" class="block text-gray-600 hover:text-primary">Team</a>
-                <a href="#servizi" class="block text-gray-600 hover:text-primary">Servizi</a>
-                <a href="#tech" class="block text-gray-600 hover:text-primary">Tecnologie</a>
-                <a href="#portfolio" class="block text-gray-600 hover:text-primary">Portfolio</a>
-                <a href="#contatti" class="block text-gray-600 hover:text-primary">Contatti</a>
-                <div class="flex items-center gap-4 pt-3 border-t mt-3">
-                    <span class="flex items-center gap-2 text-primary font-medium">
-                        <img src="https://flagcdn.com/w40/it.png" alt="IT" class="w-6 h-4 object-cover rounded-sm"> IT
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-black/5">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#about" class="block text-ink-soft hover:text-ink">Chi Siamo</a>
+                <a href="#servizi" class="block text-ink-soft hover:text-ink">Servizi</a>
+                <a href="#tech" class="block text-ink-soft hover:text-ink">Tecnologie</a>
+                <a href="#portfolio" class="block text-ink-soft hover:text-ink">Portfolio</a>
+                <a href="#contatti" class="block text-ink-soft hover:text-ink">Contatti</a>
+                <div class="flex items-center gap-4 pt-3 border-t border-black/5">
+                    <span class="flex items-center gap-2 text-indigo3 font-medium text-sm">
+                        <img src="https://flagcdn.com/w40/it.png" alt="IT" class="w-5 h-3.5 object-cover rounded-sm"> IT
                     </span>
-                    <a href="en/" class="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors">
-                        <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="w-6 h-4 object-cover rounded-sm opacity-50"> EN
+                    <a href="en/" class="flex items-center gap-2 text-black/40 hover:text-ink transition-colors text-sm">
+                        <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="w-5 h-3.5 object-cover rounded-sm opacity-50"> EN
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section
-        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent text-white pt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                Ingegneria &<br>
-                <span class="text-blue-200">Innovazione digitale</span>
-            </h1>
-            <p class="text-xl sm:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-                R&D, Sviluppo Software e Meccatronica per trasformare le tue idee in soluzioni concrete, scalabili e performanti
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#contatti"
-                    class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-                    Inizia un Progetto
-                </a>
-                <a href="#portfolio"
-                    class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
-                    Scopri i Progetti
-                </a>
-            </div>
-            <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-                <div>
-                    <div class="text-3xl font-bold">15+</div>
-                    <div class="text-blue-200 text-sm">Anni di Esperienza</div>
+    <!-- ================== Hero ================== -->
+    <section class="relative overflow-hidden pt-28 pb-16 lg:pt-36 lg:pb-24">
+        <!-- Dot-grid background -->
+        <div class="absolute inset-0 dot-grid opacity-60 pointer-events-none"></div>
+        <!-- Amber glow blob -->
+        <div class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%);"></div>
+        <!-- Indigo glow blob -->
+        <div class="absolute -bottom-40 -left-20 w-[500px] h-[500px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(30,58,138,0.12) 0%, transparent 70%);"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+                <!-- Left: headline -->
+                <div class="lg:col-span-7">
+                    <span class="eyebrow">R&amp;D · Software · Meccatronica</span>
+
+                    <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.95] tracking-tight text-ink">
+                        Ingegneria<br>
+                        &amp; <span class="font-display italic highlight-underline">innovazione</span><br>
+                        digitale.
+                    </h1>
+
+                    <p class="mt-8 text-lg sm:text-xl text-ink-soft max-w-xl leading-relaxed">
+                        Soluzioni software &amp; meccatroniche su misura. Trasformiamo idee complesse in sistemi
+                        <em class="font-display text-ink">concreti, scalabili, performanti.</em>
+                    </p>
+
+                    <div class="mt-10 flex flex-col sm:flex-row gap-3">
+                        <a href="#contatti" class="btn btn-primary">
+                            Inizia un progetto <span class="arrow">↗</span>
+                        </a>
+                        <a href="#portfolio" class="btn btn-ghost">
+                            Scopri i progetti
+                        </a>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+                        <div class="stat-badge">
+                            <div class="num">15<span class="plus">+</span></div>
+                            <div class="label">Anni di esperienza</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="num">20<span class="plus">+</span></div>
+                            <div class="label">Clienti enterprise &amp; PMI</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="num">50<span class="plus">+</span></div>
+                            <div class="label">Progetti completati</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="num">6M€<span class="plus">+</span></div>
+                            <div class="label">Valore sviluppato</div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <div class="text-3xl font-bold">20+</div>
-                    <div class="text-blue-200 text-sm">Clienti (Enterprise e PMI)</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold">50+</div>
-                    <div class="text-blue-200 text-sm">Progetti Completati</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold">6M€+</div>
-                    <div class="text-blue-200 text-sm">Valore progetti sviluppati</div>
+
+                <!-- Right: orbit graphic -->
+                <div class="lg:col-span-5 relative">
+                    <div class="orbit-wrap">
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring r2"></div>
+                        <div class="orbit-ring r3"></div>
+                        <div class="orbit-ring r4"></div>
+
+                        <div class="orbit-track">
+                            <div class="orbit-chip"><i class="fab fa-react"></i> React</div>
+                        </div>
+                        <div class="orbit-track" style="animation-delay: -10s;">
+                            <div class="orbit-chip"><i class="fab fa-node-js"></i> Node.js</div>
+                        </div>
+                        <div class="orbit-track rev" style="animation-delay: -5s;">
+                            <div class="orbit-chip"><i class="fas fa-code"></i> TypeScript</div>
+                        </div>
+                        <div class="orbit-track rev" style="animation-delay: -25s;">
+                            <div class="orbit-chip"><i class="fab fa-microsoft"></i> .NET / C#</div>
+                        </div>
+                        <div class="orbit-track slow" style="animation-delay: -15s;">
+                            <div class="orbit-chip"><i class="fab fa-docker"></i> Docker</div>
+                        </div>
+                        <div class="orbit-track slow" style="animation-delay: -40s;">
+                            <div class="orbit-chip"><i class="fas fa-dharmachakra"></i> Kubernetes</div>
+                        </div>
+                        <div class="orbit-track" style="animation-delay: -30s;">
+                            <div class="orbit-chip"><i class="fas fa-cube"></i> CAD 3D</div>
+                        </div>
+                        <div class="orbit-track rev" style="animation-delay: -45s;">
+                            <div class="orbit-chip"><i class="fas fa-database"></i> PostgreSQL</div>
+                        </div>
+
+                        <div class="orbit-center">
+                            3000<br><em>Tech</em>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
+    <!-- ================== Marquee divider ================== -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span class="marquee-item">R&amp;D</span>
+            <span class="marquee-item">Full-Stack</span>
+            <span class="marquee-item">Meccatronica</span>
+            <span class="marquee-item">Cloud Native</span>
+            <span class="marquee-item">Architetture scalabili</span>
+            <span class="marquee-item">Consulenza IT</span>
+            <span class="marquee-item">R&amp;D</span>
+            <span class="marquee-item">Full-Stack</span>
+            <span class="marquee-item">Meccatronica</span>
+            <span class="marquee-item">Cloud Native</span>
+            <span class="marquee-item">Architetture scalabili</span>
+            <span class="marquee-item">Consulenza IT</span>
+        </div>
+    </div>
+
+    <!-- ================== About ================== -->
+    <section id="about" class="section-pad">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="grid lg:grid-cols-12 gap-12 items-start">
+                <!-- Left: eyebrow + portrait -->
+                <div class="lg:col-span-5">
+                    <span class="eyebrow">Chi siamo</span>
+                    <div class="mt-8 relative inline-block">
+                        <div class="absolute -inset-4 rounded-full border border-dashed border-black/15"></div>
+                        <div class="absolute -inset-10 rounded-full border border-black/5"></div>
+                        <img src="images/team/matteo_bianchini_CEO_software_engineer.jpg"
+                             alt="Matteo Michele Bianchini"
+                             class="relative w-56 h-56 rounded-full object-cover shadow-xl ring-4 ring-cream">
+                        <div class="absolute -bottom-2 -right-2 bg-ink text-cream px-4 py-2 rounded-full text-xs font-medium shadow-lg">
+                            <i class="fas fa-circle text-amber3 text-[6px] mr-2"></i>Founder &amp; CEO
+                        </div>
+                    </div>
+                    <p class="mt-8 text-ink font-display italic text-2xl leading-snug max-w-sm">
+                        "Progettare software è come progettare una macchina: richiede visione sistemica e cura dei dettagli."
+                    </p>
+                    <p class="mt-3 text-sm text-ink-soft">— Matteo Michele Bianchini</p>
+                </div>
+
+                <!-- Right: narrative + charter -->
+                <div class="lg:col-span-7">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
+                        Un <span class="font-display italic">background ibrido</span><br>
+                        al servizio del tuo business.
+                    </h2>
+
+                    <div class="mt-8 space-y-5 text-lg text-ink-soft leading-relaxed max-w-2xl">
+                        <p>
+                            <strong class="text-ink">Matteo Michele Bianchini</strong> — Ingegnere &amp; Sviluppatore informatico,
+                            laureato al <strong class="text-ink">Politecnico di Milano</strong>. Un background che combina
+                            <strong class="text-ink">R&amp;D</strong>, <strong class="text-ink">sviluppo software</strong>
+                            e <strong class="text-ink">meccatronica</strong>.
+                        </p>
+                        <p>
+                            Oltre <strong class="text-ink">15 anni di esperienza</strong> a fianco di startup innovative e
+                            grandi aziende enterprise, costruendo soluzioni che generano valore concreto e misurabile.
+                        </p>
+                    </div>
+
+                    <!-- Partnership Charter — numbered -->
+                    <div class="mt-12">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="font-display italic text-amber3 text-2xl">Partnership Charter</span>
+                            <hr class="flex-1 rule">
+                        </div>
+                        <ol class="grid sm:grid-cols-2 gap-x-6 gap-y-5">
+                            <li class="flex gap-4">
+                                <span class="font-display italic text-amber3 text-2xl leading-none w-8 shrink-0">01</span>
+                                <span class="text-ink">Analisi approfondita delle esigenze di business</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-display italic text-amber3 text-2xl leading-none w-8 shrink-0">02</span>
+                                <span class="text-ink">Architetture scalabili e manutenibili</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-display italic text-amber3 text-2xl leading-none w-8 shrink-0">03</span>
+                                <span class="text-ink">Soluzioni efficienti e performanti</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-display italic text-amber3 text-2xl leading-none w-8 shrink-0">04</span>
+                                <span class="text-ink">Comunicazione trasparente e costante</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="font-display italic text-amber3 text-2xl leading-none w-8 shrink-0">05</span>
+                                <span class="text-ink">Rispetto di deadline e budget</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== Servizi (bento) ================== -->
+    <section id="servizi" class="section-pad bg-cream-deep/50 border-y border-black/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
                 <div>
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Chi Siamo</h2>
-                    <p class="text-lg text-gray-600 mb-6">
-                        <strong>Matteo Michele Bianchini</strong> - Ingegnere e Sviluppatore informatico  laureato al <strong>Politecnico di Milano</strong>.<br><br>
-                        Un background che combina <strong>R&D</strong>, <strong>sviluppo software</strong>
-                        e <strong>meccatronica</strong> per una visione sistemica dei progetti.
-                    </p>
-                    <p class="text-lg text-gray-600 mb-6">
-                        Con oltre <strong>15 anni di esperienza</strong>, ho collaborato con startup
-                        innovative e grandi
-                        aziende enterprise, sviluppando soluzioni che generano valore concreto per i
-                        clienti.
-                    </p>
-                    <p class="text-lg text-gray-600">
-                        Dallo sviluppo informatico alla ricerca e progettazione meccanica, offriamo
-                        soluzioni complete per ogni <strong>esigenza tecnica</strong>.
-                    </p>
+                    <span class="eyebrow">Servizi</span>
+                    <h2 class="mt-6 text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-2xl">
+                        Dalla <span class="font-display italic">progettazione</span> al deployment.
+                    </h2>
                 </div>
-                <div class="bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 text-white">
-                    <h3 class="text-2xl font-bold mb-6">Partnership Charter</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-blue-200 mt-1"></i>
-                            <span>Analisi approfondita delle esigenze di business</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-blue-200 mt-1"></i>
-                            <span>Architetture scalabili e manutenibili</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-blue-200 mt-1"></i>
-                            <span>Soluzioni efficienti e performanti</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-blue-200 mt-1"></i>
-                            <span>Comunicazione trasparente e costante</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-blue-200 mt-1"></i>
-                            <span>Rispetto delle deadline e del budget</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Il Team</h2>
-            </div>
-            <div class="flex justify-center">
-                <div class="text-center">
-                    <img src="images/team/matteo_bianchini_CEO_software_engineer.jpg" alt="Matteo Michele Bianchini"
-                        class="w-48 h-48 rounded-full object-cover mx-auto mb-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900">Matteo Michele Bianchini</h3>
-                    <p class="text-secondary font-medium">Founder & CEO</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Servizi Section -->
-    <section id="servizi" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Servizi</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Soluzioni complete di ingegneria: dalla progettazione iniziale al deployment in
-                    produzione
+                <p class="text-ink-soft text-lg max-w-md">
+                    Soluzioni di ingegneria end-to-end, pensate per scalare con te — dall'architettura iniziale all'operatività in produzione.
                 </p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-code text-2xl text-primary"></i>
+
+            <div class="bento">
+                <!-- Large featured -->
+                <div class="bento-card large">
+                    <div class="service-num">— 01</div>
+                    <div class="mt-4 w-14 h-14 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">
+                        <i class="fas fa-code text-2xl text-amber3"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Sviluppo Full-Stack</h3>
-                    <p class="text-gray-600 mb-4">
-                        Sviluppo applicazioni web e mobile complete, dal frontend all'infrastruttura backend,
-                        utilizzando le tecnologie più moderne e performanti.
+                    <h3 class="mt-6 text-3xl sm:text-4xl font-display italic tracking-tight">Sviluppo Full-Stack</h3>
+                    <p class="mt-4 text-white/70 leading-relaxed max-w-lg">
+                        Applicazioni web e mobile end-to-end: frontend reattivi, backend robusti, infrastrutture moderne.
+                        Stack recenti, pattern consolidati, ottimi default.
                     </p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li><i class="fas fa-chevron-right text-secondary mr-2"></i>Web Application</li>
-                        <li><i class="fas fa-chevron-right text-secondary mr-2"></i>REST & GraphQL API</li>
-                        <li><i class="fas fa-chevron-right text-secondary mr-2"></i>Microservizi</li>
+                    <ul class="mt-6 flex flex-wrap gap-2 relative z-10">
+                        <li class="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-sm">Web App</li>
+                        <li class="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-sm">REST &amp; GraphQL API</li>
+                        <li class="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-sm">Microservizi</li>
+                        <li class="px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-sm">Data pipelines</li>
                     </ul>
                 </div>
-                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-lightbulb text-2xl text-green-600"></i>
+
+                <!-- Tall card -->
+                <div class="bento-card tall">
+                    <div class="service-num">— 02</div>
+                    <div class="mt-4 w-12 h-12 rounded-xl bg-amber3/15 border border-amber3/20 flex items-center justify-center">
+                        <i class="fas fa-lightbulb text-xl text-amber-deep" style="color:#D97706"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Consulenza IT</h3>
-                    <p class="text-gray-600 mb-4">
-                        Supporto strategico per le decisioni tecnologiche della tua azienda,
-                        dalla scelta dello stack alla definizione dell'architettura.
+                    <h3 class="mt-5 text-2xl font-display italic tracking-tight">Consulenza IT</h3>
+                    <p class="mt-3 text-ink-soft leading-relaxed">
+                        Supporto strategico per le decisioni tecnologiche: stack, architettura, processo.
                     </p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li><i class="fas fa-chevron-right text-green-500 mr-2"></i>Technology Assessment</li>
-                        <li><i class="fas fa-chevron-right text-green-500 mr-2"></i>Code Review</li>
-                        <li><i class="fas fa-chevron-right text-green-500 mr-2"></i>Team Mentoring</li>
+                    <ul class="mt-5 text-sm text-ink-soft space-y-2">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber3"></span>Technology Assessment</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber3"></span>Code Review</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber3"></span>Team Mentoring</li>
                     </ul>
                 </div>
-                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-server text-2xl text-purple-600"></i>
+
+                <!-- Wide std -->
+                <div class="bento-card std">
+                    <div class="service-num">— 03</div>
+                    <div class="mt-4 w-12 h-12 rounded-xl bg-indigo3/10 border border-indigo3/20 flex items-center justify-center">
+                        <i class="fas fa-server text-xl text-indigo3"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Architetture Scalabili</h3>
-                    <p class="text-gray-600 mb-4">
-                        Progettazione e implementazione di sistemi distribuiti capaci di crescere
-                        con il tuo business, garantendo performance e affidabilità.
+                    <h3 class="mt-5 text-2xl font-display italic tracking-tight">Architetture Scalabili</h3>
+                    <p class="mt-3 text-ink-soft leading-relaxed">
+                        Sistemi distribuiti che crescono col tuo business, con performance e affidabilità.
                     </p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li><i class="fas fa-chevron-right text-purple-500 mr-2"></i>Cloud Architecture</li>
-                        <li><i class="fas fa-chevron-right text-purple-500 mr-2"></i>DevOps & CI/CD</li>
-                        <li><i class="fas fa-chevron-right text-purple-500 mr-2"></i>Container Orchestration</li>
+                    <ul class="mt-4 flex flex-wrap gap-2 text-xs">
+                        <li class="px-2.5 py-1 rounded-full border border-black/10 text-ink-soft">Cloud Architecture</li>
+                        <li class="px-2.5 py-1 rounded-full border border-black/10 text-ink-soft">DevOps &amp; CI/CD</li>
+                        <li class="px-2.5 py-1 rounded-full border border-black/10 text-ink-soft">K8s</li>
                     </ul>
                 </div>
-                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-14 h-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-cogs text-2xl text-orange-600"></i>
+
+                <!-- Std -->
+                <div class="bento-card std">
+                    <div class="service-num">— 04</div>
+                    <div class="mt-4 w-12 h-12 rounded-xl bg-violet3/10 border border-violet3/20 flex items-center justify-center">
+                        <i class="fas fa-cogs text-xl" style="color:#7C3AED"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Meccatronica & CAD</h3>
-                    <p class="text-gray-600 mb-4">
-                        Progettazione meccanica, automazione industriale e prototipazione
-                        con software CAD 3D professionali.
+                    <h3 class="mt-5 text-2xl font-display italic tracking-tight">Meccatronica &amp; CAD</h3>
+                    <p class="mt-3 text-ink-soft leading-relaxed">
+                        Progettazione meccanica, automazione industriale e prototipazione con CAD 3D professionale.
                     </p>
-                    <ul class="text-sm text-gray-500 space-y-2">
-                        <li><i class="fas fa-chevron-right text-orange-500 mr-2"></i>Progettazione CAD 3D</li>
-                        <li><i class="fas fa-chevron-right text-orange-500 mr-2"></i>Automazione Industriale</li>
-                        <li><i class="fas fa-chevron-right text-orange-500 mr-2"></i>Stampa 3D & Prototipazione</li>
+                    <ul class="mt-4 flex flex-wrap gap-2 text-xs">
+                        <li class="px-2.5 py-1 rounded-full border border-black/10 text-ink-soft">CAD 3D</li>
+                        <li class="px-2.5 py-1 rounded-full border border-black/10 text-ink-soft">Automazione</li>
+                        <li class="px-2.5 py-1 rounded-full border border-black/10 text-ink-soft">Stampa 3D</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Tech Stack Section -->
-    <section id="tech" class="py-20 bg-white">
+    <!-- ================== Tech stack marquee ================== -->
+    <section id="tech" class="section-pad">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Strumenti & Tecnologie</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Tecnologie moderne e consolidate per costruire soluzioni robuste e performanti
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="eyebrow">Strumenti &amp; tecnologie</span>
+                <h2 class="mt-6 text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
+                    Lo <span class="font-display italic">stack</span> che usiamo ogni giorno.
+                </h2>
+                <p class="mt-4 text-ink-soft text-lg">
+                    Tecnologie moderne e consolidate per soluzioni robuste e performanti.
+                </p>
+            </div>
+        </div>
+
+        <!-- Row 1: software (left) -->
+        <div class="tech-marquee">
+            <div class="tech-marquee-track">
+                <div class="tech-chip"><i class="fab fa-react text-[#61DAFB]"></i>React</div>
+                <div class="tech-chip"><i class="fab fa-node-js text-[#339933]"></i>Node.js</div>
+                <div class="tech-chip"><i class="fas fa-code text-[#3178C6]"></i>TypeScript</div>
+                <div class="tech-chip"><i class="fab fa-microsoft text-[#512BD4]"></i>.NET</div>
+                <div class="tech-chip"><i class="fas fa-hashtag text-[#239120]"></i>C#</div>
+                <div class="tech-chip"><i class="fas fa-database text-[#336791]"></i>PostgreSQL</div>
+                <div class="tech-chip"><i class="fas fa-leaf text-[#47A248]"></i>MongoDB</div>
+                <div class="tech-chip"><i class="fas fa-project-diagram text-[#E10098]"></i>GraphQL</div>
+                <div class="tech-chip"><i class="fab fa-docker text-[#2496ED]"></i>Docker</div>
+                <div class="tech-chip"><i class="fas fa-dharmachakra text-[#326CE5]"></i>Kubernetes</div>
+                <!-- duplicate for seamless loop -->
+                <div class="tech-chip"><i class="fab fa-react text-[#61DAFB]"></i>React</div>
+                <div class="tech-chip"><i class="fab fa-node-js text-[#339933]"></i>Node.js</div>
+                <div class="tech-chip"><i class="fas fa-code text-[#3178C6]"></i>TypeScript</div>
+                <div class="tech-chip"><i class="fab fa-microsoft text-[#512BD4]"></i>.NET</div>
+                <div class="tech-chip"><i class="fas fa-hashtag text-[#239120]"></i>C#</div>
+                <div class="tech-chip"><i class="fas fa-database text-[#336791]"></i>PostgreSQL</div>
+                <div class="tech-chip"><i class="fas fa-leaf text-[#47A248]"></i>MongoDB</div>
+                <div class="tech-chip"><i class="fas fa-project-diagram text-[#E10098]"></i>GraphQL</div>
+                <div class="tech-chip"><i class="fab fa-docker text-[#2496ED]"></i>Docker</div>
+                <div class="tech-chip"><i class="fas fa-dharmachakra text-[#326CE5]"></i>Kubernetes</div>
+            </div>
+        </div>
+
+        <!-- Row 2: meccatronica (right / reverse) -->
+        <div class="tech-marquee reverse mt-3">
+            <div class="tech-marquee-track">
+                <div class="tech-chip"><i class="fas fa-cube text-[#FF0000]"></i>SolidWorks</div>
+                <div class="tech-chip"><i class="fas fa-drafting-compass text-[#0696D7]"></i>Autodesk Inventor</div>
+                <div class="tech-chip"><i class="fas fa-print text-[#FF6B00]"></i>Stampa 3D</div>
+                <div class="tech-chip"><i class="fas fa-sitemap text-[#6B7280]"></i>PDM / PLM</div>
+                <div class="tech-chip"><i class="fas fa-industry text-[#0FAAFF]"></i>SAP</div>
+                <div class="tech-chip"><i class="fas fa-microchip text-indigo3"></i>Simulazione FEM</div>
+                <div class="tech-chip"><i class="fas fa-bolt text-amber3"></i>Automazione industriale</div>
+                <!-- duplicate -->
+                <div class="tech-chip"><i class="fas fa-cube text-[#FF0000]"></i>SolidWorks</div>
+                <div class="tech-chip"><i class="fas fa-drafting-compass text-[#0696D7]"></i>Autodesk Inventor</div>
+                <div class="tech-chip"><i class="fas fa-print text-[#FF6B00]"></i>Stampa 3D</div>
+                <div class="tech-chip"><i class="fas fa-sitemap text-[#6B7280]"></i>PDM / PLM</div>
+                <div class="tech-chip"><i class="fas fa-industry text-[#0FAAFF]"></i>SAP</div>
+                <div class="tech-chip"><i class="fas fa-microchip text-indigo3"></i>Simulazione FEM</div>
+                <div class="tech-chip"><i class="fas fa-bolt text-amber3"></i>Automazione industriale</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== Editorial marquee ================== -->
+    <div class="marquee dark" aria-hidden="true">
+        <div class="marquee-track">
+            <span class="marquee-item">Poste Italiane</span>
+            <span class="marquee-item">Lavazza</span>
+            <span class="marquee-item">Leroy Merlin</span>
+            <span class="marquee-item">Assicurazioni Generali</span>
+            <span class="marquee-item">Zucchetti</span>
+            <span class="marquee-item">Goglio</span>
+            <span class="marquee-item">Arup</span>
+            <span class="marquee-item">Mia-Platform</span>
+            <span class="marquee-item">Beta 80</span>
+            <span class="marquee-item">Poste Italiane</span>
+            <span class="marquee-item">Lavazza</span>
+            <span class="marquee-item">Leroy Merlin</span>
+            <span class="marquee-item">Assicurazioni Generali</span>
+            <span class="marquee-item">Zucchetti</span>
+            <span class="marquee-item">Goglio</span>
+            <span class="marquee-item">Arup</span>
+        </div>
+    </div>
+
+    <!-- ================== Portfolio ================== -->
+    <section id="portfolio" class="section-pad">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
+                <div>
+                    <span class="eyebrow">Portfolio</span>
+                    <h2 class="mt-6 text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-3xl">
+                        Progetti <span class="font-display italic">flagship</span> per brand che contano.
+                    </h2>
+                </div>
+                <p class="text-ink-soft text-lg max-w-md">
+                    Collaboriamo con aziende leader — enterprise, PMI e startup innovative — sviluppando soluzioni su misura.
                 </p>
             </div>
 
-            <!-- Software Development -->
-            <div class="mb-12">
-                <h3 class="text-lg font-semibold text-gray-700 text-center mb-6">Sviluppo Software</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-                    <!-- React -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fab fa-react text-4xl text-[#61DAFB] mb-3"></i>
-                        <div class="font-semibold text-gray-700">React</div>
-                    </div>
-                    <!-- Node.js -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fab fa-node-js text-4xl text-[#339933] mb-3"></i>
-                        <div class="font-semibold text-gray-700">Node.js</div>
-                    </div>
-                    <!-- TypeScript -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-code text-4xl text-[#3178C6] mb-3"></i>
-                        <div class="font-semibold text-gray-700">TypeScript</div>
-                    </div>
-                    <!-- .NET -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fab fa-microsoft text-4xl text-[#512BD4] mb-3"></i>
-                        <div class="font-semibold text-gray-700">.NET</div>
-                    </div>
-                    <!-- C# -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-hashtag text-4xl text-[#239120] mb-3"></i>
-                        <div class="font-semibold text-gray-700">C#</div>
-                    </div>
-                    <!-- SQL -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-database text-4xl text-[#336791] mb-3"></i>
-                        <div class="font-semibold text-gray-700">SQL</div>
-                    </div>
-                    <!-- MongoDB -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-leaf text-4xl text-[#47A248] mb-3"></i>
-                        <div class="font-semibold text-gray-700">MongoDB</div>
-                    </div>
-                    <!-- GraphQL -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-project-diagram text-4xl text-[#E10098] mb-3"></i>
-                        <div class="font-semibold text-gray-700">GraphQL</div>
-                    </div>
-                    <!-- Docker -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fab fa-docker text-4xl text-[#2496ED] mb-3"></i>
-                        <div class="font-semibold text-gray-700">Docker</div>
-                    </div>
-                    <!-- Kubernetes -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-dharmachakra text-4xl text-[#326CE5] mb-3"></i>
-                        <div class="font-semibold text-gray-700">Kubernetes</div>
-                    </div>
-                </div>
+            <!-- Flagship grid -->
+            <div class="flagship-grid mb-20">
+                <article class="flagship-card">
+                    <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="flagship-logo">
+                    <p class="flagship-label">Progetto industriale</p>
+                    <p class="mt-2 text-ink leading-snug">Progettazione e sviluppo di un impianto di inscatolamento on-demand.</p>
+                </article>
+                <article class="flagship-card">
+                    <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="flagship-logo">
+                    <p class="flagship-label">Impianto · 5M€+</p>
+                    <p class="mt-2 text-ink leading-snug">Automazione confezionamento caffè da 160 kg/min. Dalla progettazione all'industrializzazione.</p>
+                </article>
+                <article class="flagship-card">
+                    <img src="images/logos/generali-logo.png" alt="Assicurazioni Generali" class="flagship-logo">
+                    <p class="flagship-label">Consulenza IT</p>
+                    <p class="mt-2 text-ink leading-snug">Architetture software e leadership del team di sviluppo nel settore assicurativo.</p>
+                </article>
+                <article class="flagship-card">
+                    <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="flagship-logo">
+                    <p class="flagship-label">Web app retail</p>
+                    <p class="mt-2 text-ink leading-snug">Composizione e stampa automatica di schede tecniche nei punti vendita.</p>
+                </article>
+                <article class="flagship-card">
+                    <img src="images/logos/voidless-logo.png" alt="Voidless" class="flagship-logo">
+                    <p class="flagship-label">R&amp;D hardware · 1M€+</p>
+                    <p class="mt-2 text-ink leading-snug">R&amp;D macchine packaging cartone: dal prototipo all'industrializzazione.</p>
+                </article>
+                <article class="flagship-card">
+                    <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="flagship-logo">
+                    <p class="flagship-label">Data engineering</p>
+                    <p class="mt-2 text-ink leading-snug">Pipeline di data engineering finanziario: dati di 30M+ aziende europee.</p>
+                </article>
             </div>
 
-            <!-- Mechanical Engineering & CAD -->
+            <!-- Tutti i clienti — carousel rows -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-700 text-center mb-6">Meccatronica & CAD 3D</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-                    <!-- SolidWorks -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-cube text-4xl text-[#FF0000] mb-3"></i>
-                        <div class="font-semibold text-gray-700">SolidWorks</div>
-                    </div>
-                    <!-- Autodesk Inventor -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-drafting-compass text-4xl text-[#0696D7] mb-3"></i>
-                        <div class="font-semibold text-gray-700">Autodesk Inventor</div>
-                    </div>
-                    <!-- 3D Printing -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-print text-4xl text-[#FF6B00] mb-3"></i>
-                        <div class="font-semibold text-gray-700">Stampa 3D</div>
-                    </div>
-                    <!-- PDM/PLM -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-sitemap text-4xl text-[#6B7280] mb-3"></i>
-                        <div class="font-semibold text-gray-700">PDM/PLM</div>
-                    </div>
-                    <!-- SAP -->
-                    <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
-                        <i class="fas fa-industry text-4xl text-[#0FAAFF] mb-3"></i>
-                        <div class="font-semibold text-gray-700">SAP</div>
-                    </div>
+                <div class="flex items-center gap-4 mb-8">
+                    <span class="font-display italic text-2xl text-ink-soft">Tutti i clienti</span>
+                    <hr class="flex-1 rule">
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Portfolio</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Collaboriamo con aziende leader, sviluppando soluzioni su misura
-                </p>
-            </div>
-
-            <!-- Clienti -->
-            <div class="mb-16">
-                <h3 class="text-xl font-semibold text-gray-700 text-center mb-8">Alcune delle nostre collaborazioni</h3>
-                <!-- Riga 1: verso sinistra -->
+                <!-- Row 1: left -->
                 <div class="carousel-row mb-3">
                     <div class="carousel-track carousel-track-left">
                         <div class="flex gap-3 sm:gap-4 px-2">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Poste Italiane" data-desc="Progettazione e sviluppo impianto di inscatolamento on demand">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Lavazza" data-desc="Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Leroy Merlin" data-desc="Web app per composizione e stampa automatica di schede tecniche nei punti vendita">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Assicurazioni Generali" data-desc="Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Zucchetti" data-desc="Sviluppo servizi frontend per piattaforma welfare aziendale">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                         </div>
                         <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Poste Italiane" data-desc="Progettazione e sviluppo impianto di inscatolamento on demand">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Lavazza" data-desc="Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Leroy Merlin" data-desc="Web app per composizione e stampa automatica di schede tecniche nei punti vendita">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Assicurazioni Generali" data-desc="Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Zucchetti" data-desc="Sviluppo servizi frontend per piattaforma welfare aziendale">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                         </div>
                         <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Poste Italiane" data-desc="Progettazione e sviluppo impianto di inscatolamento on demand">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/poste-italiane-logo.webp" alt="Poste Italiane" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Lavazza" data-desc="Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/lavazza-logo.png" alt="Lavazza" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Leroy Merlin" data-desc="Web app per composizione e stampa automatica di schede tecniche nei punti vendita">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/leroy-merlin-logo.png" alt="Leroy Merlin" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Assicurazioni Generali" data-desc="Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/generali-logo.png" alt="Generali" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Zucchetti" data-desc="Sviluppo servizi frontend per piattaforma welfare aziendale">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/zucchetti-logo.svg" alt="Zucchetti" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Riga 2: verso destra -->
+
+                <!-- Row 2: right -->
                 <div class="carousel-row mb-3">
                     <div class="carousel-track carousel-track-right">
                         <div class="flex gap-3 sm:gap-4 px-2">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Goglio" data-desc="Piattaforma web ricambi con visualizzazione 2D/3D">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Arup" data-desc="Modellazione impiantistica edifici e analisi sostenibilità energetica">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Mia-Platform" data-desc="Software R&amp;D e sviluppo piattaforma API management">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Beta 80" data-desc="Sviluppo applicativi frontend e consulenza IT">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="RTM Breda" data-desc="Simulazione numerica FEM per formatura titanio in componenti aeronautici">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="3D Business" data-desc="Ricerca e sviluppo hardware stampanti 3D">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="8853 S.p.A." data-desc="Migrazione sistema operativo piattaforma aziendale">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
                                 </div>
                             </div>
                         </div>
                         <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Goglio" data-desc="Piattaforma web ricambi con visualizzazione 2D/3D">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Arup" data-desc="Modellazione impiantistica edifici e analisi sostenibilità energetica">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Mia-Platform" data-desc="Software R&amp;D e sviluppo piattaforma API management">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Beta 80" data-desc="Sviluppo applicativi frontend e consulenza IT">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="RTM Breda" data-desc="Simulazione numerica FEM per formatura titanio in componenti aeronautici">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="3D Business" data-desc="Ricerca e sviluppo hardware stampanti 3D">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="8853 S.p.A." data-desc="Migrazione sistema operativo piattaforma aziendale">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
                                 </div>
                             </div>
                         </div>
                         <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Goglio" data-desc="Piattaforma web ricambi con visualizzazione 2D/3D">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/goglio-logo.png" alt="Goglio" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Arup" data-desc="Modellazione impiantistica edifici e analisi sostenibilità energetica">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/arup-logo.svg" alt="Arup" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Mia-Platform" data-desc="Software R&amp;D e sviluppo piattaforma API management">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/mia-platform-logo.png" alt="Mia-Platform" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Beta 80" data-desc="Sviluppo applicativi frontend e consulenza IT">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/beta80-logo.svg" alt="Beta 80" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="RTM Breda" data-desc="Simulazione numerica FEM per formatura titanio in componenti aeronautici">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/rtm-breda-logo.jpg" alt="RTM Breda" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="3D Business" data-desc="Ricerca e sviluppo hardware stampanti 3D">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/3dbusiness-logo.png" alt="3D Business" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="8853 S.p.A." data-desc="Migrazione sistema operativo piattaforma aziendale">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/8853-logo.svg" alt="8853 S.p.A." class="max-h-full max-w-[70%] object-contain">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Riga 3: verso sinistra -->
+
+                <!-- Row 3: left (slower) -->
                 <div class="carousel-row">
-                    <div class="carousel-track carousel-track-left" style="animation-duration: 35s;">
+                    <div class="carousel-track carousel-track-left" style="animation-duration: 42s;">
                         <div class="flex gap-3 sm:gap-4 px-2">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Voidless" data-desc="R&amp;D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="RareEarth" data-desc="Progettazione macchinari per riciclaggio magneti a terre rare">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="NewtonThrust" data-desc="Sviluppo full-stack marketplace automotive">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="YunoAI" data-desc="Pipeline di data engineering finanziario. Dati di 30M+ aziende europee">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                         </div>
                         <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Voidless" data-desc="R&amp;D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="RareEarth" data-desc="Progettazione macchinari per riciclaggio magneti a terre rare">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="NewtonThrust" data-desc="Sviluppo full-stack marketplace automotive">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="YunoAI" data-desc="Pipeline di data engineering finanziario. Dati di 30M+ aziende europee">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                         </div>
                         <div class="flex gap-3 sm:gap-4 px-2" aria-hidden="true">
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="Voidless" data-desc="R&amp;D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/voidless-logo.png" alt="Voidless" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="RareEarth" data-desc="Progettazione macchinari per riciclaggio magneti a terre rare">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/rarearth-logo.svg" alt="RareEarth" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="NewtonThrust" data-desc="Sviluppo full-stack marketplace automotive">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/newtonthrust-logo.svg" alt="NewtonThrust" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
                             <div class="client-card cursor-pointer flex-shrink-0" data-name="YunoAI" data-desc="Pipeline di data engineering finanziario. Dati di 30M+ aziende europee">
-                                <div class="card-inner bg-white rounded-lg px-6 py-4 shadow-sm transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                <div class="card-inner px-6 py-4 flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
                                     <img src="images/logos/yunoai-logo.avif" alt="YunoAI" class="max-h-full max-w-full object-contain">
                                 </div>
                             </div>
@@ -671,103 +811,122 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Contatti Section -->
-    <section id="contatti" class="py-20 bg-gradient-to-br from-primary via-secondary to-accent text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Iniziamo a Collaborare</h2>
-                <p class="text-xl text-blue-100 max-w-2xl mx-auto">
-                    Hai un progetto in mente? Contattaci per discutere come possiamo aiutarti a realizzarlo.
-                </p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                <a href="mailto:info@3000tech.it"
-                    class="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center hover:bg-white/20 transition-colors">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-envelope text-2xl"></i>
+    <!-- ================== Contact ================== -->
+    <section id="contatti" class="relative bg-ink text-white overflow-hidden">
+        <div class="absolute inset-0 dot-grid opacity-[0.08] pointer-events-none"></div>
+        <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(245,158,11,0.2) 0%, transparent 70%);"></div>
+
+        <div class="relative section-pad">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-12 items-start">
+                    <!-- Left: big CTA -->
+                    <div class="lg:col-span-7">
+                        <span class="eyebrow" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7);">Contatti</span>
+                        <h2 class="mt-6 text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
+                            Hai un progetto<br>
+                            <span class="font-display italic text-amber3">in mente?</span>
+                        </h2>
+                        <p class="mt-6 text-xl text-white/70 max-w-lg leading-relaxed">
+                            Scrivici, chiamaci o prendi un caffè a Milano. Rispondiamo entro 24&nbsp;ore.
+                        </p>
+                        <a href="mailto:info@3000tech.it" class="btn btn-amber mt-10">
+                            Scrivici una mail <span class="arrow">↗</span>
+                        </a>
                     </div>
-                    <h3 class="text-lg font-semibold mb-2">Email</h3>
-                    <p class="text-blue-100 text-sm break-all">info@3000tech.it</p>
-                </a>
-                <a href="tel:+393780815788"
-                    class="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center hover:bg-white/20 transition-colors">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-phone text-2xl"></i>
+
+                    <!-- Right: contact grid -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <a href="mailto:info@3000tech.it"
+                           class="group flex items-start gap-5 p-6 rounded-2xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-amber3/40 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-amber3/15 border border-amber3/25 flex items-center justify-center shrink-0">
+                                <i class="fas fa-envelope text-amber3"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-xs uppercase tracking-widest text-white/50">Email</div>
+                                <div class="mt-1 text-lg break-all">info@3000tech.it</div>
+                            </div>
+                            <span class="text-white/40 group-hover:text-amber3 transition-colors">↗</span>
+                        </a>
+                        <a href="tel:+393780815788"
+                           class="group flex items-start gap-5 p-6 rounded-2xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:border-amber3/40 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-amber3/15 border border-amber3/25 flex items-center justify-center shrink-0">
+                                <i class="fas fa-phone text-amber3"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-xs uppercase tracking-widest text-white/50">Telefono</div>
+                                <div class="mt-1 text-lg">+39 378 0815788</div>
+                            </div>
+                            <span class="text-white/40 group-hover:text-amber3 transition-colors">↗</span>
+                        </a>
+                        <div class="flex items-start gap-5 p-6 rounded-2xl bg-white/[0.04] border border-white/10">
+                            <div class="w-12 h-12 rounded-xl bg-amber3/15 border border-amber3/25 flex items-center justify-center shrink-0">
+                                <i class="fas fa-map-marker-alt text-amber3"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs uppercase tracking-widest text-white/50">Sede</div>
+                                <div class="mt-1 text-lg">Milano, Italia</div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 pt-4">
+                            <a href="https://www.linkedin.com/company/3000tech" target="_blank" rel="noopener noreferrer"
+                               class="w-12 h-12 rounded-full bg-white/[0.04] border border-white/10 hover:bg-amber3 hover:border-amber3 hover:text-ink flex items-center justify-center transition-all">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://github.com/matteo-michele-bianchini" target="_blank" rel="noopener noreferrer"
+                               class="w-12 h-12 rounded-full bg-white/[0.04] border border-white/10 hover:bg-amber3 hover:border-amber3 hover:text-ink flex items-center justify-center transition-all">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-semibold mb-2">Telefono</h3>
-                    <p class="text-blue-100">+39 378 0815788</p>
-                </a>
-                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center">
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-map-marker-alt text-2xl"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-2">Sede</h3>
-                    <p class="text-blue-100">Milano, Italia</p>
                 </div>
-            </div>
-            <div class="flex justify-center gap-6 mt-12">
-                <a href="https://www.linkedin.com/company/3000tech" target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-                    <i class="fab fa-linkedin-in text-2xl"></i>
-                </a>
-                <a href="https://github.com/matteo-michele-bianchini" target="_blank" rel="noopener noreferrer"
-                    class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-                    <i class="fab fa-github text-2xl"></i>
-                </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center gap-2 mb-1">
-                        <img src="favicon.svg" alt="Logo" class="w-8 h-8">
-                        <p class="text-lg font-semibold text-white">3000Tech</p>
+    <!-- ================== Footer ================== -->
+    <footer class="bg-ink text-white/60 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-2">
+                        <img src="favicon.svg" alt="Logo" class="w-7 h-7">
+                        <span class="text-lg font-medium text-white">3000<span class="font-display italic">Tech</span></span>
                     </div>
-                    <p class="text-sm">di Matteo Michele Bianchini</p>
-                    <p class="text-sm">Impresa Individuale con sede in Milano, Italia</p>
-                    <p class="text-sm">P.IVA: 14501800966</p>
+                    <p class="text-sm">di Matteo Michele Bianchini — Impresa Individuale · Milano, Italia</p>
+                    <p class="text-xs mt-1 text-white/40">P.IVA: 14501800966</p>
                 </div>
-                <div class="flex space-x-6">
-                    <a href="mailto:info@3000tech.it" class="hover:text-white transition-colors">
-                        <i class="fas fa-envelope text-xl"></i>
-                    </a>
-                    <a href="tel:+393780815788" class="hover:text-white transition-colors">
-                        <i class="fas fa-phone text-xl"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/3000tech" target="_blank"
-                        rel="noopener noreferrer" class="hover:text-white transition-colors">
-                        <i class="fab fa-linkedin-in text-xl"></i>
-                    </a>
+                <div class="flex items-center gap-6 text-sm">
+                    <a href="mailto:info@3000tech.it" class="hover:text-white transition-colors">info@3000tech.it</a>
+                    <a href="tel:+393780815788" class="hover:text-white transition-colors">+39 378 0815788</a>
+                    <a href="https://www.linkedin.com/company/3000tech" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-white transition-colors"><i class="fab fa-linkedin-in"></i></a>
                     <a href="https://github.com/matteo-michele-bianchini" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-white transition-colors">
-                        <i class="fab fa-github text-xl"></i>
-                    </a>
+                        class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+            <div class="border-t border-white/5 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-white/40">
                 <p>&copy; 2026 3000Tech di Matteo Michele Bianchini. Tutti i diritti riservati.</p>
+                <p class="font-display italic">Fatto con cura a Milano.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Client overlay (preserved) -->
     <div id="client-overlay" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none" style="opacity:0;transition:opacity 0.3s ease;">
         <div class="absolute inset-0 bg-black/40"></div>
         <div id="overlay-card" class="relative bg-white rounded-2xl shadow-2xl px-8 py-6 max-w-xs text-center" style="transform:scale(0.92) translateY(8px);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);">
             <p id="overlay-name" class="text-lg font-bold text-gray-900"></p>
-            <div class="w-8 h-0.5 bg-blue-600 mx-auto my-3"></div>
+            <div class="w-8 h-0.5 bg-amber-500 mx-auto my-3"></div>
             <p id="overlay-desc" class="text-gray-600 text-sm"></p>
         </div>
     </div>
+
     <script src="js/main.js"></script>
-    </body>
+</body>
 
 </html>
