@@ -80,6 +80,20 @@ html {
     0%, 100% { box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25); }
     50%      { box-shadow: 0 0 0 8px rgba(147, 197, 253, 0);    }
 }
+.eyebrow.eyebrow-light {
+    color: rgba(17, 24, 39, 0.8);
+    border-color: rgba(17, 24, 39, 0.12);
+    background: rgba(17, 24, 39, 0.04);
+}
+.eyebrow.eyebrow-light::before {
+    background: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
+    animation: eyebrow-pulse-light 2s ease-in-out infinite;
+}
+@keyframes eyebrow-pulse-light {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22); }
+    50%      { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);    }
+}
 
 /* =========================================================
    Buttons
