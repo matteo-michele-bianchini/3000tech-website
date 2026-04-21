@@ -17,33 +17,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Animated stat counters
+    // Animated stat counters — sequential finish (first ends first, last ends last)
     var counters = document.querySelectorAll('.stat-counter');
     if (counters.length && 'IntersectionObserver' in window) {
         var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var animateCounter = function(el) {
+        var duration = 1200;
+        var stagger = 400;
+        var animateCounter = function(el, delay) {
             var match = el.textContent.match(/^(\d+)(.*)$/);
             if (!match) return;
             var target = parseInt(match[1], 10);
             var suffix = match[2];
             if (prefersReduced) { el.textContent = target + suffix; return; }
-            var duration = 1600;
-            var startTime = performance.now();
-            el.textContent = '0' + suffix;
+            var start = 1;
+            el.textContent = start + suffix;
+            var startTime = null;
             var step = function(now) {
-                var t = Math.min((now - startTime) / duration, 1);
+                if (startTime === null) startTime = now + delay;
+                var t = Math.min(Math.max((now - startTime) / duration, 0), 1);
                 var eased = 1 - Math.pow(1 - t, 4);
-                el.textContent = Math.round(target * eased) + suffix;
+                el.textContent = Math.round(start + (target - start) * eased) + suffix;
                 if (t < 1) requestAnimationFrame(step);
             };
             requestAnimationFrame(step);
         };
+        var startedGroup = false;
         var counterObserver = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    counterObserver.unobserve(entry.target);
-                }
+            if (startedGroup) return;
+            var anyVisible = entries.some(function(e) { return e.isIntersecting; });
+            if (!anyVisible) return;
+            startedGroup = true;
+            counters.forEach(function(el, i) {
+                animateCounter(el, i * stagger);
+                counterObserver.unobserve(el);
             });
         }, { threshold: 0.5 });
         counters.forEach(function(c) { counterObserver.observe(c); });
