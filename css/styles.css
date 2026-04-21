@@ -2,7 +2,9 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Carousel */
+/* =========================================================
+   Carousel
+   ========================================================= */
 @keyframes scroll-left {
     0% { transform: translateX(0); }
     100% { transform: translateX(-33.333%); }
@@ -21,3 +23,242 @@ html {
     -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 .carousel-row:hover .carousel-track { animation-play-state: paused; }
+
+/* =========================================================
+   Hero — typography helpers
+   ========================================================= */
+.font-display {
+    letter-spacing: -0.01em;
+}
+
+.dot-grid {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.highlight-underline {
+    background-image: linear-gradient(transparent 65%, rgba(147, 197, 253, 0.55) 65%, rgba(147, 197, 253, 0.55) 92%, transparent 92%);
+    padding: 0 0.1em;
+}
+
+/* Pill eyebrow label */
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.4rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+.eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #93c5fd;
+    box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.btn-primary {
+    background: #ffffff;
+    color: #1e40af;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -12px rgba(0, 0, 0, 0.45);
+    background: #eff6ff;
+}
+.btn-ghost {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+}
+.btn .arrow { transition: transform 0.2s; display: inline-block; }
+.btn:hover .arrow { transform: translate(3px, -3px); }
+
+/* =========================================================
+   Stat badge — glass card on blue
+   ========================================================= */
+.stat-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    padding: 1.05rem 1.2rem;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.stat-badge:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.stat-badge .num {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+}
+.stat-badge .num .plus {
+    color: #fbbf24;
+    font-style: italic;
+    margin-left: 0.05em;
+}
+.stat-badge .label {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 0.4rem;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+}
+
+/* =========================================================
+   Orbit graphic
+   ========================================================= */
+.orbit-wrap {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+}
+.orbit-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px dashed rgba(255, 255, 255, 0.22);
+    border-radius: 50%;
+}
+.orbit-ring.r2 {
+    inset: 12%;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+.orbit-ring.r3 {
+    inset: 26%;
+    border-style: dashed;
+    border-color: rgba(147, 197, 253, 0.35);
+}
+.orbit-ring.r4 {
+    inset: 40%;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+@keyframes orbit-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+@keyframes orbit-spin-rev {
+    from { transform: rotate(360deg); }
+    to   { transform: rotate(0deg); }
+}
+@keyframes counter-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
+}
+@keyframes counter-spin-rev {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.orbit-track {
+    position: absolute;
+    inset: 0;
+    animation: orbit-spin 40s linear infinite;
+}
+.orbit-track.rev { animation: orbit-spin-rev 55s linear infinite; }
+.orbit-track.slow { animation: orbit-spin 70s linear infinite; }
+
+.orbit-chip {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1e40af;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    animation: counter-spin 40s linear infinite;
+}
+.orbit-track.rev .orbit-chip { animation: counter-spin-rev 55s linear infinite; }
+.orbit-track.slow .orbit-chip { animation: counter-spin 70s linear infinite; }
+
+.orbit-chip i { color: #3b82f6; font-size: 0.9rem; }
+
+.orbit-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #eff6ff 60%, #dbeafe 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1;
+    color: #1e40af;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+.orbit-center em { font-style: italic; font-weight: 500; font-size: 0.9em; opacity: 0.85; }
+
+/* =========================================================
+   Reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+    .orbit-track,
+    .orbit-track.rev,
+    .orbit-track.slow,
+    .orbit-chip,
+    .orbit-track.rev .orbit-chip,
+    .orbit-track.slow .orbit-chip,
+    .carousel-track,
+    .carousel-track-left,
+    .carousel-track-right {
+        animation: none;
+    }
+    html { scroll-behavior: auto; }
+}

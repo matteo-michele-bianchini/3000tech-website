@@ -99,44 +99,89 @@
     </nav>
 
     <!-- Hero Section -->
-    <section
-        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent text-white pt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex flex-col justify-center min-h-[calc(100svh-4rem)] sm:block sm:min-h-0">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                    Ingegneria &<br>
-                    <span class="text-blue-200">Innovazione digitale</span>
-                </h1>
-                <p class="text-xl sm:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-                    R&D, Sviluppo Software e Meccatronica per trasformare le tue idee in soluzioni concrete, scalabili e performanti
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#contatti"
-                        class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-                        Inizia un Progetto
-                    </a>
-                    <a href="#portfolio"
-                        class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
-                        Scopri i Progetti
-                    </a>
+    <section class="relative overflow-hidden bg-gradient-to-br from-primary via-secondary to-accent text-white pt-28 lg:pt-36 pb-16 lg:pb-24">
+        <div class="absolute inset-0 dot-grid opacity-30 pointer-events-none"></div>
+        <div class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(147,197,253,0.35) 0%, transparent 70%);"></div>
+        <div class="absolute -bottom-40 -left-20 w-[500px] h-[500px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(30,64,175,0.4) 0%, transparent 70%);"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+                <!-- Left: headline -->
+                <div class="lg:col-span-7">
+                    <span class="eyebrow">R&amp;D · Software · Meccatronica</span>
+                    <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight">
+                        Ingegneria<br>
+                        &amp; <span class="font-display italic font-normal highlight-underline">innovazione</span><br>
+                        digitale.
+                    </h1>
+                    <p class="mt-8 text-lg sm:text-xl text-blue-100 max-w-xl leading-relaxed">
+                        R&amp;D, Sviluppo Software e Meccatronica per trasformare le tue idee in soluzioni
+                        <em class="font-display not-italic font-bold text-white">concrete, scalabili, performanti.</em>
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-3">
+                        <a href="#contatti" class="btn btn-primary">
+                            Inizia un Progetto <span class="arrow">↗</span>
+                        </a>
+                        <a href="#portfolio" class="btn btn-ghost">
+                            Scopri i Progetti
+                        </a>
+                    </div>
+                    <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+                        <div class="stat-badge">
+                            <div class="num"><span class="stat-counter">15</span><span class="plus">+</span></div>
+                            <div class="label">Anni di esperienza</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="num"><span class="stat-counter">20</span><span class="plus">+</span></div>
+                            <div class="label">Clienti Enterprise &amp; PMI</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="num"><span class="stat-counter">50</span><span class="plus">+</span></div>
+                            <div class="label">Progetti completati</div>
+                        </div>
+                        <div class="stat-badge">
+                            <div class="num"><span class="stat-counter">6</span>M€<span class="plus">+</span></div>
+                            <div class="label">Valore sviluppato</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="mt-16 grid grid-cols-1 sm:grid-cols-4 gap-12 sm:gap-8 text-center pb-16 sm:pb-0">
-                <div>
-                    <div class="text-3xl font-bold stat-counter">15+</div>
-                    <div class="text-blue-200 text-sm">Anni di Esperienza</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold stat-counter">20+</div>
-                    <div class="text-blue-200 text-sm">Clienti (Enterprise e PMI)</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold stat-counter">50+</div>
-                    <div class="text-blue-200 text-sm">Progetti Completati</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold stat-counter">6M€+</div>
-                    <div class="text-blue-200 text-sm">Valore progetti sviluppati</div>
+                <!-- Right: orbit graphic -->
+                <div class="lg:col-span-5 relative mt-12 lg:mt-0">
+                    <div class="orbit-wrap">
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring r2"></div>
+                        <div class="orbit-ring r3"></div>
+                        <div class="orbit-ring r4"></div>
+                        <div class="orbit-track">
+                            <div class="orbit-chip"><i class="fab fa-react"></i> React</div>
+                        </div>
+                        <div class="orbit-track" style="animation-delay: -10s;">
+                            <div class="orbit-chip"><i class="fab fa-node-js"></i> Node.js</div>
+                        </div>
+                        <div class="orbit-track rev" style="animation-delay: -5s;">
+                            <div class="orbit-chip"><i class="fas fa-code"></i> TypeScript</div>
+                        </div>
+                        <div class="orbit-track rev" style="animation-delay: -25s;">
+                            <div class="orbit-chip"><i class="fab fa-microsoft"></i> .NET / C#</div>
+                        </div>
+                        <div class="orbit-track slow" style="animation-delay: -15s;">
+                            <div class="orbit-chip"><i class="fab fa-docker"></i> Docker</div>
+                        </div>
+                        <div class="orbit-track slow" style="animation-delay: -40s;">
+                            <div class="orbit-chip"><i class="fas fa-dharmachakra"></i> Kubernetes</div>
+                        </div>
+                        <div class="orbit-track" style="animation-delay: -30s;">
+                            <div class="orbit-chip"><i class="fas fa-cube"></i> CAD 3D</div>
+                        </div>
+                        <div class="orbit-track rev" style="animation-delay: -45s;">
+                            <div class="orbit-chip"><i class="fas fa-database"></i> PostgreSQL</div>
+                        </div>
+                        <div class="orbit-center">
+                            3000<br><em>Tech</em>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
