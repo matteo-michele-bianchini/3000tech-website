@@ -57,9 +57,18 @@ html {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    white-space: nowrap;
+    max-width: 100%;
+}
+@media (min-width: 640px) {
+    .eyebrow { font-size: 0.66rem; letter-spacing: 0.12em; padding: 0.4rem 1rem; }
+}
+@media (min-width: 1280px) {
+    .eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; }
 }
 .eyebrow::before {
     content: '';
+    flex: 0 0 6px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
