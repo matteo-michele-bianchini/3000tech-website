@@ -12,4 +12,15 @@ cd "$PROJECT"
 if [[ ! " $* " =~ " --label " ]]; then
   set -- --label 3000tech "$@"
 fi
+
+# Open Chrome on localhost:3000 once the dev server responds (runs parallel to blocking docker run)
+(
+  for _ in {1..30}; do
+    curl -sf http://localhost:3000 >/dev/null 2>&1 && break
+    sleep 1
+  done
+  cmd.exe /c start chrome http://localhost:3000 >/dev/null 2>&1
+) &
+disown 2>/dev/null || true
+
 bash "$RUN" --port 3000 "$@"
