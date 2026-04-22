@@ -12,4 +12,4 @@ cd "$PROJECT"
 if [[ ! " $* " =~ " --label " ]]; then
   set -- --label 3000tech "$@"
 fi
-bash "$RUN" "$@"
+bash "$RUN" --port 3000 "$@"

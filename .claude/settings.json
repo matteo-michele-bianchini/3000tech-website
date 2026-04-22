@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if ! ss -tlnp 2>/dev/null | grep -q ':3000 '; then cd /workspace && nohup npm run dev > /tmp/dev.log 2>&1 & disown; fi; true",
+            "async": true,
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
