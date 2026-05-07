@@ -78,7 +78,11 @@ document.addEventListener('DOMContentLoaded', function() {
         activeCard = card;
     }
 
+    var isCarouselDragging = false;
+
     function hideOverlay() {
+        // Keep overlay visible while user is dragging a carousel row
+        if (isCarouselDragging) return;
         overlay.style.opacity = '0';
         overlayCard.style.transform = 'scale(0.92) translateY(8px)';
         document.querySelectorAll('.client-card .card-inner').forEach(function(el) { el.style.boxShadow = ''; });
@@ -98,17 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mobile tap
+    // Block click bubbling from cards so document-click doesn't close the overlay
+    // we just opened on pointerdown
     document.querySelectorAll('.client-card').forEach(function(card) {
-        card.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (activeCard === card) {
-                hideOverlay();
-            } else {
-                hideOverlay();
-                showOverlay(card);
-            }
-        });
+        card.addEventListener('click', function(e) { e.stopPropagation(); });
     });
 
     document.addEventListener('click', function() {
@@ -194,6 +191,114 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             chip.addEventListener('pointerup', release);
             chip.addEventListener('pointercancel', release);
+        });
+    }
+
+    // Carousel: JS-driven scroll + pointer drag (per row, independent)
+    initCarousels();
+
+    function initCarousels() {
+        var tracks = Array.prototype.slice.call(document.querySelectorAll('.carousel-track'));
+        if (!tracks.length) return;
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var DRAG_THRESHOLD = 6; // px before considering pointer move a real drag
+
+        function wrap(x, w) {
+            if (!w || w <= 0) return 0;
+            return ((x % w) + w) % w;
+        }
+
+        var states = tracks.map(function(track) {
+            var period = parseFloat(track.dataset.period) || 30;
+            var dir    = parseFloat(track.dataset.dir)    || 1;
+            return {
+                track: track,
+                period: period,
+                dir: dir,
+                loopWidth: track.scrollWidth / 3 || 1,
+                offset: 0,
+                baseOffset: 0,
+                baseTime: performance.now(),
+                dragging: false,
+                pointerId: null,
+                startClientX: 0,
+                startOffset: 0,
+                moved: false
+            };
+        });
+
+        function refreshWidths() {
+            states.forEach(function(s) {
+                var newW = s.track.scrollWidth / 3;
+                if (newW > 0 && Math.abs(newW - s.loopWidth) > 0.5) {
+                    var ratio = newW / s.loopWidth;
+                    s.offset *= ratio;
+                    s.baseOffset *= ratio;
+                    s.loopWidth = newW;
+                }
+            });
+        }
+        window.addEventListener('resize', refreshWidths);
+        // Images may load after init; recompute once shortly after
+        setTimeout(refreshWidths, 600);
+
+        function tick(now) {
+            for (var i = 0; i < states.length; i++) {
+                var s = states[i];
+                if (!s.dragging && !reduced) {
+                    var elapsed = (now - s.baseTime) / 1000;
+                    s.offset = wrap(s.baseOffset + s.dir * (elapsed / s.period) * s.loopWidth, s.loopWidth);
+                }
+                s.track.style.transform = 'translateX(' + (-s.offset) + 'px)';
+            }
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        states.forEach(function(s) {
+            var track = s.track;
+
+            track.addEventListener('pointerdown', function(ev) {
+                // Open client overlay if pointerdown landed on a card
+                var card = ev.target.closest && ev.target.closest('.client-card');
+                if (card && typeof showOverlay === 'function') showOverlay(card);
+
+                s.dragging = true;
+                s.pointerId = ev.pointerId;
+                s.startClientX = ev.clientX;
+                s.startOffset = s.offset;
+                s.moved = false;
+                track.classList.add('dragging');
+                isCarouselDragging = true;
+                if (typeof track.setPointerCapture === 'function') {
+                    try { track.setPointerCapture(ev.pointerId); } catch (_) {}
+                }
+            });
+
+            track.addEventListener('pointermove', function(ev) {
+                if (!s.dragging || ev.pointerId !== s.pointerId) return;
+                var delta = ev.clientX - s.startClientX;
+                if (!s.moved && Math.abs(delta) > DRAG_THRESHOLD) s.moved = true;
+                s.offset = wrap(s.startOffset - delta, s.loopWidth);
+            });
+
+            function release(ev) {
+                if (!s.dragging || ev.pointerId !== s.pointerId) return;
+                s.dragging = false;
+                track.classList.remove('dragging');
+                s.baseOffset = s.offset;
+                s.baseTime = performance.now();
+                if (typeof track.releasePointerCapture === 'function') {
+                    try { track.releasePointerCapture(ev.pointerId); } catch (_) {}
+                }
+                // Defer clearing the global flag until after the click event
+                // bubbles, so hideOverlay during click doesn't fire.
+                setTimeout(function() {
+                    isCarouselDragging = false;
+                }, 0);
+            }
+            track.addEventListener('pointerup', release);
+            track.addEventListener('pointercancel', release);
         });
     }
 });
