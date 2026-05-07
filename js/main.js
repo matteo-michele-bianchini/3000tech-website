@@ -114,4 +114,86 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function() {
         hideOverlay();
     });
+
+    // Orbit: JS-driven autospin + pointer drag along the ring
+    var orbitWrap = document.querySelector('.orbit-wrap');
+    if (orbitWrap) initOrbit(orbitWrap);
+
+    function initOrbit(wrap) {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var tracks = Array.prototype.slice.call(wrap.querySelectorAll('.orbit-track'));
+        var states = tracks.map(function(track) {
+            var period = parseFloat(track.dataset.period) || 40;
+            var dir    = parseFloat(track.dataset.dir)    || 1;
+            var phase  = parseFloat(track.dataset.phase)  || 0;
+            var initial = reduced ? 0 : dir * ((-phase) / period) * 360;
+            return {
+                track: track,
+                period: period,
+                dir: dir,
+                angle: initial,
+                baseAngle: initial,
+                baseTime: performance.now(),
+                dragging: false,
+                lastPointer: 0
+            };
+        });
+
+        function tick(now) {
+            for (var i = 0; i < states.length; i++) {
+                var s = states[i];
+                if (!s.dragging && !reduced) {
+                    var elapsed = (now - s.baseTime) / 1000;
+                    s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
+                }
+                s.track.style.transform = 'rotate(' + s.angle + 'deg)';
+            }
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        function pointerAngle(ev) {
+            var r = wrap.getBoundingClientRect();
+            return Math.atan2(ev.clientY - (r.top + r.height / 2),
+                              ev.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+        }
+
+        states.forEach(function(s) {
+            var chip = s.track.querySelector('.orbit-chip');
+            if (!chip) return;
+
+            chip.addEventListener('pointerdown', function(ev) {
+                if (typeof chip.setPointerCapture === 'function') {
+                    try { chip.setPointerCapture(ev.pointerId); } catch (_) {}
+                }
+                s.dragging = true;
+                s.lastPointer = pointerAngle(ev);
+                chip.classList.add('dragging');
+                ev.preventDefault();
+            });
+
+            chip.addEventListener('pointermove', function(ev) {
+                if (!s.dragging) return;
+                var a = pointerAngle(ev);
+                var step = a - s.lastPointer;
+                // unwrap to nearest small step (handles -180/180 boundary)
+                step = ((step + 540) % 360) - 180;
+                s.angle += step;
+                s.lastPointer = a;
+            });
+
+            function release(ev) {
+                if (!s.dragging) return;
+                s.dragging = false;
+                chip.classList.remove('dragging');
+                s.baseAngle = s.angle;
+                s.baseTime = performance.now();
+                if (typeof chip.releasePointerCapture === 'function') {
+                    try { chip.releasePointerCapture(ev.pointerId); } catch (_) {}
+                }
+            }
+            chip.addEventListener('pointerup', release);
+            chip.addEventListener('pointercancel', release);
+        });
+    }
 });

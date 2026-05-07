@@ -177,6 +177,8 @@ html {
     width: 100%;
     max-width: 520px;
     margin: 0 auto;
+    /* Only chips should catch pointer events — ring/track/center boxes are inert */
+    pointer-events: none;
 }
 .orbit-ring {
     position: absolute;
@@ -200,14 +202,6 @@ html {
     border-color: rgba(255, 255, 255, 0.08);
 }
 
-@keyframes orbit-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-}
-@keyframes orbit-spin-rev {
-    from { transform: rotate(360deg); }
-    to   { transform: rotate(0deg); }
-}
 @keyframes chip-spin {
     from { transform: translateX(-50%) rotate(0deg); }
     to   { transform: translateX(-50%) rotate(360deg); }
@@ -216,10 +210,8 @@ html {
 .orbit-track {
     position: absolute;
     inset: 0;
-    animation: orbit-spin 40s linear infinite;
+    will-change: transform;
 }
-.orbit-track.rev { animation: orbit-spin-rev 55s linear infinite; }
-.orbit-track.slow { animation: orbit-spin 70s linear infinite; }
 .orbit-track.mid { inset: 13%; }
 .orbit-track.inner { inset: 27%; }
 
@@ -241,6 +233,24 @@ html {
     align-items: center;
     gap: 0.4rem;
     animation: chip-spin 8s linear infinite;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: auto;
+}
+/* Invisible hit area for comfortable touch targets */
+.orbit-chip::before {
+    content: "";
+    position: absolute;
+    inset: -10px -8px;
+    border-radius: inherit;
+}
+.orbit-chip.dragging {
+    cursor: grabbing;
+    animation: none;
+    z-index: 5;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 
 .orbit-chip i { font-size: 0.9rem; }
@@ -281,12 +291,7 @@ html {
    Reduced motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
-    .orbit-track,
-    .orbit-track.rev,
-    .orbit-track.slow,
     .orbit-chip,
-    .orbit-track.rev .orbit-chip,
-    .orbit-track.slow .orbit-chip,
     .carousel-track,
     .carousel-track-left,
     .carousel-track-right {
