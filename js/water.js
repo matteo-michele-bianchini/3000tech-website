@@ -57,6 +57,13 @@
         var DROP_STR_CLICK = 0.06;
         var MOVE_THROTTLE_MS = 80;
 
+        // 1 unit of sim_uv = PX_PER_LAKE px on the canvas, on both axes.
+        // Fixed scale (instead of fitting v_uv to the canvas) means a smaller
+        // window shows a smaller crop of the SAME simulation rather than a
+        // stretched / squashed one. Larger than common viewports so the lake's
+        // edge damping zone stays off-screen.
+        var PX_PER_LAKE = 2400;
+
         var fullscreenVS = '\n' +
             'attribute vec2 a_pos;\n' +
             'varying vec2 v_uv;\n' +
@@ -114,17 +121,21 @@
         // Render: transparent overlay that emits only specular highlights from
         // the wave surface. The DOM under the canvas is the actual hero content;
         // mix-blend-mode: screen on the canvas adds these highlights on top.
-        // Premultiplied alpha so the canvas composites cleanly with the page.
+        // Sampled in lake-space (constant pixel scale on both axes) via
+        // gl_FragCoord so the simulation never stretches with the canvas
+        // aspect ratio. Outside the lake the texture is CLAMP_TO_EDGE.
         var renderFS = '\n' +
             'precision highp float;\n' +
             'uniform sampler2D u_height;\n' +
             'uniform vec2 u_texel;\n' +
-            'varying vec2 v_uv;\n' +
+            'uniform vec2 u_canvas;\n' +
+            'uniform float u_pxPerLake;\n' +
             'void main() {\n' +
-            '  float hl = texture2D(u_height, v_uv - vec2(u_texel.x, 0.0)).r;\n' +
-            '  float hr = texture2D(u_height, v_uv + vec2(u_texel.x, 0.0)).r;\n' +
-            '  float hu = texture2D(u_height, v_uv - vec2(0.0, u_texel.y)).r;\n' +
-            '  float hd = texture2D(u_height, v_uv + vec2(0.0, u_texel.y)).r;\n' +
+            '  vec2 simUv = (gl_FragCoord.xy - u_canvas * 0.5) / u_pxPerLake + 0.5;\n' +
+            '  float hl = texture2D(u_height, simUv - vec2(u_texel.x, 0.0)).r;\n' +
+            '  float hr = texture2D(u_height, simUv + vec2(u_texel.x, 0.0)).r;\n' +
+            '  float hu = texture2D(u_height, simUv - vec2(0.0, u_texel.y)).r;\n' +
+            '  float hd = texture2D(u_height, simUv + vec2(0.0, u_texel.y)).r;\n' +
             '  vec2 slope = vec2(hr - hl, hd - hu);\n' +
             '  vec3 normal = normalize(vec3(-slope * 110.0, 1.0));\n' +
             '  vec3 lightDir = normalize(vec3(-0.4, -0.4, 1.0));\n' +
@@ -218,13 +229,16 @@
 
         function localUv(ev) {
             var r = canvas.getBoundingClientRect();
-            var x = (ev.clientX - r.left) / r.width;
-            var y = (ev.clientY - r.top) / r.height;
-            // Caller wants a UV inside the canvas, but pointer can be outside the
-            // hero on the document level. Clamp here, drops outside become no-ops.
-            if (x < 0 || x > 1 || y < 0 || y > 1) return null;
-            // GL has y=0 at bottom; CSS has y=0 at top → flip
-            return [x, 1.0 - y];
+            var px = ev.clientX - r.left;
+            var py = ev.clientY - r.top;
+            // Reject events that landed outside the displayed canvas
+            if (px < 0 || px > r.width || py < 0 || py > r.height) return null;
+            // Match the render shader's lake-space mapping. gl_FragCoord has
+            // y=0 at the bottom; convert CSS y (top=0) before mapping.
+            var glPy = r.height - py;
+            var simU = (px - r.width  * 0.5) / PX_PER_LAKE + 0.5;
+            var simV = (glPy - r.height * 0.5) / PX_PER_LAKE + 0.5;
+            return [simU, simV];
         }
 
         function pushDrop(uv, radius, strength) {
@@ -256,8 +270,10 @@
         var uDropRadius   = gl.getUniformLocation(progDrop, 'u_radius');
         var uDropStrength = gl.getUniformLocation(progDrop, 'u_strength');
 
-        var uRenderHeight = gl.getUniformLocation(progRender, 'u_height');
-        var uRenderTexel  = gl.getUniformLocation(progRender, 'u_texel');
+        var uRenderHeight  = gl.getUniformLocation(progRender, 'u_height');
+        var uRenderTexel   = gl.getUniformLocation(progRender, 'u_texel');
+        var uRenderCanvas  = gl.getUniformLocation(progRender, 'u_canvas');
+        var uRenderPxPerLk = gl.getUniformLocation(progRender, 'u_pxPerLake');
 
         function passUpdate() {
             // bufA -> bufB
@@ -297,6 +313,9 @@
             gl.bindTexture(gl.TEXTURE_2D, bufA.tex);
             gl.uniform1i(uRenderHeight, 0);
             gl.uniform2f(uRenderTexel, simTexel[0], simTexel[1]);
+            gl.uniform2f(uRenderCanvas, canvas.width, canvas.height);
+            // PX_PER_LAKE is in CSS px; scale by the dpr the canvas uses
+            gl.uniform1f(uRenderPxPerLk, PX_PER_LAKE * (canvas.width / Math.max(1, canvas.clientWidth)));
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
         }
 
