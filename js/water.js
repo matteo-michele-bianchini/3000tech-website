@@ -90,9 +90,10 @@
             '  float r = texture2D(u_curr, v_uv + vec2(t.x, 0.0)).r;\n' +
             '  float u = texture2D(u_curr, v_uv - vec2(0.0, t.y)).r;\n' +
             '  float d = texture2D(u_curr, v_uv + vec2(0.0, t.y)).r;\n' +
-            '  // Wave eq with CFL coefficient α=0.2 (lower = slower propagation;\n' +
-            '  // stable while α ≤ 0.5). Form: (2-4α)c + α·Σneighbors - p.\n' +
-            '  float n = 1.2 * c + 0.2 * (l + r + u + d) - p;\n' +
+            '  // Wave eq with CFL coefficient α=0.08 (lower = slower propagation;\n' +
+            '  // stable while α ≤ 0.5; below ~0.05 the system degenerates to\n' +
+            '  // diffusion). Form: (2-4α)c + α·Σneighbors - p.\n' +
+            '  float n = 1.68 * c + 0.08 * (l + r + u + d) - p;\n' +
             '  // Distance to nearest edge in [0, 0.5]\n' +
             '  float edgeDist = min(min(v_uv.x, 1.0 - v_uv.x), min(v_uv.y, 1.0 - v_uv.y));\n' +
             '  // 1.0 inside, smoothly decays to 0.85 at the very edge\n' +
