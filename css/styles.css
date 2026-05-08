@@ -288,6 +288,43 @@ html {
 .orbit-center em { font-style: italic; font-weight: 500; font-size: 0.9em; opacity: 0.85; }
 
 /* =========================================================
+   Dark mode adjustments for custom helpers
+   ========================================================= */
+/* Eyebrow used on light sections (Portfolio, About, …) needs to flip
+   from "dark text on light bg" to "light text on dark bg". */
+.dark .eyebrow.eyebrow-light {
+    color: rgba(241, 245, 249, 0.85);
+    border-color: rgba(241, 245, 249, 0.18);
+    background: rgba(241, 245, 249, 0.06);
+}
+.dark .eyebrow.eyebrow-light::before {
+    background: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
+    animation: eyebrow-pulse-light-dark 2s ease-in-out infinite;
+}
+@keyframes eyebrow-pulse-light-dark {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25); }
+    50%      { box-shadow: 0 0 0 8px rgba(96, 165, 250, 0);    }
+}
+
+/* Btn-primary on dark contact section: keep white but a touch dimmer
+   so it doesn't shout against the very dark gradient. */
+.dark .btn-primary {
+    background: #e2e8f0;
+}
+.dark .btn-primary:hover {
+    background: #f1f5f9;
+}
+
+/* Soft transitions on theme switch */
+html.theme-fade body,
+html.theme-fade nav,
+html.theme-fade section,
+html.theme-fade footer {
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* =========================================================
    Reduced motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {

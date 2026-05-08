@@ -17,6 +17,57 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Theme toggle (light / dark) — pre-paint script in <head> already set
+    // the initial class. Here we just sync icons + react to clicks + watch
+    // the OS preference for users who never explicitly chose a theme.
+    (function () {
+        var html = document.documentElement;
+
+        function syncIcons() {
+            var dark = html.classList.contains('dark');
+            document.querySelectorAll('.theme-icon-dark').forEach(function (el) {
+                el.classList.toggle('hidden', dark);
+            });
+            document.querySelectorAll('.theme-icon-light').forEach(function (el) {
+                el.classList.toggle('hidden', !dark);
+            });
+            document.querySelectorAll('.theme-label-dark').forEach(function (el) {
+                el.classList.toggle('hidden', dark);
+            });
+            document.querySelectorAll('.theme-label-light').forEach(function (el) {
+                el.classList.toggle('hidden', !dark);
+            });
+        }
+        syncIcons();
+
+        function toggle() {
+            // Enable color transitions only during the flip itself
+            html.classList.add('theme-fade');
+            var dark = !html.classList.contains('dark');
+            html.classList.toggle('dark', dark);
+            try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+            syncIcons();
+            setTimeout(function () { html.classList.remove('theme-fade'); }, 300);
+        }
+
+        var btnDesktop = document.getElementById('theme-toggle');
+        var btnMobile  = document.getElementById('theme-toggle-mobile');
+        if (btnDesktop) btnDesktop.addEventListener('click', toggle);
+        if (btnMobile)  btnMobile.addEventListener('click', toggle);
+
+        // If the user never set a manual preference, follow OS changes live
+        var media = window.matchMedia('(prefers-color-scheme: dark)');
+        var onMediaChange = function (e) {
+            var stored = null;
+            try { stored = localStorage.getItem('theme'); } catch (_) {}
+            if (stored !== null) return; // user has overridden, don't auto-flip
+            html.classList.toggle('dark', e.matches);
+            syncIcons();
+        };
+        if (media.addEventListener) media.addEventListener('change', onMediaChange);
+        else if (media.addListener) media.addListener(onMediaChange);
+    })();
+
     // Animated stat counters — first three finish together, last one runs slower
     var counters = document.querySelectorAll('.stat-counter');
     if (counters.length && 'IntersectionObserver' in window) {
