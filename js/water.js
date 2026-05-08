@@ -20,6 +20,11 @@
         var hero = document.querySelector('section.relative.overflow-hidden');
         if (!hero) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        // Desktop / pointer-fine devices only. The v_uv-based sampling stretches
+        // ripples to the canvas aspect, which reads as "tilted lake" on wide
+        // viewports but as squashed/vertical ovals on phones — not what we want.
+        // Skip on touch-primary devices entirely.
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
         try { initWater(hero); } catch (e) { /* fail silently */ }
     });
 
