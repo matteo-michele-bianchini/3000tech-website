@@ -68,6 +68,46 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (media.addListener) media.addListener(onMediaChange);
     })();
 
+    // Motion toggle (play / pause) — freezes orbit autospin, carousel scroll,
+    // chip-spin, eyebrow pulse. Each rAF tick checks window.SITE_PAUSED;
+    // CSS-driven animations follow body.paused via the stylesheet.
+    window.SITE_PAUSED = false;
+    (function () {
+        var body = document.body;
+
+        function syncIcons() {
+            var paused = body.classList.contains('paused');
+            document.querySelectorAll('.motion-icon-pause').forEach(function (el) { el.classList.toggle('hidden', paused); });
+            document.querySelectorAll('.motion-icon-play').forEach(function (el) { el.classList.toggle('hidden', !paused); });
+            document.querySelectorAll('.motion-label-pause').forEach(function (el) { el.classList.toggle('hidden', paused); });
+            document.querySelectorAll('.motion-label-play').forEach(function (el) { el.classList.toggle('hidden', !paused); });
+        }
+
+        // Restore from localStorage if user paused last time
+        try {
+            if (localStorage.getItem('motion') === 'paused') {
+                body.classList.add('paused');
+                window.SITE_PAUSED = true;
+            }
+        } catch (e) {}
+        syncIcons();
+
+        function toggle() {
+            var paused = !body.classList.contains('paused');
+            body.classList.toggle('paused', paused);
+            window.SITE_PAUSED = paused;
+            try { localStorage.setItem('motion', paused ? 'paused' : 'playing'); } catch (e) {}
+            // Notify rAF ticks: rebase their time/angle origins on resume
+            if (!paused) window.dispatchEvent(new Event('site-resume'));
+            syncIcons();
+        }
+
+        var btnDesktop = document.getElementById('motion-toggle');
+        var btnMobile  = document.getElementById('motion-toggle-mobile');
+        if (btnDesktop) btnDesktop.addEventListener('click', toggle);
+        if (btnMobile)  btnMobile.addEventListener('click', toggle);
+    })();
+
     // Animated stat counters — first three finish together, last one runs slower
     var counters = document.querySelectorAll('.stat-counter');
     if (counters.length && 'IntersectionObserver' in window) {
@@ -227,6 +267,14 @@ document.addEventListener('DOMContentLoaded', function() {
         var orbitCenter = wrap.querySelector('.orbit-center');
 
         function tick(now) {
+            if (window.SITE_PAUSED) {
+                // Frozen: re-apply existing angles only, no advance.
+                for (var j = 0; j < states.length; j++) {
+                    states[j].track.style.transform = 'rotate(' + states[j].angle + 'deg)';
+                }
+                requestAnimationFrame(tick);
+                return;
+            }
             // Update globalAngle while in auto vinyl
             if (vinyl && !vinylDragging) {
                 globalAngle = vinylBaseAngle + VINYL_SPEED * (now - vinylBaseTime) / 1000;
@@ -256,6 +304,18 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
+
+        // On resume, rebase time origins so motion picks up smoothly
+        // from the frozen position instead of jumping ahead.
+        window.addEventListener('site-resume', function () {
+            var now = performance.now();
+            states.forEach(function (s) {
+                s.baseAngle = s.angle;
+                s.baseTime = now;
+            });
+            vinylBaseTime = now;
+            vinylBaseAngle = globalAngle;
+        });
 
         // --- Center drag (scratch) + tap (toggle) ---
         if (orbitCenter) {
@@ -425,7 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function tick(now) {
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
-                if (!s.dragging && !reduced) {
+                if (!s.dragging && !reduced && !window.SITE_PAUSED) {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.offset = wrap(s.baseOffset + s.dir * (elapsed / s.period) * s.loopWidth, s.loopWidth);
                 }
@@ -434,6 +494,14 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
+
+        window.addEventListener('site-resume', function () {
+            var now = performance.now();
+            states.forEach(function (s) {
+                s.baseOffset = s.offset;
+                s.baseTime = now;
+            });
+        });
 
         states.forEach(function(s) {
             var track = s.track;

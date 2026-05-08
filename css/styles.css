@@ -348,6 +348,17 @@ html.theme-fade footer {
 }
 
 /* =========================================================
+   Manual pause — body.paused freezes all CSS-animated bits.
+   JS-driven motion (orbit autospin, carousel scroll) is gated
+   separately by the same flag inside js/main.js.
+   ========================================================= */
+body.paused .orbit-chip,
+body.paused .eyebrow::before,
+body.paused .eyebrow.eyebrow-light::before {
+    animation-play-state: paused;
+}
+
+/* =========================================================
    Reduced motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
