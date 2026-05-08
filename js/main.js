@@ -247,14 +247,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 s.track.style.transform = 'rotate(' + s.angle + 'deg)';
             }
 
-            // Center transform: only set inline transform when in vinyl,
-            // otherwise let CSS default apply.
-            if (orbitCenter) {
-                if (vinyl || vinylDragging) {
-                    orbitCenter.style.transform = 'translate(-50%, -50%) rotate(' + (centerLockedAngle + globalAngle) + 'deg)';
-                } else if (orbitCenter.style.transform) {
-                    orbitCenter.style.transform = '';
-                }
+            // Center transform: while in vinyl/drag, drive it from globalAngle.
+            // When inactive, leave the last inline transform in place so the
+            // disc stays exactly where the user released it.
+            if (orbitCenter && (vinyl || vinylDragging)) {
+                orbitCenter.style.transform = 'translate(-50%, -50%) rotate(' + (centerLockedAngle + globalAngle) + 'deg)';
             }
             requestAnimationFrame(tick);
         }
@@ -312,8 +309,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (vinyl) deactivateVinyl();
                     else activateVinyl(performance.now());
                 } else {
-                    // It was a real drag → resume auto vinyl from new angle
-                    activateVinyl(performance.now());
+                    // It was a real drag (scratch) → stop. The disc rests
+                    // wherever the user left it; the chips resume their own
+                    // autospin from there. To re-engage vinyl, tap.
+                    var now = performance.now();
+                    states.forEach(function (s) {
+                        s.baseAngle = s.angle;
+                        s.baseTime = now;
+                    });
+                    if (vinyl) {
+                        vinyl = false;
+                        wrap.classList.remove('orbit-vinyl');
+                    }
                 }
             }
             orbitCenter.addEventListener('pointerup', endCenterDrag);
