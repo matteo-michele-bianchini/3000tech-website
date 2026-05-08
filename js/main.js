@@ -187,10 +187,51 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         });
 
+        // Vinyl mode: click on the center → all rings sync to a single
+        // global rotation, the center spins via CSS, chips ride it as a
+        // piece (their counter-rotation is paused via CSS too).
+        var vinyl = false;
+        var vinylStartTime = 0;
+        var VINYL_SPEED = 30; // deg/sec, matches CSS animation 12s/360°
+
+        function activateVinyl() {
+            if (vinyl) return;
+            vinyl = true;
+            vinylStartTime = performance.now();
+            states.forEach(function (s) { s.lockedAngle = s.angle; });
+            wrap.classList.add('orbit-vinyl');
+        }
+        function deactivateVinyl() {
+            if (!vinyl) return;
+            vinyl = false;
+            // Each track resumes its own autospin from where the disc
+            // left it, in its original direction.
+            var now = performance.now();
+            states.forEach(function (s) {
+                s.baseAngle = s.angle;
+                s.baseTime = now;
+            });
+            wrap.classList.remove('orbit-vinyl');
+        }
+        var orbitCenter = wrap.querySelector('.orbit-center');
+        if (orbitCenter) {
+            orbitCenter.addEventListener('click', function () {
+                if (vinyl) deactivateVinyl();
+                else activateVinyl();
+            });
+        }
+
         function tick(now) {
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
-                if (!s.dragging && !reduced) {
+                if (s.dragging) {
+                    // angle owned by drag handler
+                } else if (reduced) {
+                    // no autospin
+                } else if (vinyl) {
+                    var vElapsed = (now - vinylStartTime) / 1000;
+                    s.angle = s.lockedAngle + VINYL_SPEED * vElapsed;
+                } else {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
                 }
@@ -211,6 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!chip) return;
 
             chip.addEventListener('pointerdown', function(ev) {
+                // Grabbing a chip exits vinyl mode — direct manipulation wins
+                if (vinyl) deactivateVinyl();
                 if (typeof chip.setPointerCapture === 'function') {
                     try { chip.setPointerCapture(ev.pointerId); } catch (_) {}
                 }
