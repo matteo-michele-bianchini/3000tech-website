@@ -287,25 +287,25 @@ html {
 }
 .orbit-center em { font-style: italic; font-weight: 500; font-size: 0.9em; opacity: 0.85; }
 
-/* Center is clickable (the rest of the wrap stays pointer-events: none) */
+/* Center is interactive: tap to toggle vinyl, drag to scratch */
 .orbit-center {
     pointer-events: auto;
-    cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: box-shadow 0.3s;
+    will-change: transform;
 }
 .orbit-center:hover {
     box-shadow: 0 14px 48px rgba(0, 0, 0, 0.38);
 }
+.orbit-center.dragging {
+    cursor: grabbing;
+}
 
-/* Vinyl mode: center spins like a record, chips lock and orbit in sync */
-@keyframes orbit-vinyl-spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-.orbit-vinyl .orbit-center {
-    animation: orbit-vinyl-spin 12s linear infinite;
-}
-/* Freeze each chip's own counter-rotation so they ride the track as a piece */
+/* Freeze each chip's own counter-rotation in vinyl mode so they ride
+   the track as a piece. The track + center rotation is JS-driven now. */
 .orbit-vinyl .orbit-chip {
     animation-play-state: paused;
 }

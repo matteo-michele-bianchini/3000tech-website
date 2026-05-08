@@ -187,25 +187,35 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         });
 
-        // Vinyl mode: click on the center → all rings sync to a single
-        // global rotation, the center spins via CSS, chips ride it as a
-        // piece (their counter-rotation is paused via CSS too).
+        // Vinyl mode: tap the center to engage, drag to "scratch" — the
+        // center, the rings and the chips all rotate together at a single
+        // global angular speed. Fully JS-driven so the center can be both
+        // auto-spinning AND grabbable without animation-resume glitches.
         var vinyl = false;
-        var vinylStartTime = 0;
-        var VINYL_SPEED = 30; // deg/sec, matches CSS animation 12s/360°
+        var vinylDragging = false;
+        var VINYL_SPEED = 30; // deg/sec
+        var globalAngle = 0;
+        var vinylBaseAngle = 0;     // globalAngle value at vinylBaseTime
+        var vinylBaseTime = 0;
+        var centerLockedAngle = 0;  // center's angle at vinyl start (==0)
+        var TAP_THRESHOLD = 4;       // deg: below this a pointerup is a tap
 
-        function activateVinyl() {
-            if (vinyl) return;
+        function lockTracks() {
+            // Snapshot each track's current angle as its phase offset
+            // for the upcoming vinyl rotation.
+            states.forEach(function (s) { s.lockedAngle = s.angle - globalAngle; });
+        }
+        function activateVinyl(at) {
             vinyl = true;
-            vinylStartTime = performance.now();
-            states.forEach(function (s) { s.lockedAngle = s.angle; });
+            vinylBaseTime = at;
+            vinylBaseAngle = globalAngle;
             wrap.classList.add('orbit-vinyl');
         }
         function deactivateVinyl() {
             if (!vinyl) return;
             vinyl = false;
-            // Each track resumes its own autospin from where the disc
-            // left it, in its original direction.
+            // Each track resumes its own autospin from current angle in
+            // its original direction.
             var now = performance.now();
             states.forEach(function (s) {
                 s.baseAngle = s.angle;
@@ -213,33 +223,96 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             wrap.classList.remove('orbit-vinyl');
         }
+
         var orbitCenter = wrap.querySelector('.orbit-center');
-        if (orbitCenter) {
-            orbitCenter.addEventListener('click', function () {
-                if (vinyl) deactivateVinyl();
-                else activateVinyl();
-            });
-        }
 
         function tick(now) {
+            // Update globalAngle while in auto vinyl
+            if (vinyl && !vinylDragging) {
+                globalAngle = vinylBaseAngle + VINYL_SPEED * (now - vinylBaseTime) / 1000;
+            }
+
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
                 if (s.dragging) {
-                    // angle owned by drag handler
+                    // chip drag owns its angle
                 } else if (reduced) {
                     // no autospin
-                } else if (vinyl) {
-                    var vElapsed = (now - vinylStartTime) / 1000;
-                    s.angle = s.lockedAngle + VINYL_SPEED * vElapsed;
+                } else if (vinyl || vinylDragging) {
+                    s.angle = s.lockedAngle + globalAngle;
                 } else {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
                 }
                 s.track.style.transform = 'rotate(' + s.angle + 'deg)';
             }
+
+            // Center transform: only set inline transform when in vinyl,
+            // otherwise let CSS default apply.
+            if (orbitCenter) {
+                if (vinyl || vinylDragging) {
+                    orbitCenter.style.transform = 'translate(-50%, -50%) rotate(' + (centerLockedAngle + globalAngle) + 'deg)';
+                } else if (orbitCenter.style.transform) {
+                    orbitCenter.style.transform = '';
+                }
+            }
             requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
+
+        // --- Center drag (scratch) + tap (toggle) ---
+        if (orbitCenter) {
+            var centerDragStartPointer = 0;
+            var centerDragStartAngle = 0;
+            var centerDragMoved = false;
+            var centerLastPointer = 0;
+
+            orbitCenter.addEventListener('pointerdown', function (ev) {
+                if (typeof orbitCenter.setPointerCapture === 'function') {
+                    try { orbitCenter.setPointerCapture(ev.pointerId); } catch (_) {}
+                }
+                vinylDragging = true;
+                centerDragStartPointer = pointerAngle(ev);
+                centerLastPointer = centerDragStartPointer;
+                centerDragStartAngle = globalAngle;
+                centerDragMoved = false;
+                // Snapshot tracks against current globalAngle so they ride
+                // the disc smoothly during the drag.
+                lockTracks();
+                orbitCenter.classList.add('dragging');
+                ev.preventDefault();
+            });
+
+            orbitCenter.addEventListener('pointermove', function (ev) {
+                if (!vinylDragging) return;
+                var a = pointerAngle(ev);
+                var step = ((a - centerLastPointer + 540) % 360) - 180;
+                globalAngle += step;
+                centerLastPointer = a;
+                if (Math.abs(globalAngle - centerDragStartAngle) > TAP_THRESHOLD) {
+                    centerDragMoved = true;
+                }
+            });
+
+            function endCenterDrag(ev) {
+                if (!vinylDragging) return;
+                vinylDragging = false;
+                orbitCenter.classList.remove('dragging');
+                if (typeof orbitCenter.releasePointerCapture === 'function') {
+                    try { orbitCenter.releasePointerCapture(ev.pointerId); } catch (_) {}
+                }
+                if (!centerDragMoved) {
+                    // It was a tap → toggle vinyl mode
+                    if (vinyl) deactivateVinyl();
+                    else activateVinyl(performance.now());
+                } else {
+                    // It was a real drag → resume auto vinyl from new angle
+                    activateVinyl(performance.now());
+                }
+            }
+            orbitCenter.addEventListener('pointerup', endCenterDrag);
+            orbitCenter.addEventListener('pointercancel', endCenterDrag);
+        }
 
         function pointerAngle(ev) {
             var r = wrap.getBoundingClientRect();
