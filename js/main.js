@@ -262,22 +262,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // --- Center drag (scratch) + tap (toggle) ---
         if (orbitCenter) {
-            var centerDragStartPointer = 0;
-            var centerDragStartAngle = 0;
             var centerDragMoved = false;
             var centerLastPointer = 0;
+            var centerAccumulated = 0; // sum of unapplied micro-steps before the drag commits
 
             orbitCenter.addEventListener('pointerdown', function (ev) {
                 if (typeof orbitCenter.setPointerCapture === 'function') {
                     try { orbitCenter.setPointerCapture(ev.pointerId); } catch (_) {}
                 }
                 vinylDragging = true;
-                centerDragStartPointer = pointerAngle(ev);
-                centerLastPointer = centerDragStartPointer;
-                centerDragStartAngle = globalAngle;
+                centerLastPointer = pointerAngle(ev);
+                centerAccumulated = 0;
                 centerDragMoved = false;
                 // Snapshot tracks against current globalAngle so they ride
-                // the disc smoothly during the drag.
+                // the disc smoothly if a drag actually starts.
                 lockTracks();
                 orbitCenter.classList.add('dragging');
                 ev.preventDefault();
@@ -287,10 +285,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!vinylDragging) return;
                 var a = pointerAngle(ev);
                 var step = ((a - centerLastPointer + 540) % 360) - 180;
-                globalAngle += step;
                 centerLastPointer = a;
-                if (Math.abs(globalAngle - centerDragStartAngle) > TAP_THRESHOLD) {
-                    centerDragMoved = true;
+                if (centerDragMoved) {
+                    // Drag committed: apply every step
+                    globalAngle += step;
+                } else {
+                    // Below threshold: keep accumulating without moving
+                    // anything yet, so the disc doesn't jitter on a click.
+                    centerAccumulated += step;
+                    if (Math.abs(centerAccumulated) > TAP_THRESHOLD) {
+                        centerDragMoved = true;
+                        globalAngle += centerAccumulated; // catch-up to the finger
+                    }
                 }
             });
 
