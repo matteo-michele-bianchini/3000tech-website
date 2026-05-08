@@ -3,3 +3,6 @@
 - fare il contatore in verticale su mobile. i counters appaiano uno sotto l'altro su mobile e sono animati.
 - orbita: modalità "moto relativo" — far ruotare tutto insieme. Il centro 3000Tech ruota e ogni anello mantiene la propria dinamica attuale (40s/55s/70s, dir varia, drag, vinile, ecc.) MA nel frame del centro, non rispetto alla pagina. In pratica: track.angle_pagina = track.angle_individuale + globalCenterAngle. Diverso dal vinile attuale (che sostituisce l'angolo) e dal default (che lo lascia rispetto alla pagina). Possibile trigger: terzo modo dopo "default" e "vinile" — toggle a 3 stati, oppure switch separato.
 - orbita: variare leggermente i period dei track così che, partendo dallo stesso angolo, non si re-sincronizzino mai. Ora 3 track hanno period=40s identico → giro insieme. Soluzione: data-period jittered (es. 38.7, 41.2, 39.5, 40.8 invece di 40 ovunque). Anche per i 55s e 70s, piccoli scostamenti ±5%. Effetto: pattern chip mai pari, sempre vivace.
+
+## bug
+- il tasto play pause deve comandare solo l'orbita non il portfolio (quello va sempre senza fermarsi)
