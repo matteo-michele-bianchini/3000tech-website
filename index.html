@@ -75,10 +75,6 @@
                         <a href="#servizi" class="text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors">Servizi</a>
                         <a href="#tech" class="text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors">Tecnologie</a>
                         <a href="#contatti" class="text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors">Contatti</a>
-                        <button id="motion-toggle" class="text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors p-1" aria-label="Pausa animazioni" title="Pausa / riprendi animazioni">
-                            <i class="fas fa-pause motion-icon-pause"></i>
-                            <i class="fas fa-play motion-icon-play hidden"></i>
-                        </button>
                         <button id="theme-toggle" class="text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors p-1" aria-label="Cambia tema" title="Cambia tema">
                             <i class="fas fa-moon theme-icon-dark"></i>
                             <i class="fas fa-sun theme-icon-light hidden"></i>
@@ -106,12 +102,6 @@
                 <a href="#servizi" class="block text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent">Servizi</a>
                 <a href="#tech" class="block text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent">Tecnologie</a>
                 <a href="#contatti" class="block text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent">Contatti</a>
-                <button id="motion-toggle-mobile" class="flex items-center gap-2 text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors w-full text-left">
-                    <i class="fas fa-pause motion-icon-pause w-4"></i>
-                    <i class="fas fa-play motion-icon-play hidden w-4"></i>
-                    <span class="motion-label-pause">Pausa animazioni</span>
-                    <span class="motion-label-play hidden">Riprendi animazioni</span>
-                </button>
                 <button id="theme-toggle-mobile" class="flex items-center gap-2 text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition-colors w-full text-left">
                     <i class="fas fa-moon theme-icon-dark w-4"></i>
                     <i class="fas fa-sun theme-icon-light hidden w-4"></i>
@@ -210,6 +200,14 @@
                         <div class="orbit-center">
                             3000<br><em>Tech</em>
                         </div>
+                        <button id="motion-toggle"
+                            class="absolute bottom-2 right-2 w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/25 text-white/85 hover:text-white transition-colors"
+                            style="pointer-events: auto; z-index: 10;"
+                            aria-label="Pausa animazioni"
+                            title="Pausa / riprendi animazioni">
+                            <i class="fas fa-pause motion-icon-pause text-xs"></i>
+                            <i class="fas fa-play motion-icon-play hidden text-xs"></i>
+                        </button>
                     </div>
                 </div>
             </div>

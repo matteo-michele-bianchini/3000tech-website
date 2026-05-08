@@ -102,10 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
             syncIcons();
         }
 
-        var btnDesktop = document.getElementById('motion-toggle');
-        var btnMobile  = document.getElementById('motion-toggle-mobile');
-        if (btnDesktop) btnDesktop.addEventListener('click', toggle);
-        if (btnMobile)  btnMobile.addEventListener('click', toggle);
+        var btn = document.getElementById('motion-toggle');
+        if (btn) btn.addEventListener('click', toggle);
     })();
 
     // Animated stat counters — first three finish together, last one runs slower
@@ -267,27 +265,21 @@ document.addEventListener('DOMContentLoaded', function() {
         var orbitCenter = wrap.querySelector('.orbit-center');
 
         function tick(now) {
-            if (window.SITE_PAUSED) {
-                // Frozen: re-apply existing angles only, no advance.
-                for (var j = 0; j < states.length; j++) {
-                    states[j].track.style.transform = 'rotate(' + states[j].angle + 'deg)';
-                }
-                requestAnimationFrame(tick);
-                return;
-            }
-            // Update globalAngle while in auto vinyl
-            if (vinyl && !vinylDragging) {
+            // Auto vinyl advance only when not paused, not scratching
+            if (vinyl && !vinylDragging && !window.SITE_PAUSED) {
                 globalAngle = vinylBaseAngle + VINYL_SPEED * (now - vinylBaseTime) / 1000;
             }
 
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
                 if (s.dragging) {
-                    // chip drag owns its angle
-                } else if (reduced) {
-                    // no autospin
+                    // chip drag owns its angle (works even when paused)
                 } else if (vinyl || vinylDragging) {
+                    // Sync with globalAngle. While paused without scratch,
+                    // globalAngle stays constant so chips stay still.
                     s.angle = s.lockedAngle + globalAngle;
+                } else if (window.SITE_PAUSED || reduced) {
+                    // Frozen: keep current angle
                 } else {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
@@ -295,9 +287,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 s.track.style.transform = 'rotate(' + s.angle + 'deg)';
             }
 
-            // Center transform: while in vinyl/drag, drive it from globalAngle.
-            // When inactive, leave the last inline transform in place so the
-            // disc stays exactly where the user released it.
+            // Center transform: while in vinyl/drag, drive it from globalAngle
+            // (works even when paused, so the user can scratch).
             if (orbitCenter && (vinyl || vinylDragging)) {
                 orbitCenter.style.transform = 'translate(-50%, -50%) rotate(' + (centerLockedAngle + globalAngle) + 'deg)';
             }
