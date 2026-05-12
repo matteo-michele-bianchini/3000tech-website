@@ -68,9 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (media.addListener) media.addListener(onMediaChange);
     })();
 
-    // Motion toggle (play / pause) — freezes orbit autospin, carousel scroll,
-    // chip-spin, eyebrow pulse. Each rAF tick checks window.SITE_PAUSED;
-    // CSS-driven animations follow body.paused via the stylesheet.
+    // Motion toggle (play / pause) — freezes orbit autospin, chip-spin,
+    // eyebrow pulse. The portfolio carousel is intentionally always running.
+    // Each rAF tick checks window.SITE_PAUSED; CSS-driven animations follow
+    // body.paused via the stylesheet.
     window.SITE_PAUSED = false;
     (function () {
         var body = document.body;
@@ -476,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function tick(now) {
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
-                if (!s.dragging && !reduced && !window.SITE_PAUSED) {
+                if (!s.dragging && !reduced) {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.offset = wrap(s.baseOffset + s.dir * (elapsed / s.period) * s.loopWidth, s.loopWidth);
                 }
@@ -485,14 +486,6 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
-
-        window.addEventListener('site-resume', function () {
-            var now = performance.now();
-            states.forEach(function (s) {
-                s.baseOffset = s.offset;
-                s.baseTime = now;
-            });
-        });
 
         states.forEach(function(s) {
             var track = s.track;

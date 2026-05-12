@@ -6,6 +6,3 @@
 - far si che le chips possano essere spostate anche fuori dall'orbita, ne prendono un'altra - ripartono dalla nuova posizione
 - hamburger button si deve chiudere da solo al cambio tema
 - play più visibile 
-
-## bug
-- il tasto play pause deve comandare solo l'orbita non il portfolio (quello va sempre senza fermarsi)
