@@ -205,22 +205,75 @@ document.addEventListener('DOMContentLoaded', function() {
     function initOrbit(wrap) {
         var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var tracks = Array.prototype.slice.call(wrap.querySelectorAll('.orbit-track'));
-        var states = tracks.map(function(track) {
-            var period = parseFloat(track.dataset.period) || 40;
-            var dir    = parseFloat(track.dataset.dir)    || 1;
-            var phase  = parseFloat(track.dataset.phase)  || 0;
-            var initial = reduced ? 0 : dir * ((-phase) / period) * 360;
+
+        // Initial chip radius derived from the legacy .mid / .inner class.
+        // Radius is a fraction of the wrap's half-width (range typically 0.2…1.4).
+        function initialRadius(track) {
+            if (track.classList.contains('inner')) return 0.46;
+            if (track.classList.contains('mid'))   return 0.74;
+            return 1.0;
+        }
+
+        var MIN_R = 0.22;
+        var MAX_R = 1.4;
+
+        // Deterministic per-chip motion. Each chip gets a unique orbital
+        // period, direction, and starting angle, plus a unique chip-spin so
+        // they don't visually lock-step together. The data-period/dir/phase
+        // attributes on .orbit-track are intentionally ignored — see the
+        // comment on .orbit-chip CSS for the spin pipeline.
+        var n = tracks.length;
+        var states = tracks.map(function(track, i) {
+            var period  = 38 + ((i * 13) % 31);                  // 38..68, all unique for n=7
+            var dir     = (i % 2 === 0) ? 1 : -1;                // alternating cw / ccw
+            var initial = reduced ? 0 : (i * 360 / n + 17) % 360; // evenly-spread starts
+
+            var chip = track.querySelector('.orbit-chip');
+            if (chip) {
+                // Per-chip chip-spin so each chip rotates on its own axis at
+                // its own rate, in its own direction, with its own phase.
+                var spinPeriod = 6 + ((i * 7) % 10) * 0.5;       // 6..10.5 s
+                var spinDelay  = -((i * 1.7) % spinPeriod);      // shifts the keyframe start
+                chip.style.animationDuration  = spinPeriod + 's';
+                chip.style.animationDelay     = spinDelay + 's';
+                chip.style.animationDirection = ((i * 2 + 1) % 5 < 3) ? 'normal' : 'reverse';
+            }
+
             return {
                 track: track,
+                chip: chip,
                 period: period,
                 dir: dir,
                 angle: initial,
                 baseAngle: initial,
                 baseTime: performance.now(),
+                radius: initialRadius(track),
                 dragging: false,
-                lastPointer: 0
+                pointerId: null
             };
         });
+
+        // Each chip carries its own white orbit ring — dragging a chip out
+        // visibly widens *its* ring, leaving the others alone. The original
+        // r1/r2/r3 static rings become redundant and are hidden (r4 stays
+        // as the inner decoration).
+        Array.prototype.slice.call(wrap.querySelectorAll('.orbit-ring')).forEach(function (r) {
+            if (!r.classList.contains('r4')) r.style.display = 'none';
+        });
+        var firstTrack = wrap.querySelector('.orbit-track');
+        states.forEach(function (s) {
+            var ring = document.createElement('div');
+            ring.className = 'orbit-ring chip-ring';
+            // Insert before the first track so rings sit behind the chips
+            // visually, and preserve state iteration order in the DOM.
+            wrap.insertBefore(ring, firstTrack);
+            s.ring = ring;
+        });
+        function syncChipRing(s) {
+            if (!s.ring) return;
+            s.ring.style.inset = ((1 - s.radius) * 50).toFixed(3) + '%';
+        }
+        states.forEach(syncChipRing);
 
         // Vinyl mode: tap the center to engage, drag to "scratch" — the
         // center, the rings and the chips all rotate together at a single
@@ -261,16 +314,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var orbitCenter = wrap.querySelector('.orbit-center');
 
+        function renderChip(s, halfW) {
+            if (!s.chip) return;
+            var rPx = s.radius * halfW;
+            var rad = (s.angle - 90) * Math.PI / 180;
+            var x = halfW + rPx * Math.cos(rad);
+            var y = halfW + rPx * Math.sin(rad);
+            s.chip.style.left = x + 'px';
+            s.chip.style.top  = y + 'px';
+        }
+
+        // Paint once synchronously so chips don't flash at wrap origin
+        // between init and the first rAF tick.
+        (function () {
+            var halfW = wrap.clientWidth / 2;
+            states.forEach(function (s) { renderChip(s, halfW); });
+        })();
+
         function tick(now) {
             // Auto vinyl advance only when not paused, not scratching
             if (vinyl && !vinylDragging && !window.SITE_PAUSED) {
                 globalAngle = vinylBaseAngle + VINYL_SPEED * (now - vinylBaseTime) / 1000;
             }
 
+            var halfW = wrap.clientWidth / 2;
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
                 if (s.dragging) {
-                    // chip drag owns its angle (works even when paused)
+                    // chip drag owns its angle + radius (works even when paused)
                 } else if (vinyl || vinylDragging) {
                     // Sync with globalAngle. While paused without scratch,
                     // globalAngle stays constant so chips stay still.
@@ -281,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
                 }
-                s.track.style.transform = 'rotate(' + s.angle + 'deg)';
+                renderChip(s, halfW);
             }
 
             // Center transform: while in vinyl/drag, drive it from globalAngle
@@ -292,6 +363,14 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(tick);
         }
         requestAnimationFrame(tick);
+
+        // Re-sync ring insets when the wrap resizes (radii are fractions
+        // of half-width, so visual positions update automatically — only
+        // the rings need an explicit nudge in case the browser dropped
+        // the inline style on a layout pass).
+        window.addEventListener('resize', function () {
+            states.forEach(syncChipRing);
+        });
 
         // On resume, rebase time origins so motion picks up smoothly
         // from the frozen position instead of jumping ahead.
@@ -381,8 +460,16 @@ document.addEventListener('DOMContentLoaded', function() {
                               ev.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
         }
 
+        function chipCartesian(s, halfW) {
+            var rad = (s.angle - 90) * Math.PI / 180;
+            return {
+                x: halfW + s.radius * halfW * Math.cos(rad),
+                y: halfW + s.radius * halfW * Math.sin(rad)
+            };
+        }
+
         states.forEach(function(s) {
-            var chip = s.track.querySelector('.orbit-chip');
+            var chip = s.chip;
             if (!chip) return;
 
             chip.addEventListener('pointerdown', function(ev) {
@@ -392,27 +479,44 @@ document.addEventListener('DOMContentLoaded', function() {
                     try { chip.setPointerCapture(ev.pointerId); } catch (_) {}
                 }
                 s.dragging = true;
-                s.lastPointer = pointerAngle(ev);
+                s.pointerId = ev.pointerId;
+                // Remember the cartesian offset between pointer and chip
+                // center so the chip doesn't snap-jump under the cursor on
+                // the first move.
+                var r = wrap.getBoundingClientRect();
+                var halfW = r.width / 2 || 1;
+                var c = chipCartesian(s, halfW);
+                s.grabDx = c.x - (ev.clientX - r.left);
+                s.grabDy = c.y - (ev.clientY - r.top);
                 chip.classList.add('dragging');
                 ev.preventDefault();
             });
 
             chip.addEventListener('pointermove', function(ev) {
-                if (!s.dragging) return;
-                var a = pointerAngle(ev);
-                var step = a - s.lastPointer;
-                // unwrap to nearest small step (handles -180/180 boundary)
-                step = ((step + 540) % 360) - 180;
-                s.angle += step;
-                s.lastPointer = a;
+                if (!s.dragging || ev.pointerId !== s.pointerId) return;
+                var r = wrap.getBoundingClientRect();
+                var halfW = r.width / 2 || 1;
+                var x = (ev.clientX - r.left) + s.grabDx;
+                var y = (ev.clientY - r.top) + s.grabDy;
+                var dx = x - halfW;
+                var dy = y - halfW;
+                // Angle: 0° = up, +ve = clockwise (matches CSS rotate convention).
+                var rawAngle = Math.atan2(dx, -dy) * 180 / Math.PI;
+                // Unwrap to nearest signed delta so s.angle stays continuous.
+                var diff = ((rawAngle - s.angle + 540) % 360) - 180;
+                s.angle += diff;
+                s.radius = Math.max(MIN_R, Math.min(MAX_R, Math.hypot(dx, dy) / halfW));
+                syncChipRing(s);
             });
 
             function release(ev) {
                 if (!s.dragging) return;
                 s.dragging = false;
                 chip.classList.remove('dragging');
+                // Restart autospin from wherever the user dropped the chip.
                 s.baseAngle = s.angle;
                 s.baseTime = performance.now();
+                syncChipRing(s);
                 if (typeof chip.releasePointerCapture === 'function') {
                     try { chip.releasePointerCapture(ev.pointerId); } catch (_) {}
                 }

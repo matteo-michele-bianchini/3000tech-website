@@ -184,6 +184,7 @@ html {
     inset: 0;
     border: 1px dashed rgba(255, 255, 255, 0.22);
     border-radius: 50%;
+    transition: inset 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .orbit-ring.r2 {
     inset: 12%;
@@ -200,25 +201,33 @@ html {
     border-style: solid;
     border-color: rgba(255, 255, 255, 0.08);
 }
+/* Per-chip rings borrow r4's understated look (solid, very faint white). */
+.orbit-ring.chip-ring {
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.08);
+}
 
 @keyframes chip-spin {
-    from { transform: translateX(-50%) rotate(0deg); }
-    to   { transform: translateX(-50%) rotate(360deg); }
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .orbit-track {
     position: absolute;
     inset: 0;
-    will-change: transform;
+    pointer-events: none;
 }
-.orbit-track.mid { inset: 13%; }
-.orbit-track.inner { inset: 27%; }
+/* Track inset is no longer used for chip radius — chip position is fully
+   JS-driven (polar coords relative to wrap). The .mid / .inner classes
+   stay on the element only as initial-radius hints, read in initOrbit(). */
+.orbit-track.mid,
+.orbit-track.inner { inset: 0; }
 
 .orbit-chip {
     position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
     background: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 999px;
@@ -249,7 +258,7 @@ html {
     cursor: grabbing;
     z-index: 5;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-    /* Freeze chip-spin where it currently is (pauses, doesn't reset to 0) */
+    /* Freeze own-axis spin while dragging — the user controls the chip */
     animation-play-state: paused;
 }
 
@@ -304,12 +313,6 @@ html {
     cursor: grabbing;
 }
 
-/* Freeze each chip's own counter-rotation in vinyl mode so they ride
-   the track as a piece. The track + center rotation is JS-driven now. */
-.orbit-vinyl .orbit-chip {
-    animation-play-state: paused;
-}
-
 /* =========================================================
    Dark mode adjustments for custom helpers
    ========================================================= */
@@ -353,9 +356,9 @@ html.theme-fade footer {
    JS-driven motion (orbit autospin) is gated separately by
    the same flag inside js/main.js.
    ========================================================= */
-body.paused .orbit-chip,
 body.paused .eyebrow::before,
-body.paused .eyebrow.eyebrow-light::before {
+body.paused .eyebrow.eyebrow-light::before,
+body.paused .orbit-chip {
     animation-play-state: paused;
 }
 
@@ -400,6 +403,7 @@ body.paused #motion-toggle:hover {
    Reduced motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
-    .orbit-chip { animation: none; }
     html { scroll-behavior: auto; }
+    .orbit-chip { animation: none; }
+    .orbit-ring { transition: none; }
 }
