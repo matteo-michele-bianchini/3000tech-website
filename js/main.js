@@ -327,13 +327,16 @@ document.addEventListener('DOMContentLoaded', function() {
             var rad = (s.angle - 90) * Math.PI / 180;
             var x = halfW + rPx * Math.cos(rad);
             var y = halfW + rPx * Math.sin(rad);
-            // Single composited transform: GPU translate + own-axis rotation
-            // in one go. Avoids triggering layout/paint on every frame, which
-            // showed up as chips "vibrating" against a wobbly radius.
+            // Chip orientation = orbital angle + own-axis spin. Adding the
+            // orbital angle is what makes a dragged chip rototranslate (in
+            // the pre-refactor version the chip lived inside a rotating
+            // track, so its visual orientation followed the orbit "for
+            // free"). All composed in one GPU-friendly transform.
+            var rot = s.spin + s.angle;
             s.chip.style.transform =
                 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) ' +
                 'translate(-50%, -50%) ' +
-                'rotate(' + s.spin.toFixed(2) + 'deg)';
+                'rotate(' + rot.toFixed(2) + 'deg)';
         }
 
         // Paint once synchronously so chips don't flash at wrap origin
