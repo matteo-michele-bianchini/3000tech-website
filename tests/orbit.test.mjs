@@ -122,15 +122,22 @@ test('chips orbit with varied direction and speed (not all parallel)', async () 
             return d;
         });
 
-        const positives = deltas.filter(d => d >  1).length;
-        const negatives = deltas.filter(d => d < -1).length;
-        assert.ok(positives >= 1 && negatives >= 1,
-            `expected mix of orbit directions; got +${positives}/-${negatives}, deltas=${deltas.map(d=>d.toFixed(1))}`);
+        // Centre on the mean delta — that strips any global rotation of the
+        // whole composition (moto-relativo) and leaves only each chip's
+        // relative dynamic. The invariant we care about is "chips don't move
+        // in lock-step", regardless of any assembly-wide rotation.
+        const mean = deltas.reduce((a,b)=>a+b, 0) / deltas.length;
+        const centered = deltas.map(d => d - mean);
 
-        const absDeltas = deltas.map(Math.abs);
-        const range = Math.max(...absDeltas) - Math.min(...absDeltas);
+        const positives = centered.filter(d => d >  1).length;
+        const negatives = centered.filter(d => d < -1).length;
+        assert.ok(positives >= 1 && negatives >= 1,
+            `expected mix of orbit directions relative to the group; got +${positives}/-${negatives}, centered=${centered.map(d=>d.toFixed(1))}`);
+
+        const absD = centered.map(Math.abs);
+        const range = Math.max(...absD) - Math.min(...absD);
         assert.ok(range > 2,
-            `expected varied orbital speed; |delta| range=${range.toFixed(2)}, deltas=${deltas.map(d=>d.toFixed(1))}`);
+            `expected varied orbital speed; |delta-mean| range=${range.toFixed(2)}, centered=${centered.map(d=>d.toFixed(1))}`);
 
         // Starting angles should also be spread — variance should not be
         // tiny. Compute the spread of t0 modulo 360.

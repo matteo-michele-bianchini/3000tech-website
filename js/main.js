@@ -289,18 +289,24 @@ document.addEventListener('DOMContentLoaded', function() {
         var globalAngle = 0;
         var vinylBaseAngle = 0;     // globalAngle value at vinylBaseTime
         var vinylBaseTime = 0;
-        var centerLockedAngle = 0;  // center's angle at vinyl start (==0)
         var TAP_THRESHOLD = 4;       // deg: below this a pointerup is a tap
 
-        function lockTracks() {
-            // Snapshot each track's current angle as its phase offset
-            // for the upcoming vinyl rotation.
-            states.forEach(function (s) { s.lockedAngle = s.angle - globalAngle; });
-        }
+        // Moto relativo (on by default): the whole composition (center + all
+        // chip orbits) rotates slowly in the page frame, while each chip's
+        // per-period autospin keeps running in the center's frame. Result:
+        // chips never lock-step *and* the assembly visibly rotates.
+        // Frozen during chip/vinyl drag so what the user grabs stays put.
+        var GLOBAL_ROT_SPEED = 4; // deg/sec → ~90 s for a full turn
+        var globalRotation = 0;
+        var globalRotBase = 0;
+        var globalRotBaseTime = now0;
+
         function activateVinyl(at) {
+            // Start a fresh boost from zero so chips don't jump on toggle.
+            globalAngle = 0;
             vinyl = true;
             vinylBaseTime = at;
-            vinylBaseAngle = globalAngle;
+            vinylBaseAngle = 0;
             wrap.classList.add('orbit-vinyl');
         }
         function rebaseMotion(s, now) {
@@ -309,13 +315,24 @@ document.addEventListener('DOMContentLoaded', function() {
             s.spinBase     = s.spin;
             s.spinBaseTime = now;
         }
+        function rebaseGlobalRotation(now) {
+            globalRotBase = globalRotation;
+            globalRotBaseTime = now;
+        }
         function deactivateVinyl() {
             if (!vinyl) return;
             vinyl = false;
-            // Each track resumes its own autospin from current angle in
-            // its original direction.
             var now = performance.now();
-            states.forEach(function (s) { rebaseMotion(s, now); });
+            // Fold the vinyl boost into each chip's autospin angle so the
+            // chip stays at its current on-screen position when vinyl turns
+            // off — otherwise renderChip would suddenly drop the boost and
+            // the chips would snap back by `globalAngle`.
+            states.forEach(function (s) {
+                s.angle += globalAngle;
+                rebaseMotion(s, now);
+            });
+            globalAngle = 0;
+            rebaseGlobalRotation(now);
             wrap.classList.remove('orbit-vinyl');
         }
 
@@ -323,20 +340,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function renderChip(s, halfW) {
             if (!s.chip) return;
+            // Chip's effective angle in the page frame:
+            //   s.angle          per-chip autospin (always running)
+            // + globalRotation   slow moto-relativo of the whole composition
+            // + globalAngle      vinyl boost (only while vinyl/scratch is on)
+            // Adding all three keeps the chip's varied autospin visible
+            // even during vinyl, so chips still drift apart relative to
+            // each other.
+            var vinylBoost = (vinyl || vinylDragging) ? globalAngle : 0;
+            var screenAngle = s.angle + globalRotation + vinylBoost;
             var rPx = s.radius * halfW;
-            var rad = (s.angle - 90) * Math.PI / 180;
+            var rad = (screenAngle - 90) * Math.PI / 180;
             var x = halfW + rPx * Math.cos(rad);
             var y = halfW + rPx * Math.sin(rad);
-            // Chip orientation = orbital angle + own-axis spin. Adding the
-            // orbital angle is what makes a dragged chip rototranslate (in
-            // the pre-refactor version the chip lived inside a rotating
-            // track, so its visual orientation followed the orbit "for
-            // free"). All composed in one GPU-friendly transform.
-            var rot = s.spin + s.angle;
+            // Chip orientation tracks its orbital position only — no separate
+            // chip-spin layer. The own-axis spin used to add ~60°/s on top of
+            // the orbit, which made the chip-spin kick in suddenly at release
+            // (the "scatto" effect). Pure orbit-aligned rotation gives a
+            // smooth drag → release transition.
             s.chip.style.transform =
                 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) ' +
                 'translate(-50%, -50%) ' +
-                'rotate(' + rot.toFixed(2) + 'deg)';
+                'rotate(' + screenAngle.toFixed(2) + 'deg)';
         }
 
         // Paint once synchronously so chips don't flash at wrap origin
@@ -346,10 +371,23 @@ document.addEventListener('DOMContentLoaded', function() {
             states.forEach(function (s) { renderChip(s, halfW); });
         })();
 
+        function anyChipDragging() {
+            for (var i = 0; i < states.length; i++) if (states[i].dragging) return true;
+            return false;
+        }
+
         function tick(now) {
             // Auto vinyl advance only when not paused, not scratching
             if (vinyl && !vinylDragging && !window.SITE_PAUSED) {
                 globalAngle = vinylBaseAngle + VINYL_SPEED * (now - vinylBaseTime) / 1000;
+            }
+
+            // Moto-relativo: advance the global rotation when nothing is being
+            // held. Drag (chip or vinyl scratch) freezes the assembly so the
+            // grabbed thing stays where the finger is.
+            var holdingSomething = anyChipDragging() || vinylDragging;
+            if (!window.SITE_PAUSED && !reduced && !holdingSomething) {
+                globalRotation = globalRotBase + GLOBAL_ROT_SPEED * (now - globalRotBaseTime) / 1000;
             }
 
             var halfW = wrap.clientWidth / 2;
@@ -357,15 +395,19 @@ document.addEventListener('DOMContentLoaded', function() {
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
                 if (s.dragging) {
-                    // chip drag owns its angle + radius (works even when paused).
-                    // Own-axis spin pauses while held to match the user's intent.
-                } else if (vinyl || vinylDragging) {
-                    // Sync with globalAngle. While paused without scratch,
-                    // globalAngle stays constant so chips stay still.
-                    s.angle = s.lockedAngle + globalAngle;
+                    // Orbital angle + radius are owned by the drag handler.
+                    // Keep the own-axis spin running so the chip-spin rate
+                    // doesn't suddenly kick in at release ("scatta" on drop).
+                    if (!frozen) {
+                        var spinElapsedD = (now - s.spinBaseTime) / 1000;
+                        s.spin = s.spinBase + s.spinDir * (spinElapsedD / s.spinPeriod) * 360;
+                    }
                 } else if (frozen) {
                     // Frozen: keep current angle and spin
                 } else {
+                    // Autospin always runs (even during vinyl) so chips keep
+                    // their per-chip period and direction. Vinyl's globalAngle
+                    // is layered on top in renderChip().
                     var elapsed = (now - s.baseTime) / 1000;
                     s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
                     var spinElapsed = (now - s.spinBaseTime) / 1000;
@@ -374,10 +416,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderChip(s, halfW);
             }
 
-            // Center transform: while in vinyl/drag, drive it from globalAngle
-            // (works even when paused, so the user can scratch).
-            if (orbitCenter && (vinyl || vinylDragging)) {
-                orbitCenter.style.transform = 'translate(-50%, -50%) rotate(' + (centerLockedAngle + globalAngle) + 'deg)';
+            // Center always rotates with the moto-relativo; vinyl/scratch
+            // layers its boost on top so the center stays "stuck" to the
+            // chip orbits.
+            if (orbitCenter) {
+                var centerAngle = globalRotation + ((vinyl || vinylDragging) ? globalAngle : 0);
+                orbitCenter.style.transform = 'translate(-50%, -50%) rotate(' + centerAngle.toFixed(2) + 'deg)';
             }
             requestAnimationFrame(tick);
         }
@@ -398,6 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
             states.forEach(function (s) { rebaseMotion(s, now); });
             vinylBaseTime = now;
             vinylBaseAngle = globalAngle;
+            rebaseGlobalRotation(now);
         });
 
         // --- Center drag (scratch) + tap (toggle) ---
@@ -414,9 +459,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 centerLastPointer = pointerAngle(ev);
                 centerAccumulated = 0;
                 centerDragMoved = false;
-                // Snapshot tracks against current globalAngle so they ride
-                // the disc smoothly if a drag actually starts.
-                lockTracks();
                 orbitCenter.classList.add('dragging');
                 ev.preventDefault();
             });
@@ -424,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
             orbitCenter.addEventListener('pointermove', function (ev) {
                 if (!vinylDragging) return;
                 var a = pointerAngle(ev);
-                var step = ((a - centerLastPointer + 540) % 360) - 180;
+                var step = shortestSignedDelta(a - centerLastPointer);
                 centerLastPointer = a;
                 if (centerDragMoved) {
                     // Drag committed: apply every step
@@ -452,11 +494,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (vinyl) deactivateVinyl();
                     else activateVinyl(performance.now());
                 } else {
-                    // It was a real drag (scratch) → stop. The disc rests
-                    // wherever the user left it; the chips resume their own
-                    // autospin from there. To re-engage vinyl, tap.
+                    // It was a real drag (scratch) → stop. Fold the scratch
+                    // amount into each chip's autospin angle so they don't
+                    // snap backward when we drop the vinyl boost.
                     var now = performance.now();
-                    states.forEach(function (s) { rebaseMotion(s, now); });
+                    states.forEach(function (s) {
+                        s.angle += globalAngle;
+                        rebaseMotion(s, now);
+                    });
+                    globalAngle = 0;
+                    rebaseGlobalRotation(now);
                     if (vinyl) {
                         vinyl = false;
                         wrap.classList.remove('orbit-vinyl');
@@ -473,8 +520,20 @@ document.addEventListener('DOMContentLoaded', function() {
                               ev.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
         }
 
+        // Wrap a signed angle delta to (-180, 180]. Uses floor-mod (not
+        // JS's truncating %) so it stays correct for large negative diffs
+        // — necessary because s.angle accumulates monotonically from
+        // autospin and routinely goes past ±720°.
+        function shortestSignedDelta(d) {
+            var m = ((d + 180) % 360 + 360) % 360;
+            return m - 180;
+        }
+
         function chipCartesian(s, halfW) {
-            var rad = (s.angle - 90) * Math.PI / 180;
+            // Match what renderChip paints — chip lives at (s.angle + globalRotation)
+            // in the page frame.
+            var screenAngle = s.angle + globalRotation;
+            var rad = (screenAngle - 90) * Math.PI / 180;
             return {
                 x: halfW + s.radius * halfW * Math.cos(rad),
                 y: halfW + s.radius * halfW * Math.sin(rad)
@@ -513,10 +572,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 var y = (ev.clientY - r.top) + s.grabDy;
                 var dx = x - halfW;
                 var dy = y - halfW;
-                // Angle: 0° = up, +ve = clockwise (matches CSS rotate convention).
-                var rawAngle = Math.atan2(dx, -dy) * 180 / Math.PI;
-                // Unwrap to nearest signed delta so s.angle stays continuous.
-                var diff = ((rawAngle - s.angle + 540) % 360) - 180;
+                // Pointer gives a screen angle; convert to the center's frame
+                // (where s.angle lives) by subtracting the global rotation.
+                var screenAngle = Math.atan2(dx, -dy) * 180 / Math.PI;
+                var targetAngle = screenAngle - globalRotation;
+                // Shortest signed delta in (-180, 180]. We can't use the
+                // shorter `((d + 540) % 360) - 180` form because JS's `%` is
+                // truncating, not flooring — after a couple of orbital turns
+                // (s.angle past ±540) the modulo collapses to a wrong quadrant
+                // and the chip jumps ~360° on the first move (the "click
+                // produces a 90° snap" bug).
+                var diff = shortestSignedDelta(targetAngle - s.angle);
                 s.angle += diff;
                 s.radius = Math.max(MIN_R, Math.min(MAX_R, Math.hypot(dx, dy) / halfW));
                 syncChipRing(s);
@@ -526,8 +592,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!s.dragging) return;
                 s.dragging = false;
                 chip.classList.remove('dragging');
-                // Restart autospin from wherever the user dropped the chip.
-                rebaseMotion(s, performance.now());
+                var now = performance.now();
+                // Restart autospin (and re-anchor the assembly rotation) from
+                // wherever the user dropped the chip.
+                rebaseMotion(s, now);
+                rebaseGlobalRotation(now);
                 syncChipRing(s);
                 if (typeof chip.releasePointerCapture === 'function') {
                     try { chip.releasePointerCapture(ev.pointerId); } catch (_) {}
