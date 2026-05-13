@@ -207,11 +207,6 @@ html {
     border-color: rgba(255, 255, 255, 0.08);
 }
 
-@keyframes chip-spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
 .orbit-track {
     position: absolute;
     inset: 0;
@@ -227,7 +222,11 @@ html {
     position: absolute;
     top: 0;
     left: 0;
+    /* Position + own-axis rotation are driven by JS via a single GPU-friendly
+       transform (translate3d × translate(-50%,-50%) × rotate). This baseline
+       avoids a one-frame flash at (0,0) before the first rAF tick. */
     transform: translate(-50%, -50%);
+    will-change: transform;
     background: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 999px;
@@ -240,7 +239,6 @@ html {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    animation: chip-spin 8s linear infinite;
     cursor: grab;
     touch-action: none;
     user-select: none;
@@ -258,8 +256,6 @@ html {
     cursor: grabbing;
     z-index: 5;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-    /* Freeze own-axis spin while dragging — the user controls the chip */
-    animation-play-state: paused;
 }
 
 .orbit-chip i { font-size: 0.9rem; }
@@ -280,7 +276,12 @@ html {
     width: 30%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #eff6ff 60%, #dbeafe 100%);
+    background: radial-gradient(circle at 30% 30%,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(239, 246, 255, 0.5) 60%,
+        rgba(219, 234, 254, 0.45) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.35);
     display: flex;
     flex-direction: column;

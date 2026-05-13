@@ -223,31 +223,33 @@ document.addEventListener('DOMContentLoaded', function() {
         // attributes on .orbit-track are intentionally ignored — see the
         // comment on .orbit-chip CSS for the spin pipeline.
         var n = tracks.length;
+        var now0 = performance.now();
         var states = tracks.map(function(track, i) {
             var period  = 38 + ((i * 13) % 31);                  // 38..68, all unique for n=7
             var dir     = (i % 2 === 0) ? 1 : -1;                // alternating cw / ccw
             var initial = reduced ? 0 : (i * 360 / n + 17) % 360; // evenly-spread starts
 
-            var chip = track.querySelector('.orbit-chip');
-            if (chip) {
-                // Per-chip chip-spin so each chip rotates on its own axis at
-                // its own rate, in its own direction, with its own phase.
-                var spinPeriod = 6 + ((i * 7) % 10) * 0.5;       // 6..10.5 s
-                var spinDelay  = -((i * 1.7) % spinPeriod);      // shifts the keyframe start
-                chip.style.animationDuration  = spinPeriod + 's';
-                chip.style.animationDelay     = spinDelay + 's';
-                chip.style.animationDirection = ((i * 2 + 1) % 5 < 3) ? 'normal' : 'reverse';
-            }
+            // Own-axis chip-spin parameters (formerly a CSS animation, now
+            // baked into the same JS transform so position + rotation share
+            // a single GPU layer and don't jitter against each other).
+            var spinPeriod = 6 + ((i * 7) % 10) * 0.5;           // 6..10.5 s per turn
+            var spinDir    = ((i * 2 + 1) % 5 < 3) ? 1 : -1;     // mix of cw / ccw
+            var spinStart  = ((i * 73) % 360);                   // staggered phase
 
             return {
                 track: track,
-                chip: chip,
+                chip: track.querySelector('.orbit-chip'),
                 period: period,
                 dir: dir,
                 angle: initial,
                 baseAngle: initial,
-                baseTime: performance.now(),
+                baseTime: now0,
                 radius: initialRadius(track),
+                spinPeriod: spinPeriod,
+                spinDir: spinDir,
+                spin: spinStart,
+                spinBase: spinStart,
+                spinBaseTime: now0,
                 dragging: false,
                 pointerId: null
             };
@@ -299,16 +301,19 @@ document.addEventListener('DOMContentLoaded', function() {
             vinylBaseAngle = globalAngle;
             wrap.classList.add('orbit-vinyl');
         }
+        function rebaseMotion(s, now) {
+            s.baseAngle    = s.angle;
+            s.baseTime     = now;
+            s.spinBase     = s.spin;
+            s.spinBaseTime = now;
+        }
         function deactivateVinyl() {
             if (!vinyl) return;
             vinyl = false;
             // Each track resumes its own autospin from current angle in
             // its original direction.
             var now = performance.now();
-            states.forEach(function (s) {
-                s.baseAngle = s.angle;
-                s.baseTime = now;
-            });
+            states.forEach(function (s) { rebaseMotion(s, now); });
             wrap.classList.remove('orbit-vinyl');
         }
 
@@ -320,8 +325,13 @@ document.addEventListener('DOMContentLoaded', function() {
             var rad = (s.angle - 90) * Math.PI / 180;
             var x = halfW + rPx * Math.cos(rad);
             var y = halfW + rPx * Math.sin(rad);
-            s.chip.style.left = x + 'px';
-            s.chip.style.top  = y + 'px';
+            // Single composited transform: GPU translate + own-axis rotation
+            // in one go. Avoids triggering layout/paint on every frame, which
+            // showed up as chips "vibrating" against a wobbly radius.
+            s.chip.style.transform =
+                'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0) ' +
+                'translate(-50%, -50%) ' +
+                'rotate(' + s.spin.toFixed(2) + 'deg)';
         }
 
         // Paint once synchronously so chips don't flash at wrap origin
@@ -338,19 +348,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             var halfW = wrap.clientWidth / 2;
+            var frozen = window.SITE_PAUSED || reduced;
             for (var i = 0; i < states.length; i++) {
                 var s = states[i];
                 if (s.dragging) {
-                    // chip drag owns its angle + radius (works even when paused)
+                    // chip drag owns its angle + radius (works even when paused).
+                    // Own-axis spin pauses while held to match the user's intent.
                 } else if (vinyl || vinylDragging) {
                     // Sync with globalAngle. While paused without scratch,
                     // globalAngle stays constant so chips stay still.
                     s.angle = s.lockedAngle + globalAngle;
-                } else if (window.SITE_PAUSED || reduced) {
-                    // Frozen: keep current angle
+                } else if (frozen) {
+                    // Frozen: keep current angle and spin
                 } else {
                     var elapsed = (now - s.baseTime) / 1000;
                     s.angle = s.baseAngle + s.dir * (elapsed / s.period) * 360;
+                    var spinElapsed = (now - s.spinBaseTime) / 1000;
+                    s.spin = s.spinBase + s.spinDir * (spinElapsed / s.spinPeriod) * 360;
                 }
                 renderChip(s, halfW);
             }
@@ -376,10 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // from the frozen position instead of jumping ahead.
         window.addEventListener('site-resume', function () {
             var now = performance.now();
-            states.forEach(function (s) {
-                s.baseAngle = s.angle;
-                s.baseTime = now;
-            });
+            states.forEach(function (s) { rebaseMotion(s, now); });
             vinylBaseTime = now;
             vinylBaseAngle = globalAngle;
         });
@@ -440,10 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // wherever the user left it; the chips resume their own
                     // autospin from there. To re-engage vinyl, tap.
                     var now = performance.now();
-                    states.forEach(function (s) {
-                        s.baseAngle = s.angle;
-                        s.baseTime = now;
-                    });
+                    states.forEach(function (s) { rebaseMotion(s, now); });
                     if (vinyl) {
                         vinyl = false;
                         wrap.classList.remove('orbit-vinyl');
@@ -514,8 +522,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 s.dragging = false;
                 chip.classList.remove('dragging');
                 // Restart autospin from wherever the user dropped the chip.
-                s.baseAngle = s.angle;
-                s.baseTime = performance.now();
+                rebaseMotion(s, performance.now());
                 syncChipRing(s);
                 if (typeof chip.releasePointerCapture === 'function') {
                     try { chip.releasePointerCapture(ev.pointerId); } catch (_) {}

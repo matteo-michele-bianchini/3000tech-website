@@ -65,9 +65,11 @@ async function withPage(fn) {
 
 test('orbit chips rotate around the center over time', async () => {
     await withPage(async (page) => {
-        const sample = () => page.$$eval('.orbit-chip', els =>
-            els.map(el => ({ left: el.style.left, top: el.style.top }))
-        );
+        // Position lives in transform's translate3d; sample rendered rects.
+        const sample = () => page.$$eval('.orbit-chip', els => els.map(el => {
+            const r = el.getBoundingClientRect();
+            return { x: Math.round(r.x), y: Math.round(r.y) };
+        }));
 
         const t0 = await sample();
         assert.ok(t0.length >= 3, `expected several orbit chips, found ${t0.length}`);
@@ -75,7 +77,7 @@ test('orbit chips rotate around the center over time', async () => {
         await page.waitForTimeout(1500);
         const t1 = await sample();
 
-        const moved = t0.filter((p, i) => p.left !== t1[i].left || p.top !== t1[i].top).length;
+        const moved = t0.filter((p, i) => p.x !== t1[i].x || p.y !== t1[i].y).length;
         assert.ok(
             moved >= Math.ceil(t0.length / 2),
             `expected most chips to change position over 1.5s; only ${moved}/${t0.length} moved`
@@ -140,18 +142,34 @@ test('chips orbit with varied direction and speed (not all parallel)', async () 
     });
 });
 
-test('each chip has its own chip-spin (duration / direction varied)', async () => {
+test('each chip has its own chip-spin (varied rotation over time)', async () => {
     await withPage(async (page) => {
-        const spins = await page.$$eval('.orbit-chip', els => els.map(el => ({
-            duration:  el.style.animationDuration,
-            direction: el.style.animationDirection
-        })));
-        const durations = new Set(spins.map(s => s.duration));
-        assert.ok(durations.size >= 4,
-            `expected several distinct chip-spin durations, got ${[...durations].join(', ')}`);
-        const directions = new Set(spins.map(s => s.direction));
-        assert.ok(directions.size >= 2,
-            `expected both normal and reverse chip-spin directions, got ${[...directions].join(', ')}`);
+        // Spin lives inside the inline transform's rotate(...) component.
+        const readSpins = () => page.$$eval('.orbit-chip', els => els.map(el => {
+            const m = el.style.transform.match(/rotate\(([-\d.]+)deg\)/);
+            return m ? parseFloat(m[1]) : null;
+        }));
+
+        const t0 = await readSpins();
+        assert.ok(t0.every(v => v !== null),
+            `every chip should have a rotate() in its transform, got: ${t0}`);
+
+        // Snapshot rotations at two times. Per-chip spin is varied in
+        // duration AND direction, so the deltas must (a) not all be equal
+        // and (b) include both signs.
+        await page.waitForTimeout(1500);
+        const t1 = await readSpins();
+
+        const deltas = t0.map((a, i) => t1[i] - a);
+        const positives = deltas.filter(d => d >  1).length;
+        const negatives = deltas.filter(d => d < -1).length;
+        assert.ok(positives >= 1 && negatives >= 1,
+            `expected mix of chip-spin directions; got +${positives}/-${negatives}, deltas=${deltas.map(d=>d.toFixed(1))}`);
+
+        const absD = deltas.map(Math.abs);
+        const range = Math.max(...absD) - Math.min(...absD);
+        assert.ok(range > 2,
+            `expected varied chip-spin speed; |delta| range=${range.toFixed(2)}`);
     });
 });
 
