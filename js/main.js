@@ -217,15 +217,17 @@ document.addEventListener('DOMContentLoaded', function() {
         var MIN_R = 0.22;
         var MAX_R = 1.4;
 
-        // Deterministic per-chip motion. Each chip gets a unique orbital
-        // period, direction, and starting angle, plus a unique chip-spin so
-        // they don't visually lock-step together. The data-period/dir/phase
-        // attributes on .orbit-track are intentionally ignored — see the
-        // comment on .orbit-chip CSS for the spin pipeline.
+        // Per-chip motion. Period comes from the track's data-period (jittered
+        // in HTML so no two chips share exactly the same period — that's what
+        // keeps them from drifting back into formation after a chance
+        // alignment). Direction and starting angle are computed from the
+        // track index for a clean even distribution. Chip-spin is JS-driven
+        // (see below) so it shares a single GPU layer with the orbital
+        // position.
         var n = tracks.length;
         var now0 = performance.now();
         var states = tracks.map(function(track, i) {
-            var period  = 38 + ((i * 13) % 31);                  // 38..68, all unique for n=7
+            var period  = parseFloat(track.dataset.period) || (38 + ((i * 13) % 31));
             var dir     = (i % 2 === 0) ? 1 : -1;                // alternating cw / ccw
             var initial = reduced ? 0 : (i * 360 / n + 17) % 360; // evenly-spread starts
 

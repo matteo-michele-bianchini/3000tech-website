@@ -142,6 +142,23 @@ test('chips orbit with varied direction and speed (not all parallel)', async () 
     });
 });
 
+test('each track has a unique data-period (jittered to avoid re-sync)', async () => {
+    await withPage(async (page) => {
+        const periods = await page.$$eval('.orbit-track',
+            els => els.map(el => el.dataset.period));
+        assert.equal(new Set(periods).size, periods.length,
+            `expected every orbit-track to have a unique data-period; got ${periods.join(', ')}`);
+
+        // No two periods should be closer than 0.5s — anything tighter would
+        // make the closest pair re-sync within a few minutes.
+        const nums = periods.map(parseFloat).sort((a, b) => a - b);
+        const gaps = nums.slice(1).map((v, i) => v - nums[i]);
+        const minGap = Math.min(...gaps);
+        assert.ok(minGap >= 0.5,
+            `closest periods should be ≥0.5s apart, got minGap=${minGap.toFixed(2)} from ${nums}`);
+    });
+});
+
 test('each chip has its own chip-spin (varied rotation over time)', async () => {
     await withPage(async (page) => {
         // Spin lives inside the inline transform's rotate(...) component.
