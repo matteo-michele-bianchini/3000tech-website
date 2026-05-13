@@ -5,10 +5,10 @@ Landing page statica di **Impresa Artigiana Informatica di Matteo Michele Bianch
 ## Dev
 
 ```bash
-npm run dev   # live-server su 0.0.0.0:3000, watch ricorsivo
+npm run dev   # live-server su 0.0.0.0:5173, watch ricorsivo
 ```
 
-Docker (WSL): `bash ops/start-dev-docker.sh` — builda/avvia container node, espone `3000:3000`, apre Chrome su `localhost:3000` appena il server risponde.
+Docker (WSL): `bash ops/start-dev-docker.sh` — builda/avvia container node, espone `5173:5173`, apre Chrome su `localhost:5173` appena il server risponde.
 
 ## Deploy
 

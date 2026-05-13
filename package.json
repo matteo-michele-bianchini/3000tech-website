@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Landing page Impresa Artigiana Informatica",
   "scripts": {
-    "dev": "live-server --port=3000 --host=0.0.0.0 --watch=.",
-    "start": "live-server --port=3000 --host=0.0.0.0",
+    "dev": "live-server --port=5173 --host=0.0.0.0 --watch=.",
+    "start": "live-server --port=5173 --host=0.0.0.0",
     "test": "node --test tests/*.test.mjs"
   },
   "devDependencies": {
