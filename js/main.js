@@ -53,7 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var btnDesktop = document.getElementById('theme-toggle');
         var btnMobile  = document.getElementById('theme-toggle-mobile');
         if (btnDesktop) btnDesktop.addEventListener('click', toggle);
-        if (btnMobile)  btnMobile.addEventListener('click', toggle);
+        if (btnMobile)  btnMobile.addEventListener('click', function () {
+            toggle();
+            if (mobileMenu) mobileMenu.classList.add('hidden');
+        });
 
         // If the user never set a manual preference, follow OS changes live
         var media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -84,20 +87,13 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.motion-label-play').forEach(function (el) { el.classList.toggle('hidden', !paused); });
         }
 
-        // Restore from localStorage if user paused last time
-        try {
-            if (localStorage.getItem('motion') === 'paused') {
-                body.classList.add('paused');
-                window.SITE_PAUSED = true;
-            }
-        } catch (e) {}
+        // Always start in "play" — pause is per-session, not persisted.
         syncIcons();
 
         function toggle() {
             var paused = !body.classList.contains('paused');
             body.classList.toggle('paused', paused);
             window.SITE_PAUSED = paused;
-            try { localStorage.setItem('motion', paused ? 'paused' : 'playing'); } catch (e) {}
             // Notify rAF ticks: rebase their time/angle origins on resume
             if (!paused) window.dispatchEvent(new Event('site-resume'));
             syncIcons();
