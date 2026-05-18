@@ -1,3 +1,4 @@
 - spostare sezione portfolio/clienti in alto nella prima sezione (accanto al titolo principale)
 - aggiungere counters animati sui numeri dei progetti
 - fare il contatore in verticale su mobile. i counters appaiano uno sotto l'altro su mobile e sono animati.
+- sezione chi siamo: un background -> un curriculum 
