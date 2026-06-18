@@ -2,3 +2,4 @@
 - aggiungere counters animati sui numeri dei progetti
 - fare il contatore in verticale su mobile. i counters appaiano uno sotto l'altro su mobile e sono animati.
 - sezione chi siamo: un background -> un curriculum 
+- fare le orbite che aumentano e diminuiscono il raggio in modo regolare (effetto pulsante)
