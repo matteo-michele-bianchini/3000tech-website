@@ -1,0 +1,280 @@
+{% set t = en if lang == "en" else it %}
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-primary via-secondary to-accent dark:from-slate-950 dark:via-slate-900 dark:to-blue-900 text-white pt-28 lg:pt-36 pb-16 lg:pb-24">
+        <div class="absolute inset-0 dot-grid opacity-30 pointer-events-none"></div>
+        <div class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(147,197,253,0.35) 0%, transparent 70%);"></div>
+        <div class="absolute -bottom-40 -left-20 w-[500px] h-[500px] rounded-full pointer-events-none"
+             style="background: radial-gradient(circle, rgba(30,64,175,0.4) 0%, transparent 70%);"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+                <!-- Left: headline -->
+                <div class="lg:col-span-7">
+                    <span class="eyebrow"><span class="sm:hidden">{{ t.hero.eyebrowShort }}</span><span class="hidden sm:inline">{{ t.hero.eyebrowLong }}</span></span>
+                    <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight">
+                        {{ t.hero.h1 | safe }}
+                    </h1>
+                    <p class="mt-8 text-lg sm:text-xl text-blue-100 max-w-xl leading-relaxed">
+                        {{ t.hero.subtitle | safe }}
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-3">
+                        <a href="#{{ t.anchors.contact }}" class="btn btn-primary">
+                            {{ t.hero.ctaPrimary }} <span class="arrow">↗</span>
+                        </a>
+                        <a href="#{{ t.anchors.portfolio }}" class="btn btn-ghost">
+                            {{ t.hero.ctaSecondary }}
+                        </a>
+                    </div>
+                    <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+                        {% for s in site.stats %}
+                        <div class="stat-badge">
+                            <div class="num"><span class="stat-counter">{{ s.counter }}</span>{{ s.mid }}<span class="plus">{{ s.plus }}</span></div>
+                            <div class="label">{{ t.hero.statLabels[loop.index0] }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Right: orbit graphic -->
+                <div class="lg:col-span-5 relative mt-16 mb-16 lg:mt-0 lg:mb-0">
+                    <div class="orbit-wrap">
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring r2"></div>
+                        <div class="orbit-ring r3"></div>
+                        <div class="orbit-ring r4"></div>
+                        {% for o in site.orbit %}
+                        <div class="orbit-track{% if o.cls %} {{ o.cls }}{% endif %}" data-period="{{ o.period }}" data-dir="{{ o.dir }}" data-phase="{{ o.phase }}">
+                            <div class="orbit-chip"><i class="fas {{ o.icon }}"></i> {{ t.hero.orbitLabels[loop.index0] }}</div>
+                        </div>
+                        {% endfor %}
+                        <div class="orbit-center">
+                            3000<br><em>Tech</em>
+                        </div>
+                        <button id="motion-toggle"
+                            class="absolute bottom-2 right-2 w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/25 text-white/85 hover:text-white transition-colors"
+                            style="pointer-events: auto; z-index: 10;"
+                            aria-label="{{ t.hero.motionLabel }}"
+                            title="{{ t.hero.motionTitle }}">
+                            <i class="fas fa-pause motion-icon-pause text-xs"></i>
+                            <i class="fas fa-play motion-icon-play hidden text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="{{ t.anchors.portfolio }}" class="py-20 bg-gray-50 dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16">
+                <h2 class="eyebrow eyebrow-light mb-6">{{ t.portfolio.eyebrow }}</h2>
+                <p class="text-xl text-gray-600 dark:text-slate-300 max-w-2xl">
+                    {{ t.portfolio.subtitle }}
+                </p>
+            </div>
+
+            <!-- Clients -->
+            <div class="mb-16">
+                <h3 class="text-xl font-semibold text-gray-700 text-center mb-8">{{ t.portfolio.clientsHeading }}</h3>
+                {% for row in site.clientRows %}
+                <div class="carousel-row{% if not loop.last %} mb-3{% endif %}">
+                    <div class="carousel-track {{ row.trackClass }}" data-period="{{ row.period }}" data-dir="{{ row.dir }}">
+                        {% for copy in [1, 2, 3] %}
+                        <div class="flex gap-3 sm:gap-4 px-2"{% if copy > 1 %} aria-hidden="true"{% endif %}>
+                            {% for c in row.clients %}
+                            <div class="client-card cursor-pointer flex-shrink-0" data-name="{{ c.name }}" data-desc="{{ t.clients[c.name] }}">
+                                <div class="card-inner bg-white dark:bg-slate-100 rounded-lg px-6 py-4 shadow-sm dark:shadow-black/30 transition-shadow flex items-center justify-center h-16 sm:h-20 w-36 sm:w-44">
+                                    <img src="/images/logos/{{ c.logo }}" alt="{{ c.alt }}" class="{{ c.imgClass or 'max-h-full max-w-full object-contain' }}"{% if c.imgStyle %} style="{{ c.imgStyle }}"{% endif %}>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="{{ t.anchors.about }}" class="py-20 bg-white dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="eyebrow eyebrow-light mb-6">{{ t.about.eyebrow }}</h2>
+                    <p class="text-lg text-gray-600 dark:text-slate-300 mb-6">
+                        {{ t.about.p1 | safe }}
+                    </p>
+                    <p class="text-lg text-gray-600 dark:text-slate-300 mb-6">
+                        {{ t.about.p2 | safe }}
+                    </p>
+                    <p class="text-lg text-gray-600 dark:text-slate-300">
+                        {{ t.about.p3 | safe }}
+                    </p>
+                </div>
+                <div class="bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-6">{{ t.about.charterTitle }}</h3>
+                    <ul class="space-y-4">
+                        {% for point in t.about.charter %}
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-blue-200 mt-1"></i>
+                            <span>{{ point }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="{{ t.anchors.team }}" class="py-20 bg-gray-50 dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="eyebrow eyebrow-light">{{ t.team.eyebrow }}</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-20 sm:gap-14 max-w-3xl mx-auto pt-6">
+                {% for m in t.team.members %}
+                {% set member = site.team[loop.index0] %}
+                <div class="text-center">
+                    <div class="relative inline-block">
+                        <div class="absolute -inset-4 rounded-full border border-dashed border-gray-900/15 dark:border-slate-100/20"></div>
+                        <div class="absolute -inset-10 rounded-full border border-gray-900/5 dark:border-slate-100/10"></div>
+                        <img src="/images/team/{{ member.photo }}" alt="{{ member.name }}"
+                            class="relative w-48 h-48 rounded-full object-cover shadow-xl ring-4 ring-white">
+                        <div class="absolute -bottom-2 right-0 bg-gray-900 text-white dark:border dark:border-slate-100/30 px-4 py-2 rounded-full text-[11px] font-semibold shadow-lg whitespace-nowrap inline-flex items-center gap-2 uppercase tracking-wider">
+                            <span class="relative inline-flex w-2 h-2">
+                                <span class="absolute inline-flex w-full h-full rounded-full bg-blue-400 opacity-75 animate-ping"></span>
+                                <span class="relative inline-flex w-2 h-2 rounded-full bg-blue-500"></span>
+                            </span>{{ m.badge }}
+                        </div>
+                    </div>
+                    <h3 class="mt-10 text-xl font-bold text-gray-900 dark:text-slate-100">{{ member.name }}</h3>
+                    <p class="mt-4 italic text-gray-700 dark:text-slate-200 leading-snug max-w-xs mx-auto">
+                        &ldquo;{{ m.quote }}&rdquo;
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="{{ t.anchors.services }}" class="py-20 bg-white dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16">
+                <h2 class="eyebrow eyebrow-light mb-6">{{ t.services.eyebrow }}</h2>
+                <p class="text-xl text-gray-600 dark:text-slate-300 max-w-2xl">
+                    {{ t.services.subtitle }}
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {% for card in t.services.cards %}
+                {% set s = site.services[loop.index0] %}
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg dark:shadow-black/30 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 {{ s.iconBg }} rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas {{ s.icon }} text-2xl {{ s.iconColor }}"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-slate-100 mb-4">{{ card.title }}</h3>
+                    <p class="text-gray-600 dark:text-slate-300 mb-4">
+                        {{ card.body }}
+                    </p>
+                    <ul class="text-sm text-gray-500 dark:text-slate-400 space-y-2">
+                        {% for bullet in card.items %}
+                        <li><i class="fas fa-chevron-right {{ s.chevron }} mr-2"></i>{{ bullet }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="{{ t.anchors.tech }}" class="py-20 bg-white dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16">
+                <h2 class="eyebrow eyebrow-light mb-6">{{ t.tech.eyebrow }}</h2>
+                <p class="text-xl text-gray-600 dark:text-slate-300 max-w-2xl">
+                    {{ t.tech.subtitle }}
+                </p>
+            </div>
+
+            <!-- Software Development -->
+            <div class="mb-12">
+                <h3 class="text-lg font-semibold text-gray-700 text-center mb-6">{{ t.tech.swHeading }}</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+                    {% for item in site.techSoftware %}
+                    <div class="bg-gray-50 dark:bg-slate-100 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                        <i class="{{ item.icon }} text-4xl text-[{{ item.color }}] mb-3"></i>
+                        <div class="font-semibold text-gray-700">{{ t.tech.swNames[loop.index0] }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Mechatronics & CAD -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 text-center mb-6">{{ t.tech.cadHeading }}</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+                    {% for item in site.techCad %}
+                    <div class="bg-gray-50 dark:bg-slate-100 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                        <i class="{{ item.icon }} text-4xl text-[{{ item.color }}] mb-3"></i>
+                        <div class="font-semibold text-gray-700">{{ t.tech.cadNames[loop.index0] }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="{{ t.anchors.contact }}" class="py-20 bg-gradient-to-br from-primary via-secondary to-accent dark:from-slate-950 dark:via-slate-900 dark:to-blue-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16">
+                <h2 class="eyebrow mb-6">{{ t.contact.eyebrow }}</h2>
+                <p class="text-xl text-blue-100 max-w-2xl">
+                    {{ t.contact.subtitle }}
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <a href="mailto:{{ site.email }}"
+                    class="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center hover:bg-white/20 transition-colors">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">{{ t.contact.emailLabel }}</h3>
+                    <p class="text-blue-100 text-sm break-all">{{ site.email }}</p>
+                </a>
+                <a href="tel:{{ site.phone }}"
+                    class="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center hover:bg-white/20 transition-colors">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">{{ t.contact.phoneLabel }}</h3>
+                    <p class="text-blue-100">{{ site.phoneDisplay }}</p>
+                </a>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 text-center">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">{{ t.contact.locationLabel }}</h3>
+                    <p class="text-blue-100">{{ t.contact.locationValue }}</p>
+                </div>
+            </div>
+            <div class="flex justify-center gap-6 mt-12">
+                <a href="{{ site.linkedin }}" target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <i class="fab fa-linkedin-in text-2xl"></i>
+                </a>
+                <a href="{{ site.github }}" target="_blank" rel="noopener noreferrer"
+                    class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <i class="fab fa-github text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>

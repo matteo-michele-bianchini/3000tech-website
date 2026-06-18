@@ -1,0 +1,156 @@
+{
+  "htmlLang": "it",
+  "anchors": {
+    "portfolio": "portfolio",
+    "about": "about",
+    "team": "team",
+    "services": "servizi",
+    "tech": "tech",
+    "contact": "contatti"
+  },
+  "meta": {
+    "title": "3000Tech di Matteo Michele Bianchini | Ingegneria & Innovazione Digitale",
+    "description": "3000Tech di Matteo Michele Bianchini - R&D, Sviluppo Software e Meccatronica. 15+ anni di esperienza in soluzioni digitali.",
+    "keywords": "R&D, sviluppo software full-stack, meccatronica, consulenza IT, Milano",
+    "ogTitle": "3000Tech - Ingegneria & Innovazione digitale",
+    "ogDescription": "Soluzioni software su misura per aziende. 15+ anni di esperienza, progetti enterprise con Assicurazioni Generali, Leroy Merlin, Zucchetti e altri.",
+    "ogLocale": "it_IT",
+    "ogUrl": "https://3000tech.it/",
+    "canonical": "https://3000tech.it/"
+  },
+  "nav": {
+    "portfolio": "Portfolio",
+    "about": "Chi Siamo",
+    "team": "Team",
+    "services": "Servizi",
+    "tech": "Tecnologie",
+    "contact": "Contatti",
+    "themeToggleLabel": "Cambia tema",
+    "themeDark": "Tema scuro",
+    "themeLight": "Tema chiaro"
+  },
+  "hero": {
+    "eyebrowShort": "IT · R&D · AI · Business Automation",
+    "eyebrowLong": "IT · Ricerca e Sviluppo · Intelligenza Artificiale · Business Automation",
+    "h1": "Ingegneria<br>\n&amp; <span class=\"font-display italic font-normal highlight-underline\">innovazione</span><br>\ndigitale.",
+    "subtitle": "R&amp;D, Sviluppo Software e AI per trasformare le tue idee in soluzioni\n<em class=\"font-display not-italic font-bold text-white\">concrete, affidabili, performanti.</em>",
+    "ctaPrimary": "Inizia un Progetto",
+    "ctaSecondary": "Scopri i Progetti",
+    "statLabels": [
+      "Anni di esperienza",
+      "Clienti Enterprise & PMI",
+      "Progetti completati",
+      "Valore sviluppato"
+    ],
+    "orbitLabels": [
+      "Sviluppo Software",
+      "Consulenza IT",
+      "Business Automation",
+      "Cloud & DevOps",
+      "Architetture Scalabili",
+      "Ricerca e Sviluppo",
+      "AI / Intelligenza Artificiale"
+    ],
+    "motionLabel": "Pausa animazioni",
+    "motionTitle": "Pausa / riprendi animazioni"
+  },
+  "portfolio": {
+    "eyebrow": "Portfolio",
+    "subtitle": "Collaboriamo con aziende leader, sviluppando soluzioni su misura",
+    "clientsHeading": "Alcune delle nostre collaborazioni"
+  },
+  "clients": {
+    "Poste Italiane": "Progettazione e sviluppo impianto di inscatolamento on demand",
+    "Lavazza": "Impianto automatizzato confezionamento caffè da 160 kg/min. Progetto da 5M€+",
+    "Leroy Merlin": "Web app per composizione e stampa automatica di schede tecniche nei punti vendita",
+    "Assicurazioni Generali": "Consulenza IT settore assicurativo. Architetture software e leadership team di sviluppo",
+    "Zucchetti": "Sviluppo servizi frontend per piattaforma welfare aziendale",
+    "Goglio": "Piattaforma web ricambi con visualizzazione 2D/3D",
+    "Arup": "Modellazione impiantistica edifici e analisi sostenibilità energetica",
+    "Mia-Platform": "Software R&D e sviluppo piattaforma API management",
+    "Beta 80": "Sviluppo applicativi frontend e consulenza IT",
+    "RTM Breda": "Simulazione numerica FEM per formatura titanio in componenti aeronautici",
+    "3D Business": "Ricerca e sviluppo hardware stampanti 3D",
+    "8853 S.p.A.": "Migrazione sistema operativo piattaforma aziendale",
+    "Voidless": "R&D macchine packaging cartone. Dal prototipo all'industrializzazione (1M€+)",
+    "RareEarth": "Progettazione macchinari per riciclaggio magneti a terre rare",
+    "NewtonThrust": "Sviluppo full-stack marketplace automotive",
+    "YunoAI": "Pipeline di data engineering finanziario. Dati di 30M+ aziende europee",
+    "Nursy": "Sviluppo piattaforma integrata di gestione per il vivaismo"
+  },
+  "about": {
+    "eyebrow": "Chi Siamo",
+    "p1": "<strong>Matteo Michele Bianchini</strong> - Ingegnere e Sviluppatore informatico laureato al <strong>Politecnico di Milano</strong>.<br><br>\nUn background che combina <strong>R&amp;D</strong>, <strong>sviluppo software</strong>\ne <strong>meccatronica</strong> per una visione sistemica dei progetti.",
+    "p2": "Con oltre <strong>15 anni di esperienza</strong>, ho collaborato con startup innovative e grandi aziende enterprise, sviluppando soluzioni che generano valore concreto per i clienti.",
+    "p3": "Dallo sviluppo informatico alla ricerca e automazione dei processi, offriamo soluzioni complete per le <strong>esigenze tecniche più avanzate</strong>.",
+    "charterTitle": "Partnership Charter",
+    "charter": [
+      "Analisi approfondita delle esigenze di business",
+      "Architetture scalabili e manutenibili",
+      "Soluzioni efficienti e performanti",
+      "Comunicazione trasparente e costante",
+      "Rispetto delle deadline e del budget"
+    ]
+  },
+  "team": {
+    "eyebrow": "Il Team",
+    "members": [
+      {
+        "badge": "Founder & CEO",
+        "quote": "Progettare software è un lavoro artigianale che richiede esperienza, pazienza, visione e cura dei dettagli."
+      },
+      {
+        "badge": "Operations",
+        "quote": "L'efficienza delle organizzazioni e dei progetti nasce da analisi approfondite, comprensione e intuizione."
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "Servizi",
+    "subtitle": "Soluzioni complete di ingegneria: dalla progettazione iniziale al deployment in produzione",
+    "cards": [
+      {
+        "title": "Sviluppo Full-Stack",
+        "body": "Sviluppo applicazioni web e mobile complete, dal frontend all'infrastruttura backend, utilizzando le tecnologie più moderne e performanti.",
+        "items": ["Web Application", "REST & GraphQL API", "Microservizi"]
+      },
+      {
+        "title": "Consulenza IT",
+        "body": "Supporto strategico per le decisioni tecnologiche della tua azienda, dalla scelta dello stack alla definizione dell'architettura.",
+        "items": ["Technology Assessment", "Code Review", "Team Mentoring"]
+      },
+      {
+        "title": "Architetture Scalabili",
+        "body": "Progettazione e implementazione di sistemi distribuiti capaci di crescere con il tuo business, garantendo performance e affidabilità.",
+        "items": ["Cloud Architecture", "DevOps & CI/CD", "Container Orchestration"]
+      },
+      {
+        "title": "Meccatronica & CAD",
+        "body": "Progettazione meccanica, automazione industriale e prototipazione con software CAD 3D professionali.",
+        "items": ["Progettazione CAD 3D", "Automazione Industriale", "Stampa 3D & Prototipazione"]
+      }
+    ]
+  },
+  "tech": {
+    "eyebrow": "Strumenti & Tecnologie",
+    "subtitle": "Tecnologie moderne e consolidate per costruire soluzioni robuste e performanti",
+    "swHeading": "Sviluppo Software",
+    "swNames": ["React", "Node.js", "TypeScript", ".NET", "C#", "SQL", "MongoDB", "GraphQL", "Docker", "Kubernetes"],
+    "cadHeading": "Meccatronica & CAD 3D",
+    "cadNames": ["SolidWorks", "Autodesk Inventor", "Stampa 3D", "PDM/PLM", "ERP"]
+  },
+  "contact": {
+    "eyebrow": "Iniziamo a Collaborare",
+    "subtitle": "Hai un progetto in mente? Contattaci per discutere come possiamo aiutarti a realizzarlo.",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefono",
+    "locationLabel": "Sede",
+    "locationValue": "Milano, Italia"
+  },
+  "footer": {
+    "owner": "di Matteo Michele Bianchini",
+    "legal": "Impresa Individuale con sede in Milano, Italia",
+    "vat": "P.IVA: 14501800966",
+    "copyright": "© 2026 3000Tech di Matteo Michele Bianchini. Tutti i diritti riservati."
+  }
+}

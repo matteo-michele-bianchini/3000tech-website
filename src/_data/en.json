@@ -1,0 +1,156 @@
+{
+  "htmlLang": "en",
+  "anchors": {
+    "portfolio": "portfolio",
+    "about": "about",
+    "team": "team",
+    "services": "services",
+    "tech": "tech",
+    "contact": "contact"
+  },
+  "meta": {
+    "title": "3000Tech by Matteo Michele Bianchini | Engineering & Digital Innovation",
+    "description": "3000Tech by Matteo Michele Bianchini - R&D, Software Development and Mechatronics. 15+ years of experience in digital solutions.",
+    "keywords": "R&D, full-stack software development, mechatronics, IT consulting, Milan, Italy",
+    "ogTitle": "3000Tech - Engineering & Digital Innovation",
+    "ogDescription": "Custom solutions for businesses. 15+ years of experience, enterprise projects with Generali Insurance, Leroy Merlin, Zucchetti and more.",
+    "ogLocale": "en_US",
+    "ogUrl": "https://3000tech.it/en/",
+    "canonical": "https://3000tech.it/en/"
+  },
+  "nav": {
+    "portfolio": "Portfolio",
+    "about": "About",
+    "team": "Team",
+    "services": "Services",
+    "tech": "Technologies",
+    "contact": "Contact",
+    "themeToggleLabel": "Toggle theme",
+    "themeDark": "Dark theme",
+    "themeLight": "Light theme"
+  },
+  "hero": {
+    "eyebrowShort": "IT · R&D · AI · Business Automation",
+    "eyebrowLong": "IT · Research & Development · Artificial Intelligence · Business Automation",
+    "h1": "Engineering &amp;<br>\ndigital <span class=\"font-display italic font-normal highlight-underline\">innovation</span>.",
+    "subtitle": "R&amp;D, Software Development and AI to transform your ideas into\n<em class=\"font-display not-italic font-bold text-white\">concrete, reliable, high-performance</em> systems.",
+    "ctaPrimary": "Start a Project",
+    "ctaSecondary": "View Projects",
+    "statLabels": [
+      "Years of experience",
+      "Enterprise & SMB clients",
+      "Completed projects",
+      "Value delivered"
+    ],
+    "orbitLabels": [
+      "Software Development",
+      "IT Consulting",
+      "Business Automation",
+      "Cloud & DevOps",
+      "Scalable Architectures",
+      "Research & Development",
+      "AI / Artificial Intelligence"
+    ],
+    "motionLabel": "Pause animations",
+    "motionTitle": "Pause / resume animations"
+  },
+  "portfolio": {
+    "eyebrow": "Portfolio",
+    "subtitle": "We partner with leading companies, developing tailored solutions",
+    "clientsHeading": "Some of our collaborations"
+  },
+  "clients": {
+    "Poste Italiane": "On-demand boxing plant design and development",
+    "Lavazza": "Automated coffee packaging plant (5M€+), operating at 160 kg/min",
+    "Leroy Merlin": "Web app for automated design and printing of technical specification cards in stores",
+    "Assicurazioni Generali": "IT consulting in the insurance sector. Software architecture and dev team leadership",
+    "Zucchetti": "Frontend services development for corporate welfare platform",
+    "Goglio": "Spare parts web platform with 2D/3D visualization",
+    "Arup": "Building systems modeling and energy sustainability analysis",
+    "Mia-Platform": "Software R&D and API management platform development",
+    "Beta 80": "Frontend application development and IT consulting",
+    "RTM Breda": "FEM simulation of hot titanium forming for aeronautical engine components",
+    "3D Business": "3D Printers Hardware R&D",
+    "8853 S.p.A.": "Corporate platform operating system migration",
+    "Voidless": "Cardboard packaging machine R&D, from prototype to industrialization (1M€+)",
+    "RareEarth": "Magnet recycling machinery design",
+    "NewtonThrust": "Full-stack automotive marketplace development",
+    "YunoAI": "Financial data engineering pipeline. Handling 30M+ European companies data",
+    "Nursy": "Integrated management platform development for the plants nursery industry"
+  },
+  "about": {
+    "eyebrow": "About Us",
+    "p1": "<strong>Matteo Michele Bianchini</strong> - Engineer and Software Developer graduated from <strong>Politecnico di Milano</strong>.<br><br>\nA background that combines <strong>R&amp;D</strong>, <strong>software development</strong>\nand <strong>mechatronics</strong> for a systemic view of projects.",
+    "p2": "With over <strong>15 years of experience</strong>, I have collaborated with innovative startups and large enterprise companies, developing solutions that deliver real value to clients.",
+    "p3": "From software development to research and process automation, we offer complete solutions for the <strong>most advanced technical needs</strong>.",
+    "charterTitle": "Partnership Charter",
+    "charter": [
+      "In-depth analysis of business requirements",
+      "Scalable and maintainable architectures",
+      "Efficient and performant solutions",
+      "Transparent and constant communication",
+      "Respect for deadlines and budget"
+    ]
+  },
+  "team": {
+    "eyebrow": "The Team",
+    "members": [
+      {
+        "badge": "Founder & CEO",
+        "quote": "Designing software is a craftsman's work that requires experience, patience, vision and care for details."
+      },
+      {
+        "badge": "Operations",
+        "quote": "The efficiency of organizations and projects comes from deep analyses, understanding and intuition."
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "Services",
+    "subtitle": "Complete engineering solutions: from initial design to production deployment",
+    "cards": [
+      {
+        "title": "Full-Stack Development",
+        "body": "Complete web and mobile application development, from frontend to backend infrastructure, using the most modern and performant technologies.",
+        "items": ["Web Applications", "REST & GraphQL APIs", "Microservices"]
+      },
+      {
+        "title": "IT Consulting",
+        "body": "Strategic support for your company's technology decisions, from stack selection to architecture definition.",
+        "items": ["Technology Assessment", "Code Review", "Team Mentoring"]
+      },
+      {
+        "title": "Scalable Architectures",
+        "body": "Design and implementation of distributed systems capable of growing with your business, ensuring performance and reliability.",
+        "items": ["Cloud Architecture", "DevOps & CI/CD", "Container Orchestration"]
+      },
+      {
+        "title": "Mechatronics & CAD",
+        "body": "Mechanical design, industrial automation and prototyping with professional 3D CAD software.",
+        "items": ["3D CAD Design", "Industrial Automation", "3D Printing & Prototyping"]
+      }
+    ]
+  },
+  "tech": {
+    "eyebrow": "Tools & Technologies",
+    "subtitle": "Modern and proven technologies to build robust and performant solutions",
+    "swHeading": "Software Development",
+    "swNames": ["React", "Node.js", "TypeScript", ".NET", "C#", "SQL", "MongoDB", "GraphQL", "Docker", "Kubernetes"],
+    "cadHeading": "Mechatronics & 3D CAD",
+    "cadNames": ["SolidWorks", "Autodesk Inventor", "3D Printing", "PDM/PLM", "ERP"]
+  },
+  "contact": {
+    "eyebrow": "Let's Work Together",
+    "subtitle": "Have a project in mind? Contact us to discuss how we can help you bring it to life.",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "locationLabel": "Location",
+    "locationValue": "Milan, Italy"
+  },
+  "footer": {
+    "owner": "by Matteo Michele Bianchini",
+    "legal": "Sole Proprietorship based in Milan, Italy",
+    "vat": "VAT: IT14501800966",
+    "copyright": "© 2026 3000Tech by Matteo Michele Bianchini. All rights reserved."
+  }
+}

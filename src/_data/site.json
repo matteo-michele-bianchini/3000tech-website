@@ -1,0 +1,94 @@
+{
+  "domain": "https://3000tech.it",
+  "email": "info@3000tech.it",
+  "phone": "+393780815788",
+  "phoneDisplay": "+39 378 0815788",
+  "linkedin": "https://www.linkedin.com/company/3000tech",
+  "github": "https://github.com/matteo-michele-bianchini",
+  "ogImage": "https://3000tech.it/images/preview/3000tech-link-share-preview.jpg",
+
+  "orbit": [
+    { "icon": "fa-code",      "period": "38.7", "dir": "1",  "phase": "0",   "cls": "" },
+    { "icon": "fa-handshake", "period": "41.3", "dir": "1",  "phase": "-10", "cls": "mid" },
+    { "icon": "fa-robot",     "period": "53.5", "dir": "-1", "phase": "-5",  "cls": "rev" },
+    { "icon": "fa-cloud",     "period": "69.4", "dir": "1",  "phase": "-15", "cls": "slow inner" },
+    { "icon": "fa-sitemap",   "period": "39.5", "dir": "1",  "phase": "-30", "cls": "mid" },
+    { "icon": "fa-flask",     "period": "56.8", "dir": "-1", "phase": "-45", "cls": "rev inner" },
+    { "icon": "fa-brain",     "period": "40.6", "dir": "1",  "phase": "-20", "cls": "mid inner" }
+  ],
+
+  "stats": [
+    { "counter": "15", "mid": "",   "plus": "+" },
+    { "counter": "20", "mid": "",   "plus": "+" },
+    { "counter": "50", "mid": "",   "plus": "+" },
+    { "counter": "6",  "mid": "M€", "plus": "+" }
+  ],
+
+  "clientRows": [
+    {
+      "trackClass": "carousel-track-left", "period": "30", "dir": "1",
+      "clients": [
+        { "name": "Poste Italiane",         "alt": "Poste Italiane", "logo": "poste-italiane-logo.webp" },
+        { "name": "Lavazza",                "alt": "Lavazza",        "logo": "lavazza-logo.png" },
+        { "name": "Leroy Merlin",           "alt": "Leroy Merlin",   "logo": "leroy-merlin-logo.png" },
+        { "name": "Assicurazioni Generali", "alt": "Generali",       "logo": "generali-logo.png" },
+        { "name": "Zucchetti",              "alt": "Zucchetti",      "logo": "zucchetti-logo.svg" }
+      ]
+    },
+    {
+      "trackClass": "carousel-track-right", "period": "30", "dir": "-1",
+      "clients": [
+        { "name": "Goglio",       "alt": "Goglio",       "logo": "goglio-logo.png" },
+        { "name": "Arup",         "alt": "Arup",         "logo": "arup-logo.svg" },
+        { "name": "Mia-Platform", "alt": "Mia-Platform", "logo": "mia-platform-logo.png" },
+        { "name": "Beta 80",      "alt": "Beta 80",      "logo": "beta80-logo.svg" },
+        { "name": "RTM Breda",    "alt": "RTM Breda",    "logo": "rtm-breda-logo.jpg" },
+        { "name": "3D Business",  "alt": "3D Business",  "logo": "3dbusiness-logo.png" },
+        { "name": "8853 S.p.A.",  "alt": "8853 S.p.A.",  "logo": "8853-logo.svg", "imgClass": "max-h-full max-w-[70%] object-contain" }
+      ]
+    },
+    {
+      "trackClass": "carousel-track-left", "period": "35", "dir": "1",
+      "clients": [
+        { "name": "Voidless",     "alt": "Voidless",     "logo": "voidless-logo.png" },
+        { "name": "RareEarth",    "alt": "RareEarth",    "logo": "rarearth-logo.svg" },
+        { "name": "NewtonThrust", "alt": "NewtonThrust", "logo": "newtonthrust-logo.svg" },
+        { "name": "YunoAI",       "alt": "YunoAI",       "logo": "yunoai-logo.avif" },
+        { "name": "Nursy",        "alt": "Nursy",        "logo": "nursy-logo.png", "imgStyle": "filter: invert(1);" }
+      ]
+    }
+  ],
+
+  "services": [
+    { "iconBg": "bg-blue-100",   "icon": "fa-code",     "iconColor": "text-primary",      "chevron": "text-secondary" },
+    { "iconBg": "bg-green-100",  "icon": "fa-lightbulb", "iconColor": "text-green-600",   "chevron": "text-green-500" },
+    { "iconBg": "bg-purple-100", "icon": "fa-server",    "iconColor": "text-purple-600",  "chevron": "text-purple-500" },
+    { "iconBg": "bg-orange-100", "icon": "fa-cogs",      "iconColor": "text-orange-600",  "chevron": "text-orange-500" }
+  ],
+
+  "techSoftware": [
+    { "icon": "fab fa-react",           "color": "#61DAFB" },
+    { "icon": "fab fa-node-js",         "color": "#339933" },
+    { "icon": "fas fa-code",            "color": "#3178C6" },
+    { "icon": "fab fa-microsoft",       "color": "#512BD4" },
+    { "icon": "fas fa-hashtag",         "color": "#239120" },
+    { "icon": "fas fa-database",        "color": "#336791" },
+    { "icon": "fas fa-leaf",            "color": "#47A248" },
+    { "icon": "fas fa-project-diagram", "color": "#E10098" },
+    { "icon": "fab fa-docker",          "color": "#2496ED" },
+    { "icon": "fas fa-dharmachakra",    "color": "#326CE5" }
+  ],
+
+  "techCad": [
+    { "icon": "fas fa-cube",             "color": "#FF0000" },
+    { "icon": "fas fa-drafting-compass", "color": "#0696D7" },
+    { "icon": "fas fa-print",            "color": "#FF6B00" },
+    { "icon": "fas fa-sitemap",          "color": "#6B7280" },
+    { "icon": "fas fa-industry",         "color": "#0FAAFF" }
+  ],
+
+  "team": [
+    { "name": "Matteo Michele Bianchini", "photo": "matteo_bianchini_CEO_software_engineer.jpg" },
+    { "name": "Giulia Onorato",           "photo": "giulia-onorato.jpg" }
+  ]
+}
